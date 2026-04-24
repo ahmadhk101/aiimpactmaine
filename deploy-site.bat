@@ -5,7 +5,9 @@ echo Checking website changes...
 git status
 
 echo.
-git diff --quiet
+git add .
+
+git diff --cached --quiet
 if %errorlevel%==0 (
   echo No changes detected. Nothing to push.
   pause
@@ -14,7 +16,6 @@ if %errorlevel%==0 (
 
 set /p msg=Enter update message: 
 
-git add .
 git commit -m "%msg%"
 git pull --rebase
 git push

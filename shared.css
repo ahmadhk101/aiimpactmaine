@@ -743,6 +743,13 @@ footer { background:var(--navy); color:rgba(255,255,255,0.6); padding:3.5rem 6% 
 .cookie-banner-text { flex:1; }
 .cookie-banner-text p { font-size:0.82rem; color:var(--text-light); line-height:1.6; margin:0; }
 .cookie-banner-text a { color:var(--teal); }
+@media(max-width:768px){
+  .cookie-banner-text a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
 .cookie-banner-actions { display:flex; flex-direction:column; gap:0.5rem; flex-shrink:0; }
 .cookie-accept { background:var(--teal); color:white; border:none; border-radius:4px; padding:0.45rem 0.9rem; font-size:0.78rem; font-weight:600; cursor:pointer; white-space:nowrap; transition:background 0.2s; }
 .cookie-accept:hover { background:var(--teal-light); }

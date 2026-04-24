@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services & Payment Portal | AI Impact Maine</title>
+<meta name="description" content="Compare AI Impact Maine service tiers and start secure Stripe checkout for AI training, AI audits, and ongoing AI support packages.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aiimpactmaine.com/services-payment-portal.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Services & Payment Portal | AI Impact Maine">
+<meta property="og:description" content="Compare AI consulting, training, audit, and support packages from AI Impact Maine.">
+<meta property="og:url" content="https://aiimpactmaine.com/services-payment-portal.html">
+<meta property="og:site_name" content="AI Impact Maine">
+<meta property="og:image" content="https://aiimpactmaine.com/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Services & Payment Portal | AI Impact Maine">
+<meta name="twitter:description" content="Compare AI Impact Maine services and start checkout for training, audits, and support retainers.">
+<meta name="twitter:image" content="https://aiimpactmaine.com/social-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+
+<style>
+:root {
+  --portal-ink: #0d1628;
+  --portal-line: rgba(26,39,68,0.1);
+  --portal-soft: #f8fafc;
+  --portal-blue: #315cda;
+  --portal-green: #2f8f7a;
+}
+
+body { background: #fff; }
+
+.portal-shell {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(61,127,138,0.14), transparent 30rem),
+    radial-gradient(circle at 88% 6%, rgba(200,184,154,0.18), transparent 28rem),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 48%, #ffffff 100%);
+  color: var(--portal-ink);
+  overflow: hidden;
+}
+
+.portal-hero {
+  padding: 8.5rem 6% 4rem;
+  position: relative;
+}
+
+.portal-hero::before {
+  content: "";
+  position: absolute;
+  inset: 4.5rem 4% auto;
+  height: 28rem;
+  background-image:
+    linear-gradient(rgba(26,39,68,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,39,68,0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+  pointer-events: none;
+}
+
+.portal-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+.portal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+  border: 1px solid rgba(61,127,138,0.2);
+  background: rgba(255,255,255,0.75);
+  color: var(--teal);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 30px rgba(26,39,68,0.05);
+}
+
+.portal-badge::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--teal);
+  box-shadow: 0 0 0 0.35rem rgba(61,127,138,0.12);
+}
+
+.portal-hero h1 {
+  max-width: 760px;
+  margin: 1.3rem 0 1rem;
+  color: var(--portal-ink);
+  font-size: clamp(3rem, 7vw, 5.9rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.portal-hero h1 em {
+  color: var(--teal);
+  font-style: italic;
+}
+
+.portal-lede {
+  max-width: 640px;
+  color: #536176;
+  font-size: 1.1rem;
+  line-height: 1.85;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.portal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.93rem;
+  font-weight: 800;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.portal-btn:hover {
+  transform: translateY(-2px);
+}
+
+.portal-btn-primary {
+  background: var(--portal-ink);
+  color: white;
+  box-shadow: 0 18px 40px rgba(13,22,40,0.18);
+}
+
+.portal-btn-primary:hover {
+  background: #16233b;
+}
+
+.portal-btn-soft {
+  background: white;
+  color: var(--portal-ink);
+  border-color: var(--portal-line);
+  box-shadow: 0 10px 30px rgba(26,39,68,0.07);
+}
+
+.portal-btn-teal {
+  background: var(--teal);
+  color: white;
+  box-shadow: 0 14px 32px rgba(61,127,138,0.22);
+}
+
+.portal-summary {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(26,39,68,0.1);
+  border-radius: 22px;
+  box-shadow: 0 24px 80px rgba(26,39,68,0.11);
+  padding: 1.1rem;
+  backdrop-filter: blur(16px);
+}
+
+.summary-top {
+  border-radius: 16px;
+  background: linear-gradient(135deg, #101a2e, #22365b);
+  color: white;
+  padding: 1.35rem;
+}
+
+.summary-top span {
+  display: block;
+  color: var(--sand);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.55rem;
+}
+
+.summary-top strong {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.1rem;
+  line-height: 1;
+  margin-bottom: 0.45rem;
+}
+
+.summary-top p {
+  color: rgba(255,255,255,0.68);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.summary-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-top: 0.8rem;
+}
+
+.metric {
+  background: white;
+  border: 1px solid var(--portal-line);
+  border-radius: 14px;
+  padding: 0.95rem;
+}
+
+.metric b {
+  display: block;
+  color: var(--portal-ink);
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+.metric span {
+  color: #66758a;
+  font-size: 0.74rem;
+  line-height: 1.35;
+}
+
+.mode-bar {
+  margin: 3rem auto 0;
+  max-width: 760px;
+  background: rgba(255,255,255,0.86);
+  border: 1px solid var(--portal-line);
+  border-radius: 999px;
+  box-shadow: 0 18px 48px rgba(26,39,68,0.08);
+  padding: 0.35rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+}
+
+.mode-btn {
+  border: 0;
+  border-radius: 999px;
+  min-height: 44px;
+  background: transparent;
+  color: #617086;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.mode-btn.is-active {
+  background: var(--portal-ink);
+  color: white;
+  box-shadow: 0 10px 24px rgba(13,22,40,0.18);
+}
+
+.portal-section {
+  padding: 4.8rem 6%;
+}
+
+.portal-section:nth-of-type(even) {
+  background: rgba(248,250,252,0.72);
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.6rem;
+}
+
+.section-heading h2 {
+  color: var(--portal-ink);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.03;
+  margin-top: 0.6rem;
+}
+
+.section-heading p {
+  max-width: 470px;
+  color: #607086;
+  line-height: 1.75;
+}
+
+.payment-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border-radius: 999px;
+  padding: 0.25rem 0.8rem;
+  background: #eef8f7;
+  color: #2f716f;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.15rem;
+}
+
+.pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: white;
+  border: 1px solid var(--portal-line);
+  border-radius: 22px;
+  padding: 1.35rem;
+  box-shadow: 0 18px 56px rgba(26,39,68,0.07);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, opacity 0.22s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(61,127,138,0.35);
+  box-shadow: 0 28px 80px rgba(26,39,68,0.12);
+}
+
+.pricing-card.is-muted {
+  opacity: 0.48;
+}
+
+.pricing-card.is-popular {
+  border-color: rgba(61,127,138,0.65);
+  box-shadow: 0 26px 90px rgba(61,127,138,0.16);
+}
+
+.popular-label {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border-radius: 999px;
+  background: var(--portal-ink);
+  color: white;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card-kicker {
+  color: var(--teal);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.pricing-card h3 {
+  color: var(--portal-ink);
+  font-size: 1.55rem;
+  margin-bottom: 0.35rem;
+}
+
+.price {
+  color: var(--portal-ink);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0.8rem 0 0.3rem;
+}
+
+.price-note {
+  color: #758397;
+  font-size: 0.84rem;
+}
+
+.card-copy {
+  color: #607086;
+  line-height: 1.7;
+  margin: 1.1rem 0;
+  font-size: 0.95rem;
+}
+
+.feature-list {
+  list-style: none;
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 0 1.35rem;
+}
+
+.feature-list li {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.55rem;
+  color: #42516a;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.feature-list li::before {
+  content: "✓";
+  color: var(--teal);
+  font-weight: 900;
+}
+
+.card-actions {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: auto;
+}
+
+.card-actions .portal-btn {
+  width: 100%;
+}
+
+.fine-print {
+  color: #7b8898;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.portal-proof {
+  padding: 5rem 6%;
+  background: #0d1628;
+  color: white;
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.proof-copy h2 {
+  color: white;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+
+.proof-copy p {
+  color: rgba(255,255,255,0.62);
+  line-height: 1.8;
+  max-width: 460px;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.portal-testimonial {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 1.25rem;
+}
+
+.portal-testimonial p {
+  color: rgba(255,255,255,0.76);
+  line-height: 1.7;
+  font-size: 0.93rem;
+}
+
+.portal-testimonial strong {
+  display: block;
+  color: var(--sand);
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+.portal-faq {
+  padding: 5rem 6%;
+  background: white;
+}
+
+.faq-portal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.portal-faq-item {
+  border: 1px solid var(--portal-line);
+  border-radius: 18px;
+  padding: 1.25rem;
+  background: linear-gradient(180deg, #fff, #fbfcfe);
+}
+
+.portal-faq-item h3 {
+  color: var(--portal-ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.portal-faq-item p {
+  color: #607086;
+  line-height: 1.72;
+  font-size: 0.93rem;
+}
+
+.portal-final {
+  padding: 4.5rem 6% 5.5rem;
+  background:
+    linear-gradient(135deg, rgba(61,127,138,0.1), rgba(200,184,154,0.16)),
+    #f8fafc;
+}
+
+.final-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  background: white;
+  border: 1px solid var(--portal-line);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 24px 80px rgba(26,39,68,0.1);
+}
+
+.final-panel h2 {
+  color: var(--portal-ink);
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  margin-bottom: 0.45rem;
+}
+
+.final-panel p {
+  color: #607086;
+  line-height: 1.7;
+}
+
+.portal-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.portal-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media(max-width:980px) {
+  .hero-panel,
+  .proof-grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing-grid,
+  .testimonial-grid,
+  .faq-portal-grid {
+    grid-template-columns: 1fr;
+  }
+  .section-heading,
+  .final-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media(max-width:768px) {
+  .portal-hero {
+    padding: 7rem 5% 3rem;
+  }
+  .portal-section,
+  .portal-proof,
+  .portal-faq,
+  .portal-final {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .portal-hero h1 {
+    font-size: clamp(2.55rem, 12vw, 4rem);
+  }
+  .portal-lede {
+    font-size: 1rem;
+  }
+  .portal-summary {
+    padding: 0.85rem;
+  }
+  .summary-metrics {
+    grid-template-columns: 1fr;
+  }
+  .mode-bar {
+    border-radius: 18px;
+    grid-template-columns: 1fr;
+  }
+  .mode-btn {
+    border-radius: 14px;
+  }
+  .pricing-card:hover,
+  .portal-btn:hover {
+    transform: none;
+  }
+}
+
+@media(max-width:480px) {
+  .portal-hero,
+  .portal-section,
+  .portal-proof,
+  .portal-faq,
+  .portal-final {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .portal-hero {
+    padding-top: 6.5rem;
+  }
+  .hero-actions,
+  .final-panel .hero-actions {
+    width: 100%;
+  }
+  .hero-actions .portal-btn,
+  .final-panel .portal-btn {
+    width: 100%;
+  }
+  .pricing-card,
+  .final-panel {
+    border-radius: 18px;
+    padding: 1.1rem;
+  }
+  .popular-label {
+    position: static;
+    width: fit-content;
+    margin-bottom: 0.7rem;
+  }
+  .price {
+    font-size: 2rem;
+  }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  .portal-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" type="button" aria-label="Toggle menu" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<main class="portal-shell" id="main">
+  <section class="portal-hero">
+    <div class="portal-inner">
+      <div class="hero-panel portal-reveal">
+        <div>
+          <span class="portal-badge">Services & Payment Portal</span>
+          <h1>Choose the AI support your organization needs <em>right now.</em></h1>
+          <p class="portal-lede">A simple portal for AI training, AI audits, and retained advisory support. Start checkout with Stripe Payment Links or schedule a consultation for custom scoping.</p>
+          <div class="hero-actions">
+            <a href="#ai-training" class="portal-btn portal-btn-primary">View Packages</a>
+            <a href="https://calendly.com/aiimpactmaine/consultation" class="portal-btn portal-btn-soft" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </div>
+
+        <aside class="portal-summary" aria-label="Portal summary">
+          <div class="summary-top">
+            <span>Secure checkout ready</span>
+            <strong>Stripe + consultation flow</strong>
+            <p>Use one-time checkout for projects and monthly subscriptions for ongoing support.</p>
+          </div>
+          <div class="summary-metrics">
+            <div class="metric"><b>9</b><span>service tiers</span></div>
+            <div class="metric"><b>3</b><span>ways to engage</span></div>
+            <div class="metric"><b>0</b><span>pressure sales calls</span></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="mode-bar portal-reveal" aria-label="Payment type filter">
+        <button class="mode-btn is-active" type="button" data-mode-filter="all">All packages</button>
+        <button class="mode-btn" type="button" data-mode-filter="one-time">One-time payments</button>
+        <button class="mode-btn" type="button" data-mode-filter="monthly">Monthly subscriptions</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="portal-section" id="ai-training">
+    <div class="portal-inner">
+      <div class="section-heading portal-reveal">
+        <div>
+          <span class="payment-pill">One-time payment</span>
+          <h2>AI Training</h2>
+        </div>
+        <p>Practical sessions that help leaders and teams use AI tools responsibly, safely, and with real operational confidence.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <article class="pricing-card portal-reveal" data-payment-mode="one-time">
+          <div class="card-kicker">Starter</div>
+          <h3>Intro Training</h3>
+          <div class="price">$499-$1,500</div>
+          <div class="price-note">One-time engagement</div>
+          <p class="card-copy">A focused entry session for teams that need a clear, jargon-free introduction to AI basics.</p>
+          <ul class="feature-list">
+            <li>1-2 hour intro training</li>
+            <li>Prompt basics and safe-use principles</li>
+            <li>Recommended tools and examples</li>
+            <li>PDF guide for staff follow-up</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-primary buy-now" href="https://buy.stripe.com/test_replace_training_starter" data-checkout-key="training_starter" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+
+        <article class="pricing-card is-popular portal-reveal" data-payment-mode="one-time">
+          <span class="popular-label">Most Popular</span>
+          <div class="card-kicker">Professional</div>
+          <h3>Team Workshop</h3>
+          <div class="price">$2,500-$5,000</div>
+          <div class="price-note">One-time engagement</div>
+          <p class="card-copy">A deeper half-day or full-day workshop built around your team's actual workflows and decisions.</p>
+          <ul class="feature-list">
+            <li>Half-day or full-day live workshop</li>
+            <li>Workflow mapping and AI use cases</li>
+            <li>Reusable templates and prompt patterns</li>
+            <li>Session recording and recap materials</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-teal buy-now" href="https://buy.stripe.com/test_replace_training_professional" data-checkout-key="training_professional" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+
+        <article class="pricing-card portal-reveal" data-payment-mode="one-time">
+          <div class="card-kicker">Enterprise</div>
+          <h3>Capability Program</h3>
+          <div class="price">$8,000-$20,000+</div>
+          <div class="price-note">Custom one-time program</div>
+          <p class="card-copy">A multi-session enablement program for organizations building durable AI capability across teams.</p>
+          <ul class="feature-list">
+            <li>Multi-session training program</li>
+            <li>Custom team playbooks</li>
+            <li>Leadership strategy sessions</li>
+            <li>Adoption roadmap and internal rollout plan</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-primary buy-now" href="https://buy.stripe.com/test_replace_training_enterprise" data-checkout-key="training_enterprise" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="portal-section" id="ai-audit">
+    <div class="portal-inner">
+      <div class="section-heading portal-reveal">
+        <div>
+          <span class="payment-pill">One-time payment</span>
+          <h2>AI Audit</h2>
+        </div>
+        <p>Structured reviews that identify current AI use, governance gaps, workflow risks, and practical next steps.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <article class="pricing-card portal-reveal" data-payment-mode="one-time">
+          <div class="card-kicker">Basic</div>
+          <h3>Readiness Check</h3>
+          <div class="price">$1,000-$2,500</div>
+          <div class="price-note">One-time engagement</div>
+          <p class="card-copy">A fast baseline for organizations that want visibility before investing in larger AI initiatives.</p>
+          <ul class="feature-list">
+            <li>AI readiness check</li>
+            <li>Quick-win opportunities</li>
+            <li>Risk and policy snapshot</li>
+            <li>Concise written report</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-primary buy-now" href="https://buy.stripe.com/test_replace_audit_basic" data-checkout-key="audit_basic" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+
+        <article class="pricing-card is-popular portal-reveal" data-payment-mode="one-time">
+          <span class="popular-label">Most Popular</span>
+          <div class="card-kicker">Advanced</div>
+          <h3>Workflow Audit</h3>
+          <div class="price">$3,500-$7,500</div>
+          <div class="price-note">One-time engagement</div>
+          <p class="card-copy">A practical audit for teams that want to connect AI governance with productivity and ROI.</p>
+          <ul class="feature-list">
+            <li>Workflow and process analysis</li>
+            <li>ROI and automation opportunities</li>
+            <li>Risk-prioritized implementation plan</li>
+            <li>AI adoption roadmap</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-teal buy-now" href="https://buy.stripe.com/test_replace_audit_advanced" data-checkout-key="audit_advanced" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+
+        <article class="pricing-card portal-reveal" data-payment-mode="one-time">
+          <div class="card-kicker">Enterprise</div>
+          <h3>Strategy Audit</h3>
+          <div class="price">$10,000-$25,000+</div>
+          <div class="price-note">Custom one-time audit</div>
+          <p class="card-copy">A full organizational strategy engagement for leaders balancing transformation, compliance, and risk.</p>
+          <ul class="feature-list">
+            <li>Full AI strategy review</li>
+            <li>Compliance and governance assessment</li>
+            <li>Executive presentation</li>
+            <li>Strategic roadmap and operating model</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-primary buy-now" href="https://buy.stripe.com/test_replace_audit_enterprise" data-checkout-key="audit_enterprise" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="portal-section" id="ongoing-support">
+    <div class="portal-inner">
+      <div class="section-heading portal-reveal">
+        <div>
+          <span class="payment-pill">Monthly subscription</span>
+          <h2>Ongoing Support</h2>
+        </div>
+        <p>Retained AI advisory for teams that want consistent support, workflow improvement, and accountability after the first engagement.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <article class="pricing-card portal-reveal" data-payment-mode="monthly">
+          <div class="card-kicker">Basic</div>
+          <h3>Advisor Access</h3>
+          <div class="price">$500-$1,500/mo</div>
+          <div class="price-note">Monthly subscription</div>
+          <p class="card-copy">Lightweight ongoing support for teams that need a reliable place to ask AI questions.</p>
+          <ul class="feature-list">
+            <li>Email advisory support</li>
+            <li>Monthly strategy call</li>
+            <li>Policy and tool questions</li>
+            <li>Short written follow-up notes</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-primary buy-now" href="https://buy.stripe.com/test_replace_support_basic" data-checkout-key="support_basic" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+
+        <article class="pricing-card is-popular portal-reveal" data-payment-mode="monthly">
+          <span class="popular-label">Most Popular</span>
+          <div class="card-kicker">Growth</div>
+          <h3>Workflow Partner</h3>
+          <div class="price">$2,000-$5,000/mo</div>
+          <div class="price-note">Monthly subscription</div>
+          <p class="card-copy">A practical retainer for organizations actively improving workflows and rolling out AI practices.</p>
+          <ul class="feature-list">
+            <li>Weekly advisory support</li>
+            <li>Workflow improvement sessions</li>
+            <li>Template and prompt refinement</li>
+            <li>Tool evaluation and implementation guidance</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-teal buy-now" href="https://buy.stripe.com/test_replace_support_growth" data-checkout-key="support_growth" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+
+        <article class="pricing-card portal-reveal" data-payment-mode="monthly">
+          <div class="card-kicker">Enterprise</div>
+          <h3>Dedicated Advisor</h3>
+          <div class="price">$6,000-$15,000+/mo</div>
+          <div class="price-note">Monthly subscription</div>
+          <p class="card-copy">High-touch support for organizations that need advisory, automation, measurement, and leadership reporting.</p>
+          <ul class="feature-list">
+            <li>Dedicated AI advisor</li>
+            <li>Automation support and vendor review</li>
+            <li>KPI tracking and adoption reporting</li>
+            <li>Executive check-ins and roadmap updates</li>
+          </ul>
+          <div class="card-actions">
+            <a class="portal-btn portal-btn-primary buy-now" href="https://buy.stripe.com/test_replace_support_enterprise" data-checkout-key="support_enterprise" target="_blank" rel="noopener">Buy Now</a>
+            <a class="portal-btn portal-btn-soft" href="https://calendly.com/aiimpactmaine/consultation" target="_blank" rel="noopener">Schedule Consultation</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="portal-proof">
+    <div class="portal-inner proof-grid">
+      <div class="proof-copy portal-reveal">
+        <span class="portal-badge">Client Signals</span>
+        <h2>Clear pricing, thoughtful scoping, practical outcomes.</h2>
+        <p>Organizations use AI Impact Maine when they need AI to become understandable, governable, and useful without turning every engagement into a bloated transformation project.</p>
+      </div>
+      <div class="testimonial-grid">
+        <article class="portal-testimonial portal-reveal">
+          <p>"The workshop turned AI from a vague leadership concern into a practical staff capability."</p>
+          <strong>Executive Director, Maine nonprofit</strong>
+        </article>
+        <article class="portal-testimonial portal-reveal">
+          <p>"The audit surfaced tools we did not know were already in use and gave us a realistic roadmap."</p>
+          <strong>Operations lead, construction firm</strong>
+        </article>
+        <article class="portal-testimonial portal-reveal">
+          <p>"Ongoing support gives our team a trusted partner as new tools and questions keep appearing."</p>
+          <strong>HR director, professional services</strong>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="portal-faq">
+    <div class="portal-inner">
+      <div class="section-heading portal-reveal">
+        <div>
+          <span class="payment-pill">FAQ</span>
+          <h2>Payment and customization questions.</h2>
+        </div>
+        <p>Every tier is designed as a starting point. Final scope can be adjusted before payment when your organization needs something more specific.</p>
+      </div>
+      <div class="faq-portal-grid">
+        <article class="portal-faq-item portal-reveal">
+          <h3>Can pricing be customized?</h3>
+          <p>Yes. The listed ranges are packaged starting points. Enterprise work, grant-funded engagements, and multi-service bundles can be scoped after a consultation.</p>
+        </article>
+        <article class="portal-faq-item portal-reveal">
+          <h3>How do refunds work?</h3>
+          <p>For one-time projects, refunds depend on scheduling and work already completed. Subscription retainers can be cancelled or changed at renewal unless a separate agreement says otherwise.</p>
+        </article>
+        <article class="portal-faq-item portal-reveal">
+          <h3>Do we need to pay before talking?</h3>
+          <p>No. You can schedule a consultation first. Buy Now buttons are for organizations that already know the tier they want to start with.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="portal-final">
+    <div class="portal-inner">
+      <div class="final-panel portal-reveal">
+        <div>
+          <h2>Not sure which package fits?</h2>
+          <p>Book a consultation and we will recommend a tier, bundle, or custom scope based on your goals.</p>
+        </div>
+        <div class="hero-actions">
+          <a href="https://calendly.com/aiimpactmaine/consultation" class="portal-btn portal-btn-primary" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a href="assessment.html" class="portal-btn portal-btn-soft">Take Free Assessment</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="services-payment-portal.html">Payment Portal</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog & Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li><li><a href="funding.html">Funding</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+
+<script src="shared.js"></script>
+<script>
+/*
+  STRIPE SETUP
+  Front-end-only option: create Stripe Payment Links in the Stripe dashboard and replace the
+  placeholder URLs below. Do not put STRIPE_SECRET_KEY in this file.
+
+  Backend option: replace each link with your own endpoint, such as
+  /api/create-checkout-session?price=price_123. Your backend should read STRIPE_SECRET_KEY
+  from environment variables and return a Stripe Checkout Session URL.
+*/
+const STRIPE_CHECKOUT_LINKS = {
+  training_starter: 'https://buy.stripe.com/test_replace_training_starter',
+  training_professional: 'https://buy.stripe.com/test_replace_training_professional',
+  training_enterprise: 'https://buy.stripe.com/test_replace_training_enterprise',
+  audit_basic: 'https://buy.stripe.com/test_replace_audit_basic',
+  audit_advanced: 'https://buy.stripe.com/test_replace_audit_advanced',
+  audit_enterprise: 'https://buy.stripe.com/test_replace_audit_enterprise',
+  support_basic: 'https://buy.stripe.com/test_replace_support_basic',
+  support_growth: 'https://buy.stripe.com/test_replace_support_growth',
+  support_enterprise: 'https://buy.stripe.com/test_replace_support_enterprise'
+};
+
+document.querySelectorAll('.buy-now').forEach((button) => {
+  const key = button.dataset.checkoutKey;
+  if (STRIPE_CHECKOUT_LINKS[key]) {
+    button.href = STRIPE_CHECKOUT_LINKS[key];
+  }
+});
+
+const modeButtons = document.querySelectorAll('[data-mode-filter]');
+const cards = document.querySelectorAll('[data-payment-mode]');
+
+function setPaymentMode(mode) {
+  modeButtons.forEach((button) => {
+    button.classList.toggle('is-active', button.dataset.modeFilter === mode);
+    button.setAttribute('aria-pressed', String(button.dataset.modeFilter === mode));
+  });
+  cards.forEach((card) => {
+    const isMatch = mode === 'all' || card.dataset.paymentMode === mode;
+    card.classList.toggle('is-muted', !isMatch);
+  });
+}
+
+modeButtons.forEach((button) => {
+  button.setAttribute('aria-pressed', String(button.classList.contains('is-active')));
+  button.addEventListener('click', () => setPaymentMode(button.dataset.modeFilter));
+});
+
+const revealItems = document.querySelectorAll('.portal-reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+revealItems.forEach((item) => revealObserver.observe(item));
+</script>
+</body>
+</html>
