@@ -166,26 +166,54 @@ createThemeToggle();
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 if (hamburger && mobileMenu) {
+  hamburger.setAttribute('type', 'button');
+  hamburger.setAttribute('aria-label', hamburger.getAttribute('aria-label') || 'Toggle menu');
+  hamburger.setAttribute('aria-controls', mobileMenu.id || 'mobileMenu');
+  hamburger.setAttribute('aria-expanded', 'false');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+  }
+
+  function setMobileMenu(open) {
+    hamburger.classList.toggle('open', open);
+    mobileMenu.classList.toggle('open', open);
+    document.body.classList.toggle('menu-open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    mobileMenu.setAttribute('aria-hidden', String(!open));
+  }
+
   hamburger.addEventListener('click', function(e) {
     e.stopPropagation();
     const isOpen = mobileMenu.classList.toggle('open');
-    hamburger.classList.toggle('open', isOpen);
-    document.body.classList.toggle('menu-open', isOpen);
+    setMobileMenu(isOpen);
   });
   mobileMenu.querySelectorAll('a').forEach(function(a) {
     a.addEventListener('click', function() {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-      document.body.classList.remove('menu-open');
+      closeMobileMenu();
     });
   });
   document.addEventListener('click', function(e) {
     if (mobileMenu.classList.contains('open') &&
         !mobileMenu.contains(e.target) &&
         !hamburger.contains(e.target)) {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
-      document.body.classList.remove('menu-open');
+      closeMobileMenu();
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+      closeMobileMenu();
+      hamburger.focus();
+    }
+  });
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 1100 && mobileMenu.classList.contains('open')) {
+      closeMobileMenu();
     }
   });
 }

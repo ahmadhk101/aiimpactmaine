@@ -2,8 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="Explore AI Impact Maine's services: staff training workshops, AI process audits, and ongoing advisory support for Maine businesses and nonprofits."><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Services — AI Impact Maine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Consulting Services in Maine | AI Impact Maine</title>
+<meta name="description" content="Explore AI training, process audits, automation support, and ongoing responsible AI advisory services for Maine businesses, nonprofits, and municipalities.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aiimpactmaine.com/services.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Consulting Services in Maine | AI Impact Maine">
+<meta property="og:description" content="Explore AI training, process audits, automation support, and ongoing responsible AI advisory services for Maine businesses, nonprofits, and municipalities.">
+<meta property="og:url" content="https://aiimpactmaine.com/services.html">
+<meta property="og:site_name" content="AI Impact Maine">
+<meta property="og:image" content="https://aiimpactmaine.com/social-card.png">
+<meta property="og:image:secure_url" content="https://aiimpactmaine.com/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI Impact Maine responsible AI consulting, training, audits, and support for Maine organizations">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Consulting Services in Maine | AI Impact Maine">
+<meta name="twitter:description" content="Explore AI training, process audits, automation support, and ongoing responsible AI advisory services for Maine businesses, nonprofits, and municipalities.">
+<meta name="twitter:url" content="https://aiimpactmaine.com/services.html">
+<meta name="twitter:image" content="https://aiimpactmaine.com/social-card.png">
+<meta name="twitter:image:alt" content="AI Impact Maine responsible AI consulting, training, audits, and support for Maine organizations">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -80,16 +100,65 @@ tbody td:first-child { font-weight: 600; color: var(--navy); }
   .overview-grid { grid-template-columns: 1fr; }
   .faq-grid { grid-template-columns: 1fr; }
 }
+@media(max-width:768px){
+  .table-wrap { overflow-x: visible; }
+  .table-wrap table,
+  .table-wrap thead,
+  .table-wrap tbody,
+  .table-wrap tr,
+  .table-wrap td {
+    display: block;
+    width: 100%;
+  }
+  .table-wrap thead { display: none; }
+  .table-wrap tbody tr {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .table-wrap tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 48px;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--mist);
+  }
+  .table-wrap tbody td:first-child {
+    display: block;
+    background: var(--navy);
+    color: white;
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+  .table-wrap tbody td:last-child { border-bottom: none; }
+  .table-wrap tbody td:nth-child(2)::before { content: "AI Training"; }
+  .table-wrap tbody td:nth-child(3)::before { content: "AI Audit"; }
+  .table-wrap tbody td:nth-child(4)::before { content: "Ongoing Support"; }
+  .table-wrap tbody td:not(:first-child)::before {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    font-family: 'DM Sans', sans-serif;
+  }
+}
+@media(max-width:480px){
+  .card-top,
+  .card-body,
+  .faq-item {
+    padding: 1.5rem;
+  }
+  .tag {
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+}
 </style>
-<meta property="og:type" content="website">
-<meta property="og:title" content="Services — AI Impact Maine">
-<meta property="og:description" content="AI training, process audits, and ongoing advisory support for Maine organizations. Explore our full service offering.">
-<meta property="og:url" content="https://aiimpactmaine.com/services.html">
-<meta property="og:site_name" content="AI Impact Maine">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Services — AI Impact Maine">
-<meta name="twitter:description" content="AI training, process audits, and ongoing advisory support for Maine organizations. Explore our full service offering.">
-<link rel="canonical" href="https://aiimpactmaine.com/services.html">
 </head>
 <body>
 <nav id="navbar">
@@ -111,10 +180,10 @@ tbody td:first-child { font-weight: 600; color: var(--navy); }
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
     </ul>
-    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <button class="nav-hamburger" id="hamburger" type="button" aria-label="Toggle menu" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <ul>
     <li><a href="conference.html">Conference</a></li>
     <li><a href="services.html">Services</a></li>
@@ -156,7 +225,7 @@ tbody td:first-child { font-weight: 600; color: var(--navy); }
         <div class="card-top" style="position:relative; min-height:200px;">
           <div class="card-num">01</div>
           <div style="position:absolute;top:1rem;right:1rem;width:130px;height:130px;opacity:0.9;">
-            <div data-lottie="training" data-lottie-height="130px" style="width:130px;height:130px;"></div>
+            <div data-lottie="training" data-lottie-height="130px" style="width:130px;height:130px;" role="img" aria-label="AI training workshop animation"></div>
           </div>
           <div class="card-icon" style="display:none;"></div>
           <h3>AI Training</h3>
@@ -176,7 +245,7 @@ tbody td:first-child { font-weight: 600; color: var(--navy); }
         <div class="card-top" style="position:relative; min-height:200px;">
           <div class="card-num">02</div>
           <div style="position:absolute;top:1rem;right:1rem;width:130px;height:130px;opacity:0.9;">
-            <div data-lottie="audit" data-lottie-height="130px" style="width:130px;height:130px;"></div>
+            <div data-lottie="audit" data-lottie-height="130px" style="width:130px;height:130px;" role="img" aria-label="AI process audit animation"></div>
           </div>
           <div class="card-icon" style="display:none;"></div>
           <h3>AI Process Audit</h3>
@@ -196,7 +265,7 @@ tbody td:first-child { font-weight: 600; color: var(--navy); }
         <div class="card-top" style="position:relative; min-height:200px;">
           <div class="card-num">03</div>
           <div style="position:absolute;top:1rem;right:1rem;width:130px;height:130px;opacity:0.9;">
-            <div data-lottie="support" data-lottie-height="130px" style="width:130px;height:130px;"></div>
+            <div data-lottie="support" data-lottie-height="130px" style="width:130px;height:130px;" role="img" aria-label="Ongoing AI support animation"></div>
           </div>
           <div class="card-icon" style="display:none;"></div>
           <h3>Ongoing AI Support</h3>
