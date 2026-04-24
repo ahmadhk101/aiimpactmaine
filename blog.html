@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="AI insights, resources, and practical guidance for Maine businesses. Articles on responsible AI adoption, governance, and workforce readiness from AI Impact Maine.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog & Resources — AI Impact Maine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.blog-hero-section { background:white; }
+.blog-category-bar {
+  display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2.5rem;
+}
+.blog-cat-btn {
+  background:var(--mist); border:1px solid var(--border); border-radius:20px;
+  padding:0.35rem 1rem; font-size:0.78rem; font-weight:600; cursor:pointer;
+  color:var(--text-light); font-family:'DM Sans',sans-serif; transition:all 0.2s;
+  letter-spacing:0.02em;
+}
+.blog-cat-btn.active,.blog-cat-btn:hover {
+  background:var(--teal); color:white; border-color:var(--teal);
+}
+.featured-post {
+  background:var(--navy); border-radius:14px; overflow:hidden;
+  display:grid; grid-template-columns:1fr 1.2fr; gap:0; margin-bottom:3rem;
+}
+.featured-post-visual {
+  background:linear-gradient(140deg,var(--navy-mid) 0%,var(--teal) 100%);
+  position:relative; min-height:320px; overflow:hidden;
+}
+.featured-post-pattern {
+  position:absolute; inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.featured-post-char {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  color:rgba(255,255,255,0.85);
+  animation: featuredFloat 4s ease-in-out infinite;
+}
+.featured-post-char svg {
+  width: 100px !important;
+  height: 100px !important;
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+}
+@keyframes featuredFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+.featured-badge {
+  position:absolute; top:1.2rem; left:1.2rem;
+  background:var(--sand); color:var(--navy); border-radius:3px;
+  padding:0.22rem 0.7rem; font-size:0.68rem; font-weight:700;
+  letter-spacing:0.08em; text-transform:uppercase; font-family:'DM Sans',sans-serif;
+}
+.featured-post-body { padding:2.5rem; display:flex; flex-direction:column; justify-content:center; }
+.featured-post-label { font-size:0.72rem; font-weight:700; color:var(--sand); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.8rem; font-family:'DM Sans',sans-serif; }
+.featured-post-title { font-size:clamp(1.4rem,2.5vw,2rem); color:white; margin-bottom:1rem; line-height:1.25; }
+.featured-post-excerpt { color:rgba(255,255,255,0.65); font-size:0.93rem; line-height:1.75; margin-bottom:1.5rem; }
+.featured-post-meta { color:rgba(255,255,255,0.4); font-size:0.77rem; margin-bottom:1.5rem; display:flex; gap:0.75rem; }
+.newsletter-box {
+  background:var(--navy); border-radius:12px; padding:2.5rem;
+  display:flex; gap:2rem; align-items:center; margin-top:4rem; flex-wrap:wrap;
+}
+.newsletter-text { flex:1; min-width:220px; }
+.newsletter-text h3 { color:white; font-size:1.4rem; margin-bottom:0.5rem; }
+.newsletter-text p { color:rgba(255,255,255,0.6); font-size:0.9rem; line-height:1.7; }
+.newsletter-form { display:flex; gap:0.5rem; flex:1; min-width:260px; }
+.newsletter-input {
+  flex:1; padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.15);
+  border-radius:4px; background:rgba(255,255,255,0.08); color:white;
+  font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none;
+  transition:border-color 0.2s;
+}
+.newsletter-input::placeholder { color:rgba(255,255,255,0.35); }
+.newsletter-input:focus { border-color:var(--teal); }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@media(max-width:800px){.featured-post{grid-template-columns:1fr;}.featured-post-visual{min-height:200px;}}
+@media(max-width:600px){.newsletter-form{flex-direction:column;}}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog & Resources — AI Impact Maine">
+<meta property="og:description" content="Practical AI insights and guidance for Maine businesses. No hype, no jargon — just useful articles on responsible AI adoption.">
+<meta property="og:url" content="https://aiimpactmaine.com/blog.html">
+<meta property="og:site_name" content="AI Impact Maine">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog & Resources — AI Impact Maine">
+<meta name="twitter:description" content="Practical AI insights and guidance for Maine businesses. No hype, no jargon — just useful articles on responsible AI adoption.">
+<link rel="canonical" href="https://aiimpactmaine.com/blog.html">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<main id="main">
+<div class="page-hero">
+  <div class="page-hero-grid"></div><div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <div class="page-hero-badge">Blog & Resources</div>
+    <h1>Practical AI guidance for <em>Maine organizations.</em></h1>
+    <p>No hype, no jargon. Articles, guides, and resources to help you understand and navigate AI adoption responsibly.</p>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-indicator-dot"><div class="scroll-indicator-inner"></div></div>
+    <span>Scroll</span>
+  </div>
+</div>
+
+<section class="section blog-hero-section">
+  <div class="section-inner">
+
+    <!-- Featured post -->
+    <div class="featured-post animate">
+      <div class="featured-post-visual">
+        <div class="featured-post-pattern"></div>
+        <div class="featured-post-char"><svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;"><circle cx="32" cy="32" r="20"/><circle cx="32" cy="32" r="8"/><line x1="32" y1="12" x2="32" y2="20"/><line x1="32" y1="44" x2="32" y2="52"/><line x1="12" y1="32" x2="20" y2="32"/><line x1="44" y1="32" x2="52" y2="32"/></svg></div>
+        <div class="featured-badge">Featured</div>
+      </div>
+      <div class="featured-post-body">
+        <div class="featured-post-label" data-cat="governance">Governance</div>
+        <h2 class="featured-post-title">What Every Maine Business Needs to Know About AI Policy in 2026</h2>
+        <p class="featured-post-excerpt">Most Maine businesses are already using AI — but fewer than 30% have any written policy in place. Here's what a practical, enforceable AI acceptable-use policy actually looks like and how to build one without a legal team.</p>
+        <div class="featured-post-meta">
+          <span>April 2026</span><span>·</span><span>8 min read</span><span>·</span><span>Policy & Governance</span>
+        </div>
+        <a href="blog-post.html" class="btn-primary" style="display:inline-block;">Read Article →</a>
+      </div>
+    </div>
+
+    <!-- Category filter -->
+    <div class="blog-category-bar">
+      <button class="blog-cat-btn active" data-cat="all" data-cat-label="All">All</button>
+      <button class="blog-cat-btn" data-cat="governance">Governance</button>
+      <button class="blog-cat-btn" data-cat="training">Training</button>
+      <button class="blog-cat-btn" data-cat="maine-business">Maine Business</button>
+      <button class="blog-cat-btn" data-cat="tools-tech">Tools & Tech</button>
+      <button class="blog-cat-btn" data-cat="nonprofits">Nonprofits</button>
+      <button class="blog-cat-btn" data-cat="case-studies">Case Studies</button>
+    </div>
+
+    <!-- Blog grid -->
+    <div class="blog-grid stagger-children">
+      <div class="blog-card animate" data-category="governance">
+        <div class="blog-card-thumb"><div class="blog-card-thumb-pattern"></div><div class="blog-card-thumb-char"><svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;"><path d="M32 8L54 18v14c0 13-10 22-22 26-12-4-22-13-22-26V18z"/><polyline points="22,32 30,40 44,24"/></svg></div><div class="blog-card-thumb-label" data-cat="governance">Governance</div></div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta"><span>Apr 2026</span><span class="blog-card-meta-dot"></span><span>5 min</span></div>
+          <h3 class="blog-card-title">The 5-Step AI Governance Checklist for Small Organizations</h3>
+          <p class="blog-card-excerpt">You don't need a legal team or a compliance officer to build basic AI governance. Here's a practical starting point for organizations with fewer than 50 employees.</p>
+          <a href="blog-post-governance-checklist.html" class="blog-card-link">Read More →</a>
+        </div>
+      </div>
+      <div class="blog-card animate" data-category="training">
+        <div class="blog-card-thumb" style="background:linear-gradient(135deg,#1a3a44 0%,#2a5a6a 100%);"><div class="blog-card-thumb-pattern"></div><div class="blog-card-thumb-char"><svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;"><rect x="8" y="14" width="48" height="32" rx="2"/><line x1="22" y1="54" x2="42" y2="54"/><line x1="32" y1="46" x2="32" y2="54"/><path d="M20 28l6 4-6 4M30 34h14"/></svg></div><div class="blog-card-thumb-label" data-cat="training">Training</div></div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta"><span>Mar 2026</span><span class="blog-card-meta-dot"></span><span>6 min</span></div>
+          <h3 class="blog-card-title">How to Run an AI Training Session That Your Staff Actually Remembers</h3>
+          <p class="blog-card-excerpt">Most AI training fails because it's too abstract. We share the specific techniques that turn a workshop into lasting behavioral change for non-technical teams.</p>
+          <a href="blog-post-training-retention.html" class="blog-card-link">Read More →</a>
+        </div>
+      </div>
+      <div class="blog-card animate" data-category="nonprofits">
+        <div class="blog-card-thumb" style="background:linear-gradient(135deg,#2a1a44 0%,#4a3a64 100%);"><div class="blog-card-thumb-pattern"></div><div class="blog-card-thumb-char"><svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;"><path d="M32 52s-18-10-18-24a10 10 0 0118-6 10 10 0 0118 6c0 14-18 24-18 24z"/></svg></div><div class="blog-card-thumb-label" data-cat="nonprofits">Nonprofits</div></div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta"><span>Mar 2026</span><span class="blog-card-meta-dot"></span><span>7 min</span></div>
+          <h3 class="blog-card-title">AI Risk for Maine Nonprofits: What Funders Are Starting to Ask About</h3>
+          <p class="blog-card-excerpt">A growing number of foundations are adding AI governance questions to their grant applications. Here's what they're looking for — and how to be ready.</p>
+          <a href="blog-post-nonprofit-funders.html" class="blog-card-link">Read More →</a>
+        </div>
+      </div>
+      <div class="blog-card animate" data-category="case-studies">
+        <div class="blog-card-thumb" style="background:linear-gradient(135deg,#1a2744 0%,#3d6070 100%);"><div class="blog-card-thumb-pattern"></div><div class="blog-card-thumb-char"><svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;"><rect x="10" y="16" width="44" height="36" rx="3"/><line x1="10" y1="26" x2="54" y2="26"/><circle cx="18" cy="36" r="2.5"/><line x1="26" y1="34" x2="44" y2="34"/><line x1="26" y1="40" x2="38" y2="40"/></svg></div><div class="blog-card-thumb-label">Case Study</div></div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta"><span>Feb 2026</span><span class="blog-card-meta-dot"></span><span>4 min</span></div>
+          <h3 class="blog-card-title">Case Study: How a Portland Construction Firm Built AI Policy in 30 Days</h3>
+          <p class="blog-card-excerpt">A mid-size trades company came to us with no policy and staff using three different AI tools. Here's how we mapped the risk and built something workable fast.</p>
+          <a href="blog-post-construction-case-study.html" class="blog-card-link">Read More →</a>
+        </div>
+      </div>
+      <div class="blog-card animate" data-category="tools-tech">
+        <div class="blog-card-thumb" style="background:linear-gradient(135deg,#1a3030 0%,#2a5048 100%);"><div class="blog-card-thumb-pattern"></div><div class="blog-card-thumb-char"><svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;"><rect x="10" y="10" width="44" height="44" rx="4"/><line x1="10" y1="22" x2="54" y2="22"/><circle cx="16" cy="16" r="1.2" fill="white"/><circle cx="22" cy="16" r="1.2" fill="white"/><rect x="16" y="30" width="12" height="18" rx="1"/><rect x="32" y="30" width="16" height="10" rx="1"/><rect x="32" y="42" width="16" height="6" rx="1"/></svg></div><div class="blog-card-thumb-label" data-cat="tools-tech">Tools & Tech</div></div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta"><span>Feb 2026</span><span class="blog-card-meta-dot"></span><span>9 min</span></div>
+          <h3 class="blog-card-title">The AI Tools Your Staff Are Probably Already Using — And What to Know About Each</h3>
+          <p class="blog-card-excerpt">ChatGPT, Microsoft Copilot, Grammarly, Canva AI, Google Gemini — a plain-English breakdown of the most common tools and their key data privacy considerations.</p>
+          <a href="blog-post-ai-tools-overview.html" class="blog-card-link">Read More →</a>
+        </div>
+      </div>
+      <div class="blog-card animate" data-category="maine-business">
+        <div class="blog-card-thumb" style="background:linear-gradient(135deg,#2a1a30 0%,#4a2a50 100%);"><div class="blog-card-thumb-pattern"></div><div class="blog-card-thumb-char"><svg viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:56px;height:56px;"><polygon points="6,28 32,12 58,28"/><line x1="10" y1="28" x2="10" y2="52"/><line x1="22" y1="28" x2="22" y2="52"/><line x1="32" y1="28" x2="32" y2="52"/><line x1="42" y1="28" x2="42" y2="52"/><line x1="54" y1="28" x2="54" y2="52"/><line x1="4" y1="54" x2="60" y2="54"/></svg></div><div class="blog-card-thumb-label" data-cat="maine-business">Maine Business</div></div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta"><span>Jan 2026</span><span class="blog-card-meta-dot"></span><span>5 min</span></div>
+          <h3 class="blog-card-title">Why Maine Municipalities Are Behind on AI Governance — And What to Do About It</h3>
+          <p class="blog-card-excerpt">Local governments face unique AI risks around public records, procurement, and constituent data. Most have no policy. Here's where to start.</p>
+          <a href="blog-post-municipalities.html" class="blog-card-link">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Newsletter signup -->
+    <div class="newsletter-box animate">
+      <div class="newsletter-text">
+        <h3>Maine AI Insights — Monthly</h3>
+        <p>Practical AI guidance for Maine organizations, delivered once a month. No spam, no hype — just useful content.</p>
+      </div>
+      <div class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="your@email.com">
+        <a href="#" class="btn-primary" style="white-space:nowrap;">Subscribe</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to put this into practice?</h2>
+  <p>Reading about AI governance is a great start. Working with us makes it real. Book a free discovery call today.</p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="btn-primary">Book a Free Call</a>
+    <a href="faq.html" class="btn-outline">Browse the FAQ →</a>
+  </div>
+</div>
+
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="funding.html">Funding</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog &amp; Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+</main>
+<script src="shared.js"></script>
+<script>
+// Category filter — actually filters the cards
+document.querySelectorAll('.blog-cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.blog-cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.blog-card').forEach(card => {
+      const cardCat = card.dataset.category;
+      if (cat === 'all' || cat === cardCat) {
+        card.style.display = '';
+        card.style.animation = 'fadeIn 0.4s ease forwards';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+// Newsletter signup form
+document.querySelectorAll('.newsletter-form').forEach(form => {
+  const btn = form.querySelector('a');
+  const input = form.querySelector('.newsletter-input');
+  if (!btn || !input) return;
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = input.value.trim();
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = '#d9534f';
+      input.placeholder = 'Please enter a valid email';
+      input.value = '';
+      return;
+    }
+    btn.textContent = 'Subscribing…';
+    btn.style.opacity = '0.7';
+    try {
+      const fd = new FormData();
+      fd.append('email', email);
+      fd.append('source', 'Blog Newsletter');
+      const res = await fetch('https://formspree.io/f/mojyljlv', {
+        method: 'POST', body: fd, headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.innerHTML = '<div style="color:var(--sand);font-size:0.95rem;padding:0.5rem 0;">✓ Thanks! We will be in touch soon.</div>';
+      } else {
+        btn.textContent = 'Try Again';
+        btn.style.opacity = '1';
+      }
+    } catch (err) {
+      btn.textContent = 'Try Again';
+      btn.style.opacity = '1';
+    }
+  });
+});
+</script>
+</body>
+</html>

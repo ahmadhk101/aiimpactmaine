@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Learn about AI Impact Maine — a Low-Profit LLC founded in Portland, Maine to help local organizations adopt AI responsibly, safely, and with long-term value."><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — AI Impact Maine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+
+<style>
+.about-main { background: white; }
+.about-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 6rem; align-items: start; }
+.about-sidebar { position: sticky; top: 90px; }
+.founder-card {
+  background: var(--navy); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem;
+}
+.founder-visual {
+  height: 280px; background: linear-gradient(140deg, var(--navy-mid) 0%, var(--teal) 100%);
+  display: flex; align-items: center; justify-content: center; position: relative;
+  overflow: hidden;
+}
+.founder-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(26,39,68,0.8)); }
+.founder-monogram {
+  font-family: 'Cormorant Garamond', serif; font-size: 5rem; font-weight: 700;
+  color: rgba(255,255,255,0.15); position: absolute; z-index: 0;
+}
+.founder-info { padding: 1.5rem 1.5rem 1.8rem; }
+.founder-info strong { display: block; color: white; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; margin-bottom: 0.2rem; }
+.founder-info span { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.values-card { background: var(--mist); border-radius: 12px; padding: 1.8rem; border: 1px solid var(--border); }
+.values-card h4 { font-family: 'DM Sans', sans-serif; font-size: 0.77rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.2rem; }
+.value-row { display: flex; gap: 0.7rem; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--navy); font-weight: 500; }
+.value-row:last-child { border: none; }
+.vdot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); min-width: 7px; }
+.about-content h2 { font-size: 1.9rem; margin-bottom: 1.2rem; }
+.about-content p { color: var(--text-light); font-size: 0.98rem; line-height: 1.85; margin-bottom: 1.3rem; }
+.l3c-box { background: var(--navy); border-radius: 10px; padding: 2rem; margin: 2rem 0; }
+.l3c-box h4 { font-family: 'DM Sans', sans-serif; font-size: 0.77rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); margin-bottom: 0.7rem; }
+.l3c-box p { color: rgba(255,255,255,0.72); font-size: 0.93rem; line-height: 1.75; margin: 0; }
+.principles-section { background: var(--off-white); }
+.principles-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-top: 3rem; }
+.principle-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 2rem 1.8rem; }
+.principle-card .p-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--sand); margin-bottom: 0.7rem; }
+.principle-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.principle-card p { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; }
+@media(max-width:900px){
+  .about-layout { grid-template-columns:1fr; gap:3rem; }
+  .about-sidebar { position: static; }
+  .principles-grid { grid-template-columns:1fr; }
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="About — AI Impact Maine">
+<meta property="og:description" content="Learn about AI Impact Maine, a Low-Profit LLC founded in Portland, Maine to help local organizations adopt AI responsibly.">
+<meta property="og:url" content="https://aiimpactmaine.com/about.html">
+<meta property="og:site_name" content="AI Impact Maine">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About — AI Impact Maine">
+<meta name="twitter:description" content="Learn about AI Impact Maine, a Low-Profit LLC founded in Portland, Maine to help local organizations adopt AI responsibly.">
+<link rel="canonical" href="https://aiimpactmaine.com/about.html">
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-grid"></div><div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <div class="page-hero-badge">About AI Impact Maine</div>
+    <h1>Mission-driven support with <em>practical business value.</em></h1>
+    <p>We founded AI Impact Maine because most Maine businesses are already using AI — but very few have the training, governance, or support to do it well.</p>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-indicator-dot"><div class="scroll-indicator-inner"></div></div>
+    <span>Scroll</span>
+  </div>
+</div>
+
+<!-- MAIN ABOUT -->
+<section class="section about-main">
+  <div class="section-inner">
+    <div class="about-layout">
+      <div class="about-sidebar">
+        <div class="founder-card">
+          <div class="founder-visual" style="background: linear-gradient(140deg, var(--navy-mid) 0%, var(--teal) 100%); overflow:hidden; position:relative;">
+            <div data-lottie="founder" data-lottie-height="300px" style="width:100%;height:300px;position:absolute;inset:0;opacity:0.9;"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(26,39,68,0.85));z-index:2;"></div>
+          </div>
+          <div class="founder-info">
+            <strong>AI Impact Maine</strong>
+            <span>Founded in Portland, Maine · 2026</span>
+          </div>
+        </div>
+        <div class="values-card">
+          <h4>Our Values</h4>
+          <div class="value-row"><div class="vdot"></div>Education first — always</div>
+          <div class="value-row"><div class="vdot"></div>Practical implementation over theory</div>
+          <div class="value-row"><div class="vdot"></div>Responsible AI, not AI hype</div>
+          <div class="value-row"><div class="vdot"></div>Long-term local impact in Maine</div>
+          <div class="value-row"><div class="vdot"></div>Plain language, not tech jargon</div>
+          <div class="value-row"><div class="vdot"></div>Accountability in every engagement</div>
+        </div>
+      </div>
+      <div class="about-content animate">
+        <span class="section-label">Our Story</span>
+        <h2>Built for Maine. Focused on what actually works.</h2>
+        <p>AI Impact Maine was founded to fill a real gap: most Maine businesses are already using AI — through tools like ChatGPT, Microsoft Copilot, Grammarly, and dozens of others — but few have the training, governance frameworks, or ongoing support to use it safely and strategically.</p>
+        <p>We bring practical business experience alongside a genuine commitment to responsible AI adoption. Our work is designed for real organizations — not just tech-forward companies, but construction firms, nonprofits, municipalities, professional services practices, and any organization navigating AI in its daily operations.</p>
+        <p>We speak plain English. We focus on outcomes. We stay focused on what matters most: helping your team understand AI well enough to use it responsibly — and benefit from it meaningfully.</p>
+        <p>As an organization rooted in Southern Maine, we care about the long-term health of the Maine business community. That's why we structured ourselves as an — a legal form that allows us to pursue both earned revenue and grant funding, keeping our mission accountable even as we grow.</p>
+
+        <div class="l3c-box">
+          <h4>Why an?</h4>
+          <p>A Low-Profit Limited Liability Company is a structure that prioritizes social mission alongside financial sustainability. It allows AI Impact Maine to pursue grant funding and mission-driven partnerships while delivering real, paid business services — ensuring our work is both financially viable and community-accountable. The low-profit LLC structure was chosen deliberately, not as a marketing label.</p>
+        </div>
+
+        <p>We are based in Portland, Maine and serve businesses throughout Southern Maine and statewide — onsite where it matters and virtually wherever needed.</p>
+        <div style="margin-top:2rem;">
+          <a href="contact.html" class="btn-primary">Start a Conversation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="section principles-section">
+  <div class="section-inner">
+    <span class="section-label">How We Work</span>
+    <h2 class="section-title">The principles that shape every engagement.</h2>
+    <div class="principles-grid stagger-children">
+      <div class="principle-card animate card-hover"><div class="p-num">01</div><h3>Education First</h3><p>Every service we offer starts from a commitment to genuine education — helping your team understand AI deeply enough to make good decisions, not just follow rules.</p></div>
+      <div class="principle-card animate card-hover"><div class="p-num">02</div><h3>Practical Over Perfect</h3><p>We don't wait for the perfect policy or the ideal moment. We help you build something real and workable now — and improve it over time as your organization grows into it.</p></div>
+      <div class="principle-card animate card-hover"><div class="p-num">03</div><h3>Responsible AI, Not AI Hype</h3><p>We don't evangelize AI. We help organizations use it thoughtfully — with clear eyes about the risks, honest assessment of the benefits, and policies that reflect both.</p></div>
+      <div class="principle-card animate card-hover"><div class="p-num">04</div><h3>Local Long-Term Impact</h3><p>We're here because we care about Maine's business community. Every engagement is designed with long-term value in mind — not just a deliverable to close a contract.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-section">
+  <div class="section-inner">
+    <span class="section-label">What People Say</span>
+    <h2 class="section-title">Organizations that have <em>worked with us.</em></h2>
+    <div class="testimonials-grid stagger-children">
+      <div class="testimonial-card animate">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">What I appreciated most was that they never oversold what AI can do. They helped us build a policy that's honest about the risks and actually reflects how our team works.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">M</div>
+          <div><div class="testimonial-name">Michelle D.</div><div class="testimonial-role">Director of Operations, Maine Nonprofit</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card animate">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">The audit was eye-opening. We had no idea how many AI tools were already embedded in our workflows. The report gave us a clear action plan — not just a list of problems.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">J</div>
+          <div><div class="testimonial-name">James H.</div><div class="testimonial-role">Owner, Southern Maine Professional Services</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card animate">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Plain English, practical advice, and real follow-through. Our team came out of the training actually understanding what responsible AI use looks like in their day-to-day work.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">K</div>
+          <div><div class="testimonial-name">Karen L.</div><div class="testimonial-role">Town Manager, Mid-Coast Maine Municipality</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Want to learn more about who we are?</h2>
+  <p>We're happy to have a conversation — no commitment, no pitch. Just a straightforward discussion about your organization and how we might help.</p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="btn-primary">Get in Touch</a>
+    <a href="funding.html" class="btn-outline">Explore Partnership Opportunities</a>
+  </div>
+</div>
+
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="funding.html">Funding</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog & Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+<script src="shared.js"></script>
+<script src="lottie.js"></script>
+</body>
+</html>

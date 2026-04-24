@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="AI Training workshops for Maine businesses and nonprofits. Practical, jargon-free sessions for leaders and staff. Custom curriculum built around your organization."><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Training — AI Impact Maine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+
+<style>
+.training-main { background: white; }
+.training-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: start; }
+.training-visual { position: sticky; top: 90px; }
+.process-box {
+  background: var(--mist); border-radius: 12px; padding: 2.5rem 2rem;
+  border: 1px solid var(--border);
+}
+.process-box h4 {
+  font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal);
+  margin-bottom: 1.5rem;
+}
+.formats-section { background: var(--off-white); }
+.formats-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-top: 3rem; }
+.format-card {
+  background: white; border: 1px solid var(--border); border-radius: 10px;
+  padding: 2rem 1.8rem; transition: box-shadow 0.3s;
+}
+.format-card:hover { box-shadow: 0 8px 30px rgba(26,39,68,0.1); }
+.format-icon { font-size: 2rem; margin-bottom: 1rem; }
+.format-card h3 { font-size: 1.15rem; margin-bottom: 0.6rem; }
+.format-card p { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; }
+.outcomes-section { background: white; }
+.outcomes-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; margin-top: 3rem; }
+.outcome-item {
+  background: var(--off-white); border-left: 3px solid var(--teal);
+  border-radius: 0 6px 6px 0; padding: 1.4rem 1.2rem;
+}
+.outcome-item p { font-size: 0.9rem; color: var(--text-body); line-height: 1.6; }
+@media(max-width:900px){
+  .training-grid { grid-template-columns:1fr; }
+  .training-visual { position: static; }
+  .formats-grid { grid-template-columns:1fr; }
+  .outcomes-grid { grid-template-columns:1fr; }
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Training — AI Impact Maine">
+<meta property="og:description" content="Practical AI training workshops for Maine businesses and nonprofits. Built for non-technical teams. Onsite or virtual.">
+<meta property="og:url" content="https://aiimpactmaine.com/training.html">
+<meta property="og:site_name" content="AI Impact Maine">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Training — AI Impact Maine">
+<meta name="twitter:description" content="Practical AI training workshops for Maine businesses and nonprofits. Built for non-technical teams. Onsite or virtual.">
+<link rel="canonical" href="https://aiimpactmaine.com/training.html">
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-grid"></div><div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <div class="page-hero-badge">Service 01 — AI Training</div>
+    <h1>Build real AI confidence <em>across your team.</em></h1>
+    <p>Practical workshops designed for leaders and staff — not tech experts. We build the curriculum around your organization, your tools, and your goals.</p>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-indicator-dot"><div class="scroll-indicator-inner"></div></div>
+    <span>Scroll</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<section class="section training-main">
+  <div class="section-inner">
+    <div class="training-grid">
+      <div class="training-content">
+        <span class="section-label">What It Is</span>
+        <h2 class="section-title">Training built for how your team actually works.</h2>
+        <p style="color:var(--text-light);font-size:1rem;line-height:1.8;margin-bottom:1.2rem;">Most AI training is too abstract, too technical, or built for audiences that don't match your team. We design every session around the real-world context your staff operates in — the tools they already use, the workflows they manage, and the questions they already have.</p>
+        <p style="color:var(--text-light);font-size:1rem;line-height:1.8;margin-bottom:2rem;">Whether you want a two-hour executive briefing or a multi-session curriculum for your full staff, we scope and deliver it clearly.</p>
+        <h3 style="font-size:1.3rem;margin-bottom:1rem;">What Training Delivers</h3>
+        <ul class="deliv-list">
+          <li>Better prompt writing and AI tool literacy across staff</li>
+          <li>Clear understanding of AI risks, biases, and limitations</li>
+          <li>Team-level responsible-use expectations and norms</li>
+          <li>Process improvement ideas from staff who use AI daily</li>
+          <li>Leadership alignment on AI adoption priorities</li>
+          <li>Foundation for a written AI acceptable-use policy</li>
+        </ul>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="contact.html" class="btn-primary">Request a Training Plan</a>
+          <a href="services.html" class="btn-teal-outline">View All Services</a>
+        </div>
+      </div>
+      <div class="training-visual animate">
+        <div style="margin-bottom:1rem;border-radius:10px;overflow:hidden;background:rgba(61,127,138,0.08);border:1px solid var(--border);">
+          <div data-lottie="training" data-lottie-height="200px" style="width:100%;height:200px;"></div>
+        </div>
+        <div class="process-box">
+          <h4>How We Deliver It</h4>
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-content"><h4>Needs Assessment</h4><p>We learn how your team currently uses AI and where the knowledge gaps and concerns are.</p></div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-content"><h4>Curriculum Design</h4><p>We build a session agenda tailored to your industry, team size, tools, and goals.</p></div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-content"><h4>Workshop Delivery</h4><p>Practical, engaging sessions using real examples from your business context.</p></div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-content"><h4>Follow-Through</h4><p>Summary materials, policy starters, and optional ongoing support to reinforce learning.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATS -->
+<section class="section formats-section">
+  <div class="section-inner">
+    <span class="section-label">Available Formats</span>
+    <h2 class="section-title">We fit your schedule and team size.</h2>
+    <div class="formats-grid stagger-children">
+      <div class="format-card animate card-hover"><div class="format-icon">🏢</div><h3>Executive Briefing</h3><p>A focused 2-hour session for leadership teams covering AI's business implications, governance basics, and strategic adoption questions.</p></div>
+      <div class="format-card animate card-hover"><div class="format-icon">👥</div><h3>Team Workshop</h3><p>Half-day or full-day hands-on sessions for departments or cross-functional groups, covering practical AI use in daily workflows.</p></div>
+      <div class="format-card animate card-hover"><div class="format-icon">🏭</div><h3>Industry-Specific Training</h3><p>Designed for a specific sector — construction, nonprofits, professional services — with examples and risks tailored to your industry context.</p></div>
+      <div class="format-card animate card-hover"><div class="format-icon">📋</div><h3>Policy-Oriented Session</h3><p>A workshop focused on helping your organization develop and adopt an internal AI acceptable-use policy with staff buy-in.</p></div>
+      <div class="format-card animate card-hover"><div class="format-icon">💻</div><h3>Virtual Delivery</h3><p>Full workshop experience delivered remotely — interactive, engaging, and accessible for distributed teams or hybrid work environments.</p></div>
+      <div class="format-card animate card-hover"><div class="format-icon">🎯</div><h3>Custom Curriculum</h3><p>Multi-session programs built from scratch for organizations with specific roles, tools, or compliance contexts that need a tailored approach.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTCOMES -->
+<section class="section outcomes-section">
+  <div class="section-inner">
+    <span class="section-label">Sample Training Outcomes</span>
+    <h2 class="section-title">What your team walks away with.</h2>
+    <div class="outcomes-grid stagger-children">
+      <div class="outcome-item animate"><p>Staff can write effective prompts and use AI tools with confidence and appropriate skepticism.</p></div>
+      <div class="outcome-item animate"><p>Leaders understand where AI adoption creates value — and where it creates risk for the organization.</p></div>
+      <div class="outcome-item animate"><p>Teams have clear, shared expectations for how AI should and shouldn't be used in daily work.</p></div>
+      <div class="outcome-item animate"><p>Staff understand data privacy and confidentiality considerations when using AI tools.</p></div>
+      <div class="outcome-item animate"><p>The organization has a starting framework for a written AI policy — ready to formalize.</p></div>
+      <div class="outcome-item animate"><p>Process improvement ideas surface from the people closest to the work — not just from leadership.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:var(--off-white);">
+  <div class="section-inner">
+    <span class="section-label">Common Questions</span>
+    <h2 class="section-title">Questions about AI Training.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question">How long is a typical training workshop?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Formats range from a focused 2-hour executive briefing to full-day or multi-session programs. We scope the format during a free discovery call based on your team size, goals, and schedule.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Our team has very different technical levels — can you accommodate that?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Absolutely. We design sessions for non-technical audiences by default — no coding, no jargon. For teams with mixed backgrounds we use layered examples, so everyone from the CEO to a front-line staff member walks away with something useful.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can training be delivered virtually?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Yes. We offer fully remote workshops via Zoom or Teams that are just as interactive and engaging as in-person sessions. We also offer hybrid delivery for organizations with distributed teams.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What materials do participants receive?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Every session includes a written summary, key takeaways, and a starter framework for an AI acceptable-use policy. We can also provide customized reference guides specific to your industry or tools.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Is there grant funding available for training?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Potentially yes — particularly for nonprofits, municipalities, and workforce development contexts. We can discuss funding options including the Harold Alfond Center / MWDC Compact reimbursement program during your discovery call.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to build AI confidence across your team?</h2>
+  <p>Tell us about your organization and we'll put together a tailored training plan — no commitment required.</p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="btn-primary">Request a Training Plan</a>
+    <a href="audit.html" class="btn-outline">Also Explore: AI Audit →</a>
+  </div>
+</div>
+
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="funding.html">Funding</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog & Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+<script src="shared.js"></script>
+<script src="lottie.js"></script>
+</body>
+</html>

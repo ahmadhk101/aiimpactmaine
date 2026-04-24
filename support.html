@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Ongoing AI advisory support for Maine organizations. Monthly or quarterly retainer engagements with defined scope, deliverables, and real accountability."><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ongoing AI Support — AI Impact Maine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+
+<style>
+.support-main { background: white; }
+.support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.what-box { background: var(--mist); border-radius: 12px; padding: 2.5rem 2rem; border: 1px solid var(--border); position: sticky; top: 90px; }
+.what-box h4 { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.5rem; }
+.check-item { display: flex; gap: 0.8rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.check-item:last-child { border: none; }
+.check-icon { width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: rgba(61,127,138,0.15); display: flex; align-items: center; justify-content: center; }
+.check-icon svg { width: 14px; height: 14px; stroke: var(--teal); fill: none; stroke-width: 2.5; }
+.check-item h5 { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
+.check-item p { font-size: 0.84rem; color: var(--text-light); line-height: 1.5; }
+.tiers-section { background: var(--off-white); }
+.tiers-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-top: 3rem; }
+.tier-card { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.tier-card.featured { border-color: var(--teal); box-shadow: 0 8px 30px rgba(61,127,138,0.15); }
+.tier-header { padding: 2rem 2rem 1.5rem; background: var(--off-white); border-bottom: 1px solid var(--border); }
+.tier-card.featured .tier-header { background: var(--navy); border-bottom-color: rgba(255,255,255,0.1); }
+.tier-badge { display: inline-block; background: var(--teal); color: white; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 3px; margin-bottom: 0.8rem; }
+.tier-header h3 { font-size: 1.3rem; }
+.tier-card.featured .tier-header h3 { color: white; }
+.tier-header .price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--teal); margin-top: 0.4rem; }
+.tier-card.featured .price { color: var(--sand); }
+.tier-header .price-note { font-size: 0.78rem; color: var(--text-light); }
+.tier-card.featured .price-note { color: rgba(255,255,255,0.5); }
+.tier-body { padding: 1.8rem 2rem; }
+.tier-body ul { list-style: none; }
+.tier-body li { padding: 0.5rem 0; font-size: 0.9rem; color: var(--text-body); border-bottom: 1px solid var(--mist); padding-left: 1.4rem; position: relative; }
+.tier-body li::before { content: '✓'; position: absolute; left: 0; color: var(--teal); font-weight: 700; }
+.tier-body li:last-child { border: none; }
+.tier-cta { padding: 0 2rem 2rem; }
+.not-vague { background: white; }
+.nv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.nv-text p { color: var(--text-light); font-size:1rem; line-height:1.8; margin-bottom:1rem; }
+.nv-points { display: grid; gap: 1rem; }
+.nv-point { background: var(--mist); border-radius: 8px; padding: 1.3rem 1.2rem; }
+.nv-point h4 { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.3rem; }
+.nv-point p { font-size: 0.85rem; color: var(--text-light); line-height: 1.55; margin:0; }
+@media(max-width:900px){
+  .support-grid { grid-template-columns:1fr; }
+  .what-box { position: static; }
+  .tiers-grid { grid-template-columns:1fr; }
+  .nv-grid { grid-template-columns:1fr; }
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ongoing AI Support — AI Impact Maine">
+<meta property="og:description" content="Monthly and quarterly AI advisory support for Maine organizations. Defined scope, clear deliverables, real accountability.">
+<meta property="og:url" content="https://aiimpactmaine.com/support.html">
+<meta property="og:site_name" content="AI Impact Maine">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ongoing AI Support — AI Impact Maine">
+<meta name="twitter:description" content="Monthly and quarterly AI advisory support for Maine organizations. Defined scope, clear deliverables, real accountability.">
+<link rel="canonical" href="https://aiimpactmaine.com/support.html">
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-grid"></div><div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <div class="page-hero-badge">Service 03 — Ongoing AI Support</div>
+    <h1>Turn one-time training into <em>lasting capability.</em></h1>
+    <p>Retained advisory support that keeps your organization ahead of AI changes, policy updates, and emerging risks — on a schedule that works for you.</p>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-indicator-dot"><div class="scroll-indicator-inner"></div></div>
+    <span>Scroll</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<section class="section support-main">
+  <div class="section-inner">
+    <div class="support-grid">
+      <div>
+        <span class="section-label">What It Is</span>
+        <h2 class="section-title">Structured advisory support. Not vague consulting.</h2>
+        <p style="color:var(--text-light);font-size:1rem;line-height:1.8;margin-bottom:1.2rem;">After training or an audit, most organizations face the same challenge: the work of responsible AI adoption is ongoing. Tools change. Staff turn over. Policies need updating. New risks emerge.</p>
+        <p style="color:var(--text-light);font-size:1rem;line-height:1.8;margin-bottom:1.5rem;">Ongoing Support gives your organization a trusted place to go with real AI questions — on a defined schedule with clear deliverables, not an open-ended retainer that drifts.</p>
+        <ul class="deliv-list">
+          <li>Monthly or quarterly advisory sessions with a defined agenda</li>
+          <li>AI policy maintenance and updates as tools and regulations evolve</li>
+          <li>Vendor and tool evaluation — new AI software reviewed before adoption</li>
+          <li>Implementation follow-through for initiatives started in training or audit</li>
+          <li>Internal Q&A support for staff AI questions routed through your contact</li>
+          <li>Proactive alerts to emerging AI risks relevant to your industry</li>
+        </ul>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="contact.html" class="btn-primary">Explore Ongoing Support</a>
+          <a href="services.html" class="btn-teal-outline">View All Services</a>
+        </div>
+      </div>
+      <div class="animate">
+        <div style="margin-bottom:1rem;border-radius:10px;overflow:hidden;background:rgba(61,127,138,0.08);border:1px solid var(--border);">
+          <div data-lottie="support" data-lottie-height="200px" style="width:100%;height:200px;"></div>
+        </div>
+        <div class="what-box">
+          <h4>What Each Engagement Includes</h4>
+          <div class="check-item">
+            <div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><h5>Defined Scope</h5><p>Every engagement starts with a clear scope — no ambiguity about what's included.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><h5>Regular Touchpoints</h5><p>Monthly or quarterly sessions with an agenda, follow-up notes, and action items.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><h5>Policy as a Living Document</h5><p>Your AI policy stays current — reviewed and updated as tools and regulations shift.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><h5>Real Accountability</h5><p>Deliverables, not promises. You'll always know what you received each month.</p></div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div><h5>Flexible Scheduling</h5><p>Onsite, virtual, or hybrid — we work around your team's availability.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGAGEMENT TIERS -->
+<section class="section tiers-section">
+  <div class="section-inner">
+    <span class="section-label">Engagement Options</span>
+    <h2 class="section-title">Choose the level that fits your needs.</h2>
+    <p class="section-intro">Pricing is discussed during your discovery call and tailored to your organization's size and scope. These tiers reflect typical engagement structures.</p>
+    <div class="tiers-grid stagger-children">
+      <div class="tier-card animate">
+        <div class="tier-header">
+          <h3>Quarterly Advisory</h3>
+          <div class="price">Quarterly<span class="price-note"> / engagement</span></div>
+        </div>
+        <div class="tier-body"><ul>
+          <li>One advisory session per quarter</li>
+          <li>Pre-session agenda preparation</li>
+          <li>Written session notes and action items</li>
+          <li>Policy review once per year</li>
+          <li>Email Q&A support between sessions</li>
+          <li>Good for: smaller organizations with lighter AI usage</li>
+        </ul></div>
+        <div class="tier-cta"><a href="contact.html" class="btn-teal-outline" style="width:100%;text-align:center;">Get Started</a></div>
+      </div>
+      <div class="tier-card featured animate">
+        <div class="tier-header">
+          <div class="tier-badge">Most Popular</div>
+          <h3>Monthly Advisory</h3>
+          <div class="price">Monthly<span class="price-note"> / retainer</span></div>
+        </div>
+        <div class="tier-body"><ul>
+          <li>Monthly advisory sessions</li>
+          <li>Pre-session agenda preparation</li>
+          <li>Written notes and action tracking</li>
+          <li>Ongoing policy maintenance and updates</li>
+          <li>Vendor and tool evaluation support</li>
+          <li>Priority email and async Q&A support</li>
+          <li>Good for: growing organizations actively using AI</li>
+        </ul></div>
+        <div class="tier-cta"><a href="contact.html" class="btn-primary" style="width:100%;text-align:center;">Get Started</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOT VAGUE -->
+<section class="section not-vague">
+  <div class="section-inner">
+    <div class="nv-grid">
+      <div class="nv-text">
+        <span class="section-label">Why It's Different</span>
+        <h2 class="section-title">This is advisory support, not open-ended consulting.</h2>
+        <p>Most consulting relationships drift. There's no clear scope, no defined deliverables, and no real accountability for outcomes. You end up paying for access to someone who shows up when asked.</p>
+        <p>Ongoing Support with AI Impact Maine is structured differently — defined scope, regular cadence, written deliverables every engagement, and a clear understanding of what you're getting and when.</p>
+      </div>
+      <div class="nv-points stagger-children">
+        <div class="nv-point animate"><h4>Defined Deliverables</h4><p>Every session ends with written notes, action items, and clear next steps. No guessing what you received.</p></div>
+        <div class="nv-point animate"><h4>Proactive, Not Reactive</h4><p>We flag emerging AI risks relevant to your industry before they become problems — not just answer questions when you have them.</p></div>
+        <div class="nv-point animate"><h4>Mission Accountability</h4><p>As an, we're structured around long-term local impact — not just billable hours. That shapes how we work.</p></div>
+        <div class="nv-point animate"><h4>Easy to Scale</h4><p>Need more or less engagement as your needs change? Scope adjusts at each renewal — no locked-in contracts.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:var(--off-white);">
+  <div class="section-inner">
+    <span class="section-label">Common Questions</span>
+    <h2 class="section-title">Questions about Ongoing Support.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-question">Do we need to complete training or an audit first?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>No — while Ongoing Support works naturally as a follow-on to training or an audit, we're happy to discuss starting fresh. We'll do a scoping call to understand where you are and design engagement that fits.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What does a typical monthly session look like?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Each session has a pre-shared agenda, covers your open AI questions and policy updates, and ends with written notes and clear action items. Sessions are typically 60–90 minutes via video call, though we can meet onsite for Southern Maine clients.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Can we pause or cancel if our needs change?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Yes. Engagements are structured around renewal periods — monthly or quarterly — and scope adjusts at each renewal. There are no long-term locked-in contracts.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">What if we just have occasional questions between sessions?<div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+        <div class="faq-answer"><p>Both tiers include async email support between sessions. For Monthly Advisory clients, we prioritize response within one business day. You're never left waiting until the next scheduled call for something urgent.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Build lasting AI capability for your organization.</h2>
+  <p>Ongoing Support works best as a follow-on to training or an audit — but we're happy to discuss starting fresh too.</p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="btn-primary">Explore Ongoing Support</a>
+    <a href="training.html" class="btn-outline">Also Explore: AI Training →</a>
+  </div>
+</div>
+
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="funding.html">Funding</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog & Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+<script src="shared.js"></script>
+<script src="lottie.js"></script>
+</body>
+</html>

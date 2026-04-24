@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="AI governance and responsible AI adoption insights for Maine businesses from AI Impact Maine.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article — AI Impact Maine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.post-layout { display:grid; grid-template-columns:1fr 300px; gap:5rem; align-items:start; }
+.post-body { max-width:700px; }
+.post-body h2 { font-size:1.7rem; margin:2.2rem 0 0.8rem; }
+.post-body h3 { font-size:1.25rem; margin:1.8rem 0 0.6rem; color:var(--teal); font-family:'DM Sans',sans-serif; font-weight:600; }
+.post-body p { color:var(--text-light); line-height:1.9; margin-bottom:1.1rem; font-size:0.97rem; }
+.post-body ul,.post-body ol { color:var(--text-light); padding-left:1.4rem; margin-bottom:1.1rem; }
+.post-body li { margin-bottom:0.4rem; font-size:0.97rem; line-height:1.8; }
+.post-body blockquote {
+  border-left:3px solid var(--teal); margin:1.5rem 0;
+  padding:1rem 1.5rem; background:rgba(61,127,138,0.05); border-radius:0 8px 8px 0;
+}
+.post-body blockquote p { color:var(--text-body); font-style:italic; margin:0; }
+.post-meta { display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--border); }
+.post-tag { background:rgba(61,127,138,0.1); color:var(--teal); border-radius:20px; padding:0.25rem 0.75rem; font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-family:'DM Sans',sans-serif; }
+.post-meta-date { font-size:0.82rem; color:var(--text-light); }
+.post-meta-read { font-size:0.82rem; color:var(--text-light); }
+.post-sidebar { position:sticky; top:90px; }
+.sidebar-card { background:white; border:1px solid var(--border); border-radius:10px; padding:1.8rem; margin-bottom:1.5rem; }
+.sidebar-card h4 { font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); margin-bottom:1rem; }
+.sidebar-link { display:block; font-size:0.88rem; color:var(--text-body); text-decoration:none; padding:0.5rem 0; border-bottom:1px solid var(--mist); transition:color 0.2s,padding-left 0.2s; }
+.sidebar-link:last-child { border:none; }
+.sidebar-link:hover { color:var(--teal); padding-left:4px; }
+.post-cta-box { background:var(--navy); border-radius:10px; padding:2rem; text-align:center; }
+.post-cta-box h4 { color:white; font-size:1.1rem; margin-bottom:0.6rem; }
+.post-cta-box p { color:rgba(255,255,255,0.6); font-size:0.85rem; line-height:1.7; margin-bottom:1.2rem; }
+.post-share { display:flex; gap:0.5rem; margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--border); align-items:center; }
+.post-share span { font-size:0.8rem; font-weight:600; color:var(--text-light); font-family:'DM Sans',sans-serif; letter-spacing:0.05em; text-transform:uppercase; margin-right:0.5rem; }
+.share-btn { display:flex; align-items:center; gap:0.4rem; background:var(--mist); border:none; border-radius:6px; padding:0.5rem 0.9rem; font-size:0.8rem; font-weight:600; color:var(--text-body); cursor:pointer; transition:background 0.2s; font-family:'DM Sans',sans-serif; }
+.share-btn:hover { background:var(--border); }
+.video-embed { position:relative; padding-bottom:56.25%; height:0; margin:2rem 0; border-radius:10px; overflow:hidden; box-shadow:0 8px 28px rgba(26,39,68,0.12); background:#000; }
+.video-embed iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+.video-caption { font-size:0.82rem; color:var(--text-light); text-align:center; margin-top:-1.2rem; margin-bottom:2rem; font-style:italic; }
+.source-link-box { background:var(--mist); border-left:3px solid var(--teal); border-radius:0 8px 8px 0; padding:1.2rem 1.5rem; margin:2rem 0; }
+.source-link-box p { margin:0; font-size:0.88rem; color:var(--text-body); }
+.source-link-box a { color:var(--teal); font-weight:600; text-decoration:none; }
+.source-link-box a:hover { text-decoration:underline; }
+@media(max-width:900px){ .post-layout{grid-template-columns:1fr;} .post-sidebar{position:static;} }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<main id="main">
+<!-- Article Hero -->
+<div class="page-hero" style="padding-bottom:5rem;">
+  <div class="page-hero-grid"></div><div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <div style="margin-bottom:1rem;">
+      <a href="blog.html" style="color:var(--sand);font-size:0.78rem;text-decoration:none;font-family:'DM Sans',sans-serif;letter-spacing:0.06em;text-transform:uppercase;opacity:0.8;">← Blog & Resources</a>
+    </div>
+    <div class="page-hero-badge">Governance</div>
+    <h1>What Every Maine Business Needs to Know About <em>AI Policy in 2026</em></h1>
+    <p>Most Maine businesses are already using AI — but fewer than 30% have any written policy in place. Here's what a practical, enforceable AI acceptable-use policy looks like.</p>
+  </div>
+</div>
+
+<section class="section" style="background:white;padding-top:4rem;">
+  <div class="section-inner">
+    <div class="post-layout">
+
+      <article class="post-body animate-left">
+        <div class="post-meta">
+          <span class="post-tag">Governance</span>
+          <span class="post-meta-date">April 2026</span>
+          <span class="post-meta-read">8 min read</span>
+        </div>
+
+        <p>If you're running a business in Maine in 2026, there's a good chance your team is already using AI — whether you know it or not. Tools like Microsoft 365 Copilot, Grammarly, ChatGPT, and dozens of others have become embedded in daily workflows across every industry, from construction to nonprofits to professional services.</p>
+
+        <p>The problem isn't that people are using AI. The problem is that most organizations have no policy in place governing how it should be used, what data can be shared with these tools, and who is responsible when things go wrong.</p>
+
+        <!-- VIDEO EMBED -->
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/Q020C-Jw0o8"
+            title="AI Governance Explained"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <p class="video-caption">A practical overview of AI governance — what it means and why it matters</p>
+
+        <blockquote><p>"A policy isn't about restricting AI use — it's about ensuring your organization gets the benefits of AI without the legal, reputational, or operational risks that come from using it blindly."</p></blockquote>
+
+        <h2>Why Your Organization Needs an AI Policy Now</h2>
+        <p>Without a written AI policy, you're leaving critical decisions to individual judgment — and individual judgment varies enormously. One staff member might understand that client data shouldn't be pasted into ChatGPT. Another might not. One leader might approve AI use for drafting contracts. Another might use it to make hiring decisions without realizing the legal implications.</p>
+        <p>An AI acceptable-use policy creates a consistent, defensible standard. It tells your staff what's expected, tells your clients and funders how you operate, and tells you where your exposure is.</p>
+
+        <h2>The Five Elements of a Workable AI Policy</h2>
+        <p>You don't need a 40-page legal document. A practical AI policy for a small or mid-size Maine organization covers five things:</p>
+        <ol>
+          <li><strong>Scope</strong> — Which AI tools are approved for use, and for what purposes</li>
+          <li><strong>Data rules</strong> — What information may and may not be shared with AI systems</li>
+          <li><strong>Accountability</strong> — Who is responsible for AI-generated outputs before they're used or shared</li>
+          <li><strong>Prohibited uses</strong> — What AI explicitly cannot be used for in your organization</li>
+          <li><strong>Review process</strong> — How often the policy is reviewed and who owns updates</li>
+        </ol>
+
+        <h2>Common Mistakes Maine Organizations Make</h2>
+        <p>In our work with organizations across Southern Maine, we see the same gaps repeatedly. Policies that exist on paper but were never shared with staff. Lists of approved tools that haven't been updated since 2023. Blanket bans on AI that are impossible to enforce. Policies borrowed from a tech company that don't reflect the realities of a trades firm or a nonprofit.</p>
+        <p>A good policy is specific to your organization, realistic about how staff actually work, and written in plain English that everyone can understand — not just your compliance officer.</p>
+
+        <h2>How the Enterprise World Is Approaching This</h2>
+        <p>Large enterprises have been thinking about AI governance for several years now, with companies like IBM building entire consulting practices around the topic. Their approach — frameworks, ethics boards, audit trails, continuous monitoring — is overkill for a 20-person Maine business, but the underlying principles still apply at any scale: know what AI you're using, decide what's acceptable, document your decisions, and check back regularly.</p>
+
+        <div class="source-link-box">
+          <p><strong>Further reading:</strong> IBM has published a detailed overview of enterprise AI governance consulting that's worth a skim for anyone wanting to understand how the largest organizations are tackling this. <a href="https://www.ibm.com/consulting/ai-governance" target="_blank" rel="noopener">Read the full IBM article →</a></p>
+        </div>
+
+        <h2>Getting Started Without Overthinking It</h2>
+        <p>The best AI policy is the one you can actually implement. Start with what you know: what tools are being used, what your biggest data risks are, and what your staff are most confused about. Build from there. You can always refine as the landscape evolves.</p>
+        <p>If you're not sure where to start, our <a href="assessment.html" style="color:var(--teal);">free AI Readiness Assessment</a> takes under 3 minutes and gives you a clear picture of where your organization stands today. Or book a <a href="contact.html" style="color:var(--teal);">free discovery call</a> and we'll help you figure out what you actually need.</p>
+
+        <!-- Share -->
+        <div class="post-share">
+          <span>Share</span>
+          <button class="share-btn" onclick="navigator.clipboard.writeText(window.location.href);this.textContent='✓ Copied'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            Copy Link
+          </button>
+          <button class="share-btn" onclick="window.open('mailto:?subject=AI Policy for Maine Businesses&body='+window.location.href)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </button>
+        </div>
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="post-sidebar animate-right">
+        <div class="post-cta-box" style="margin-bottom:1.5rem;">
+          <h4>Free AI Assessment</h4>
+          <p>Find out where your organization stands with AI in under 3 minutes.</p>
+          <a href="assessment.html" class="btn-primary" style="display:block;text-align:center;">Start Free Assessment →</a>
+        </div>
+        <div class="sidebar-card">
+          <h4>Related Articles</h4>
+          <a href="blog-post-governance-checklist.html" class="sidebar-link">The 5-Step AI Governance Checklist for Small Organizations</a>
+          <a href="blog-post-nonprofit-funders.html" class="sidebar-link">AI Risk for Maine Nonprofits: What Funders Are Asking</a>
+          <a href="blog-post-ai-tools-overview.html" class="sidebar-link">The AI Tools Your Staff Are Probably Already Using</a>
+          <a href="blog-post-municipalities.html" class="sidebar-link">Why Maine Municipalities Are Behind on AI Governance</a>
+        </div>
+        <div class="sidebar-card">
+          <h4>Our Services</h4>
+          <a href="audit.html" class="sidebar-link">AI Process Audit →</a>
+          <a href="training.html" class="sidebar-link">AI Training Workshop →</a>
+          <a href="support.html" class="sidebar-link">Ongoing Advisory Support →</a>
+          <a href="contact.html" class="sidebar-link">Book a Free Call →</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to build your AI policy?</h2>
+  <p>We can help you create a practical, enforceable AI acceptable-use policy tailored to your organization. Start with a free discovery call.</p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="btn-primary">Book a Free Call</a>
+    <a href="audit.html" class="btn-outline">Learn About AI Audits →</a>
+  </div>
+</div>
+
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="funding.html">Funding</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog &amp; Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+</main>
+<script src="shared.js"></script>
+<script src="lottie.js"></script>
+</body>
+</html>

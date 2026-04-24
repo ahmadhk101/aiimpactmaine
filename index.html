@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="AI Impact Maine provides responsible AI training, process audits, and ongoing advisory support for Maine businesses, nonprofits, and organizations. Based in Portland, ME.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Impact Maine — Responsible AI for Maine Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+
+<style>
+/* HOME-SPECIFIC */
+.hero {
+  min-height: 100vh;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 100px 6% 80px;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+}
+.hero-glow {
+  position: absolute; top: -15%; right: -5%;
+  width: 65vw; height: 110vh;
+  background: radial-gradient(ellipse, rgba(61,127,138,0.2) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-glow2 {
+  position: absolute; bottom: -20%; left: -10%;
+  width: 40vw; height: 60vh;
+  background: radial-gradient(ellipse, rgba(200,184,154,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+}
+.hero-left { animation: fadeUp 0.9s ease both; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(200,184,154,0.12);
+  border: 1px solid rgba(200,184,154,0.3);
+  color: var(--sand); font-size: 0.76rem; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.35rem 0.9rem; border-radius: 2px; margin-bottom: 2rem;
+}
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sand); }
+.hero h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: white; font-size: clamp(2.8rem, 5vw, 4.4rem);
+  font-weight: 600; line-height: 1.15; margin-bottom: 1.5rem;
+}
+.hero h1 em { font-style: italic; color: var(--sand); }
+.hero-sub {
+  color: rgba(255,255,255,0.65); font-size: 1.08rem; font-weight: 300;
+  max-width: 500px; line-height: 1.8; margin-bottom: 2.8rem;
+}
+.hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-right { position: relative; animation: fadeUp 0.9s 0.2s ease both; }
+.hero-card-stack { position: relative; }
+.hero-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; padding: 1.6rem 1.8rem; margin-bottom: 1rem;
+  backdrop-filter: blur(4px); transition: background 0.3s;
+}
+.hero-card:hover { background: rgba(255,255,255,0.1); }
+.hero-card-icon {
+  width: 38px; height: 38px; border-radius: 7px;
+  background: rgba(61,127,138,0.25); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 0.8rem;
+}
+.hero-card-icon svg { width: 18px; height: 18px; stroke: var(--teal-light); fill: none; stroke-width: 1.8; }
+.hero-card h4 { color: white; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+.hero-card p { color: rgba(255,255,255,0.55); font-size: 0.84rem; line-height: 1.5; }
+
+/* MISSION STRIP */
+.mission-strip {
+  background: var(--teal); padding: 1.5rem 6%;
+  display: flex; align-items: center; justify-content: center;
+}
+.mission-strip p {
+  color: white; font-size: 0.9rem; max-width: 800px;
+  text-align: center; line-height: 1.65;
+}
+.mission-strip strong { font-weight: 700; }
+
+/* TRUST BAR */
+.trust-bar {
+  background: var(--off-white); border-bottom: 1px solid var(--border);
+  padding: 2rem 6%;
+}
+.trust-items {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.87rem; font-weight: 500; color: var(--navy);
+}
+.trust-item svg { width: 18px; height: 18px; stroke: var(--teal); fill: none; stroke-width: 2; }
+
+/* HOME SERVICES */
+.home-services { background: white; }
+.services-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem;
+}
+.service-card {
+  background: var(--off-white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 2.2rem 1.8rem;
+  transition: box-shadow 0.3s, transform 0.3s; position: relative; overflow: hidden;
+}
+.service-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--sand));
+  transform: scaleX(0); transition: transform 0.3s; transform-origin: left;
+}
+.service-card:hover { box-shadow: 0 10px 40px rgba(26,39,68,0.1); transform: translateY(-4px); }
+.service-card:hover::after { transform: scaleX(1); }
+.service-icon {
+  width: 46px; height: 46px; border-radius: 9px;
+  background: rgba(61,127,138,0.1); display: flex; align-items: center;
+  justify-content: center; margin-bottom: 1.3rem;
+}
+.service-icon svg { width: 22px; height: 22px; stroke: var(--teal); fill: none; stroke-width: 1.8; }
+.service-card h3 { font-size: 1.2rem; margin-bottom: 0.65rem; }
+.service-card p { color: var(--text-light); font-size: 0.92rem; line-height: 1.7; margin-bottom: 1.2rem; }
+.service-link {
+  color: var(--teal); font-size: 0.85rem; font-weight: 600;
+  text-decoration: none; letter-spacing: 0.04em;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  transition: gap 0.2s;
+}
+.service-link:hover { gap: 0.6rem; }
+
+/* WHY NOW */
+.why-now { background: var(--navy); }
+.why-now .section-title { color: white; }
+.why-now .section-label { color: var(--sand); }
+.why-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+}
+.why-text p { color: rgba(255,255,255,0.7); font-size: 1rem; line-height: 1.8; margin-bottom: 1.1rem; }
+.why-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.stat-box {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 9px; padding: 1.8rem 1.4rem; text-align: center;
+}
+.stat-box .num {
+  font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 700;
+  color: var(--sand); display: block; margin-bottom: 0.3rem;
+}
+.stat-box .lbl { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.4; }
+
+/* WHO WE SERVE */
+.who-serve { background: var(--off-white); }
+.audience-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 2.5rem;
+}
+.audience-pill {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.8rem 1rem 1.4rem; text-align: center;
+  font-size: 0.92rem; font-weight: 600; color: var(--navy);
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+  cursor: default;
+}
+.audience-pill:hover {
+  border-color: var(--teal);
+  box-shadow: 0 8px 28px rgba(61,127,138,0.14);
+  transform: translateY(-4px);
+}
+.audience-pill span { display: block; font-size: 1.6rem; margin-bottom: 0.5rem; }
+
+/* MAP SECTION */
+.map-section { background: white; padding: 5rem 6%; }
+.map-section .section-inner { max-width: 1100px; margin: 0 auto; }
+.map-wrapper {
+  margin-top: 2.5rem; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--border); box-shadow: 0 8px 40px rgba(26,39,68,0.1);
+  position: relative;
+}
+.map-wrapper iframe { width: 100%; height: 420px; border: none; display: block; }
+.map-overlay-badge {
+  position: absolute; bottom: 1.5rem; left: 1.5rem;
+  background: var(--navy); color: white; border-radius: 8px;
+  padding: 1rem 1.4rem; display: flex; align-items: center; gap: 0.8rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.map-overlay-badge svg { width: 20px; height: 20px; stroke: var(--sand); fill: none; stroke-width: 2; min-width: 20px; }
+.map-overlay-badge strong { display: block; font-size: 0.9rem; font-weight: 600; color: white; }
+.map-overlay-badge span { font-size: 0.78rem; color: rgba(255,255,255,0.65); }
+
+/* CTA BAND */
+.cta-band {
+  background: linear-gradient(135deg, var(--navy) 0%, #1d3a5f 100%);
+  padding: 5.5rem 6%; text-align: center; position: relative; overflow: hidden;
+}
+.cta-band::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(61,127,138,0.18), transparent 65%);
+  pointer-events: none;
+}
+.cta-band h2 { color: white; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; position: relative; }
+.cta-band p { color: rgba(255,255,255,0.65); font-size: 1.05rem; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.75; position: relative; }
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+
+@media(max-width:900px){
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-right { display: none; }
+  .services-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .why-stats { grid-template-columns: 1fr 1fr; }
+  .audience-grid { grid-template-columns: repeat(2,1fr); }
+  .home-quiz .section-inner > div > div[style*="grid-template-columns:repeat(5"] { grid-template-columns: repeat(5, 1fr) !important; }
+}
+@media(max-width:600px){
+  .audience-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .why-stats { grid-template-columns: 1fr; }
+  .home-quiz .section-inner > div > div[style*="grid-template-columns:repeat(5"] { grid-template-columns: repeat(2, 1fr) !important; gap:0.6rem !important; }
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Impact Maine — Responsible AI for Maine Businesses">
+<meta property="og:description" content="Responsible AI training, governance audits, and ongoing advisory for Maine businesses and nonprofits. Based in Portland, ME.">
+<meta property="og:url" content="https://aiimpactmaine.com/index.html">
+<meta property="og:site_name" content="AI Impact Maine">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Impact Maine — Responsible AI for Maine Businesses">
+<meta name="twitter:description" content="Responsible AI training, governance audits, and ongoing advisory for Maine businesses and nonprofits. Based in Portland, ME.">
+<link rel="canonical" href="https://aiimpactmaine.com/index.html">
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge"><div class="badge-dot"></div>Maine-Based · · Mission-Driven</div>
+      <h1>Responsible AI for <em data-typewriter="Maine nonprofits.|construction firms.|municipalities.|professional services.|small businesses.|educational orgs.">Maine businesses</em></h1>
+      <p class="hero-sub">We help Maine organizations understand, govern, and improve how they use AI — through training, audits, and ongoing advisory support.</p>
+      <div class="hero-buttons">
+        <a href="contact.html" class="btn-primary">Book a Consultation</a>
+        <a href="services.html" class="btn-outline">Explore Services</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card-stack">
+        <div class="hero-card">
+          <div class="hero-card-icon" style="width:120px;height:120px;background:transparent;margin-bottom:0.5rem;">
+            <div data-lottie="training" data-lottie-height="120px" style="width:120px;height:120px;"></div>
+          </div>
+          <h4>AI Training</h4>
+          <p>Workshops for leaders and teams — building real confidence in AI use.</p>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon" style="width:120px;height:120px;background:transparent;margin-bottom:0.5rem;">
+            <div data-lottie="audit" data-lottie-height="120px" style="width:120px;height:120px;"></div>
+          </div>
+          <h4>AI Process Audit</h4>
+          <p>Know where AI is being used in your organization — and where the risks are.</p>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon" style="width:120px;height:120px;background:transparent;margin-bottom:0.5rem;">
+            <div data-lottie="support" data-lottie-height="120px" style="width:120px;height:120px;"></div>
+          </div>
+          <h4>Ongoing Support</h4>
+          <p>Retained advisory for policy, adoption, and long-term AI capability.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-indicator-dot"><div class="scroll-indicator-inner"></div></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- LOGO BAR -->
+<div class="logo-bar">
+  <div class="logo-bar-label">Maine Organizations We Serve</div>
+  <div class="logo-track-wrapper">
+    <div class="logo-track">
+      <!-- Set 1 -->
+      <div class="logo-item"><div class="logo-item-icon">⚓</div><div class="logo-item-name">Portland Sea Dogs</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏗️</div><div class="logo-item-name">Cianbro Corp</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏥</div><div class="logo-item-name">MaineHealth</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🎓</div><div class="logo-item-name">USM</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏛️</div><div class="logo-item-name">City of Portland</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🌊</div><div class="logo-item-name">Maine Coast Heritage Trust</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏦</div><div class="logo-item-name">Bangor Savings Bank</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🧁</div><div class="logo-item-name">Standard Baking Co</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🦞</div><div class="logo-item-name">Maine Lobstermen's Assoc</div></div>
+      <div class="logo-item"><div class="logo-item-icon">📦</div><div class="logo-item-name">Idexx Laboratories</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🌲</div><div class="logo-item-name">Sappi North America</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏨</div><div class="logo-item-name">Inn by the Sea</div></div>
+      <!-- Set 2 (duplicate for seamless loop) -->
+      <div class="logo-item"><div class="logo-item-icon">⚓</div><div class="logo-item-name">Portland Sea Dogs</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏗️</div><div class="logo-item-name">Cianbro Corp</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏥</div><div class="logo-item-name">MaineHealth</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🎓</div><div class="logo-item-name">USM</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏛️</div><div class="logo-item-name">City of Portland</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🌊</div><div class="logo-item-name">Maine Coast Heritage Trust</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏦</div><div class="logo-item-name">Bangor Savings Bank</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🧁</div><div class="logo-item-name">Standard Baking Co</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🦞</div><div class="logo-item-name">Maine Lobstermen's Assoc</div></div>
+      <div class="logo-item"><div class="logo-item-icon">📦</div><div class="logo-item-name">Idexx Laboratories</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🌲</div><div class="logo-item-name">Sappi North America</div></div>
+      <div class="logo-item"><div class="logo-item-icon">🏨</div><div class="logo-item-name">Inn by the Sea</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MISSION STRIP -->
+<div class="mission-strip">
+  <p>AI Impact Maine is a <strong>Low-Profit LLC</strong> — structured to balance mission and market, delivering measurable business value while expanding responsible AI education across Maine.</p>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-items">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Responsible AI Adoption
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Staff Training & Workshops
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>AI Governance Audits
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Portland, Maine — Serving Statewide
+    </div>
+  </div>
+</div>
+
+<!-- HOME SERVICES -->
+<section class="section home-services">
+  <div class="section-inner">
+    <span class="section-label">What We Do</span>
+    <h2 class="section-title">From first training to long-term AI support.</h2>
+    <p class="section-intro">AI is already entering the workplace. The question is whether your organization is ready for it. We guide Maine businesses through the full lifecycle.</p>
+    <div class="services-grid stagger-children">
+      <div class="service-card">
+        <div class="service-icon" style="width:130px;height:130px;background:transparent;">
+          <div data-lottie="training" data-lottie-height="130px" style="width:130px;height:130px;"></div>
+        </div>
+        <h3>AI Training</h3>
+        <p>Workshops and staff education designed for leaders and teams — building understanding, confidence, and responsible-use practices that stick.</p>
+        <a href="training.html" class="service-link">Learn More →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="width:130px;height:130px;background:transparent;">
+          <div data-lottie="audit" data-lottie-height="130px" style="width:130px;height:130px;"></div>
+        </div>
+        <h3>AI Process Audit</h3>
+        <p>A structured review of how AI is being used in your organization — identifying risks, gaps, and opportunities — with a clear, practical roadmap.</p>
+        <a href="audit.html" class="service-link">Learn More →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon" style="width:130px;height:130px;background:transparent;">
+          <div data-lottie="support" data-lottie-height="130px" style="width:130px;height:130px;"></div>
+        </div>
+        <h3>Ongoing AI Support</h3>
+        <p>Retained monthly advisory support for policy updates, implementation guidance, and ongoing questions — turning training into lasting capability.</p>
+        <a href="support.html" class="service-link">Learn More →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW -->
+<section class="section why-now">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div class="why-text">
+        <span class="section-label">Why Now</span>
+        <h2 class="section-title">AI is already in your workplace. Is your organization ready?</h2>
+        <p>Most businesses are already using AI tools — ChatGPT, Copilot, Grammarly — without formal policy, visibility into risk, or any staff training. That gap creates real exposure.</p>
+        <p>We help Maine organizations get ahead of it with practical training, clear governance, and ongoing advisory that scales with your needs.</p>
+        <div style="margin-top:2rem;">
+          <a href="contact.html" class="btn-primary">Talk With Us</a>
+        </div>
+      </div>
+      <div class="why-stats">
+        <div class="stat-box"><span class="num">77%</span><span class="lbl">of employees use AI tools at work without a formal employer policy</span></div>
+        <div class="stat-box"><span class="num">3×</span><span class="lbl">higher adoption success when staff training accompanies AI rollout</span></div>
+        <div class="stat-box"><span class="num">68%</span><span class="lbl">of SMBs have no documented AI governance or acceptable-use policy</span></div>
+        <div class="stat-box"><span class="num">↑ Risk</span><span class="lbl">Informal AI use without policy can expose client data and business liability</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE SERVE -->
+<section class="section who-serve">
+  <div class="section-inner">
+    <span class="section-label">Who We Serve</span>
+    <h2 class="section-title">Built for real Maine businesses, not just tech teams.</h2>
+    <p class="section-intro">We work with organizations already using — or considering — AI tools and want to do so safely, with clear policies in place.</p>
+    <div class="audience-grid stagger-children">
+      <div class="audience-pill card-hover">
+        <div data-lottie="construction" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Construction &amp; Trades
+      </div>
+      <div class="audience-pill card-hover">
+        <div data-lottie="professional" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Professional Services
+      </div>
+      <div class="audience-pill card-hover">
+        <div data-lottie="healthcare" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Healthcare-Adjacent
+      </div>
+      <div class="audience-pill card-hover">
+        <div data-lottie="nonprofit" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Nonprofits
+      </div>
+      <div class="audience-pill card-hover">
+        <div data-lottie="municipality" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Municipalities
+      </div>
+      <div class="audience-pill card-hover">
+        <div data-lottie="finance" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Financial Services
+      </div>
+      <div class="audience-pill card-hover">
+        <div data-lottie="smallbiz" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Small &amp; Mid-Size Business
+      </div>
+      <div class="audience-pill card-hover">
+        <div data-lottie="education" data-lottie-height="90px" style="width:90px;height:90px;margin:0 auto 0.6rem;"></div>
+        Educational Orgs
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP SECTION -->
+<section class="map-section">
+  <div class="section-inner">
+    <span class="section-label">Our Location</span>
+    <h2 class="section-title">Based in Portland, Maine.</h2>
+    <p class="section-intro">We serve businesses throughout Southern Maine and statewide — available onsite or virtually, wherever you are.</p>
+    <div class="map-wrapper">
+      <iframe
+        src="https://maps.google.com/maps?q=30+Danforth+Street+Portland+ME+04101&t=&z=15&ie=UTF8&iwloc=&output=embed"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div class="map-overlay-badge">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div>
+          <strong>AI Impact Maine</strong>
+          <span>30 Danforth Street, Portland, ME 04101 · Serving all of Maine</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMBEDDED ASSESSMENT SECTION -->
+<section class="section home-quiz" style="background: var(--navy); padding: 6rem 6%;">
+  <div class="section-inner">
+    <div style="max-width:780px; margin:0 auto; text-align:center;">
+      <span class="section-label" style="color:var(--sand); display:inline-block;">Free Tool</span>
+      <h2 class="section-title" style="color:white;">How AI-ready is <em style="color:var(--sand);">your organization?</em></h2>
+      <p style="color:rgba(255,255,255,0.7); font-size:1.05rem; line-height:1.8; margin:0 auto 2.5rem; max-width:620px;">Take our free 20-question assessment and get an instant, scored picture of where you stand across five key dimensions — with personalized next steps.</p>
+
+      <!-- Feature checks in a horizontal row -->
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1.2rem 2rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; gap:0.65rem; color:rgba(255,255,255,0.75); font-size:0.88rem;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(61,127,138,0.3);display:flex;align-items:center;justify-content:center;min-width:24px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5a9faa" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          20 questions across 5 dimensions
+        </div>
+        <div style="display:flex; align-items:center; gap:0.65rem; color:rgba(255,255,255,0.75); font-size:0.88rem;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(61,127,138,0.3);display:flex;align-items:center;justify-content:center;min-width:24px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5a9faa" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          5–8 minutes, no sign-up
+        </div>
+        <div style="display:flex; align-items:center; gap:0.65rem; color:rgba(255,255,255,0.75); font-size:0.88rem;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(61,127,138,0.3);display:flex;align-items:center;justify-content:center;min-width:24px;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#5a9faa" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          Full scored report
+        </div>
+      </div>
+
+      <!-- Five dimensions row -->
+      <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:0.75rem; max-width:680px; margin:0 auto 2.5rem;">
+        <div style="background:rgba(255,255,255,0.05); border-radius:8px; padding:1.1rem 0.5rem; text-align:center; border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; color:var(--sand); line-height:1;">1</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.6); margin-top:0.35rem; line-height:1.35;">Awareness</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border-radius:8px; padding:1.1rem 0.5rem; text-align:center; border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; color:var(--sand); line-height:1;">2</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.6); margin-top:0.35rem; line-height:1.35;">Governance</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border-radius:8px; padding:1.1rem 0.5rem; text-align:center; border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; color:var(--sand); line-height:1;">3</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.6); margin-top:0.35rem; line-height:1.35;">Data & Privacy</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); border-radius:8px; padding:1.1rem 0.5rem; text-align:center; border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; color:var(--sand); line-height:1;">4</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.6); margin-top:0.35rem; line-height:1.35;">Training</div>
+        </div>
+        <div style="background:rgba(61,127,138,0.15); border-radius:8px; padding:1.1rem 0.5rem; text-align:center; border:1px solid rgba(61,127,138,0.3);">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; color:var(--sand); line-height:1;">5</div>
+          <div style="font-size:0.72rem; color:rgba(255,255,255,0.7); margin-top:0.35rem; line-height:1.35;">Strategy</div>
+        </div>
+      </div>
+
+      <a href="assessment.html" class="btn-primary" style="font-size:1rem; padding:1rem 2.4rem;">Start Free Assessment →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-section">
+  <div class="section-inner">
+    <span class="section-label">What Organizations Say</span>
+    <h2 class="section-title">Trust built through <em>real results.</em></h2>
+    <p class="section-intro">We work alongside organizations navigating AI adoption — here's what the process looks and feels like from their side.</p>
+    <div class="testimonials-grid stagger-children">
+      <div class="testimonial-card animate">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Before the AI audit, we had no idea how many of our staff were already using ChatGPT for client-facing work. Now we have a policy, clear expectations, and a team that actually understands why it matters.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div>
+            <div class="testimonial-name">Sarah M.</div>
+            <div class="testimonial-role">Executive Director, Southern Maine Nonprofit</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">The training workshop was genuinely the most practical thing we've done as a leadership team this year. No jargon, no hype — just honest guidance on what AI means for a company like ours.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">R</div>
+          <div>
+            <div class="testimonial-name">Robert K.</div>
+            <div class="testimonial-role">Owner, Portland-area Construction Firm</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate">
+        <div class="testimonial-quote">"</div>
+        <p class="testimonial-text">Having ongoing advisory support means we're not figuring out AI in isolation. When a new tool comes out or a risk surfaces, we have someone to call — and that's worth a lot.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">L</div>
+          <div>
+            <div class="testimonial-name">Lisa T.</div>
+            <div class="testimonial-role">HR Director, Mid-Size Professional Services Firm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to talk AI readiness?</h2>
+  <p>Whether you're curious about training, thinking about AI policy, or using AI tools without a clear plan — we're here to help.</p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="btn-primary">Book a Free Consultation</a>
+    <a href="funding.html" class="btn-outline">Explore Partnership Opportunities</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="funding.html">Funding</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog & Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="faq.html">FAQ</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+
+<script src="shared.js"></script>
+<script src="lottie.js"></script>
+</body>
+</html>

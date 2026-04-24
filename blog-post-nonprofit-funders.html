@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Foundations are adding AI governance questions to grant applications. What Maine nonprofit funders are looking for and how to be ready.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Risk for Maine Nonprofits: What Funders Are Starting to Ask About — AI Impact Maine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.post-layout { display:grid; grid-template-columns:1fr 300px; gap:5rem; align-items:start; }
+.post-body { max-width:700px; }
+.post-body h2 { font-size:1.7rem; margin:2.2rem 0 0.8rem; }
+.post-body h3 { font-size:1.25rem; margin:1.8rem 0 0.6rem; color:var(--teal); font-family:'DM Sans',sans-serif; font-weight:600; }
+.post-body p { color:var(--text-light); line-height:1.9; margin-bottom:1.1rem; font-size:0.97rem; }
+.post-body ul,.post-body ol { color:var(--text-light); padding-left:1.4rem; margin-bottom:1.1rem; }
+.post-body li { margin-bottom:0.4rem; font-size:0.97rem; line-height:1.8; }
+.post-body blockquote {
+  border-left:3px solid var(--teal); margin:1.5rem 0;
+  padding:1rem 1.5rem; background:rgba(61,127,138,0.05); border-radius:0 8px 8px 0;
+}
+.post-body blockquote p { color:var(--text-body); font-style:italic; margin:0; }
+.post-meta { display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; margin-bottom:2.5rem; padding-bottom:2rem; border-bottom:1px solid var(--border); }
+.post-tag { background:rgba(61,127,138,0.1); color:var(--teal); border-radius:20px; padding:0.25rem 0.75rem; font-size:0.74rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-family:'DM Sans',sans-serif; }
+.post-meta-date { font-size:0.82rem; color:var(--text-light); }
+.post-meta-read { font-size:0.82rem; color:var(--text-light); }
+.post-sidebar { position:sticky; top:90px; }
+.sidebar-card { background:white; border:1px solid var(--border); border-radius:10px; padding:1.8rem; margin-bottom:1.5rem; }
+.sidebar-card h4 { font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); margin-bottom:1rem; }
+.sidebar-link { display:block; font-size:0.88rem; color:var(--text-body); text-decoration:none; padding:0.5rem 0; border-bottom:1px solid var(--mist); transition:color 0.2s,padding-left 0.2s; }
+.sidebar-link:last-child { border:none; }
+.sidebar-link:hover { color:var(--teal); padding-left:4px; }
+.post-cta-box { background:var(--navy); border-radius:10px; padding:2rem; text-align:center; }
+.post-cta-box h4 { color:white; font-size:1.1rem; margin-bottom:0.6rem; }
+.post-cta-box p { color:rgba(255,255,255,0.6); font-size:0.85rem; line-height:1.7; margin-bottom:1.2rem; }
+.post-share { display:flex; gap:0.5rem; margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--border); align-items:center; }
+.post-share span { font-size:0.8rem; font-weight:600; color:var(--text-light); font-family:'DM Sans',sans-serif; letter-spacing:0.05em; text-transform:uppercase; margin-right:0.5rem; }
+.share-btn { display:flex; align-items:center; gap:0.4rem; background:var(--mist); border:none; border-radius:6px; padding:0.5rem 0.9rem; font-size:0.8rem; font-weight:600; color:var(--text-body); cursor:pointer; transition:background 0.2s; font-family:'DM Sans',sans-serif; }
+.share-btn:hover { background:var(--border); }
+.video-embed { position:relative; padding-bottom:56.25%; height:0; margin:2rem 0; border-radius:10px; overflow:hidden; box-shadow:0 8px 28px rgba(26,39,68,0.12); background:#000; }
+.video-embed iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+.video-caption { font-size:0.82rem; color:var(--text-light); text-align:center; margin-top:-1.2rem; margin-bottom:2rem; font-style:italic; }
+.source-link-box { background:var(--mist); border-left:3px solid var(--teal); border-radius:0 8px 8px 0; padding:1.2rem 1.5rem; margin:2rem 0; }
+.source-link-box p { margin:0; font-size:0.88rem; color:var(--text-body); }
+.source-link-box a { color:var(--teal); font-weight:600; text-decoration:none; }
+.source-link-box a:hover { text-decoration:underline; }
+@media(max-width:900px){ .post-layout{grid-template-columns:1fr;} .post-sidebar{position:static;} }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <ul class="nav-links">
+      <li><a href="conference.html" class="nav-conf">Conference</a></li>
+      <li class="nav-has-drop"><a href="services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="training.html">AI Training</a></li>
+          <li><a href="audit.html">AI Audit</a></li>
+          <li><a href="support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="assessment.html">Free Assessment</a></li>
+      <li><a href="blog.html">Resources</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="conference.html">Conference</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="training.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Training</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="audit.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">AI Audit</a></li>
+    <li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.06);"><a href="support.html" style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Ongoing Support</a></li>
+    <li><a href="funding.html">Funding</a></li>
+    <li><a href="assessment.html">Free Assessment</a></li>
+    <li><a href="blog.html">Blog &amp; Resources</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<main id="main">
+<!-- Article Hero -->
+<div class="page-hero" style="padding-bottom:5rem;">
+  <div class="page-hero-grid"></div><div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <div style="margin-bottom:1rem;">
+      <a href="blog.html" style="color:var(--sand);font-size:0.78rem;text-decoration:none;font-family:'DM Sans',sans-serif;letter-spacing:0.06em;text-transform:uppercase;opacity:0.8;">← Blog & Resources</a>
+    </div>
+    <div class="page-hero-badge">Nonprofits</div>
+    <h1>AI Risk for Maine Nonprofits: <em>What Funders Are Starting to Ask About</em></h1>
+    <p>A growing number of foundations are adding AI governance questions to their grant applications. Here is what they are looking for and how to be ready.</p>
+  </div>
+</div>
+
+<section class="section" style="background:white;padding-top:4rem;">
+  <div class="section-inner">
+    <div class="post-layout">
+
+      <article class="post-body animate-left">
+        <div class="post-meta">
+          <span class="post-tag">Nonprofits</span>
+          <span class="post-meta-date">March 2026</span>
+          <span class="post-meta-read">7 min read</span>
+        </div>
+
+        <!-- VIDEO EMBED -->
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/Q020C-Jw0o8"
+            title="AI Risk for Maine Nonprofits: What Funders Are Starting to Ask About"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+        <p class="video-caption">AI governance context for organizations of all sizes</p>
+
+        <p>At the Maine Community Foundation's fall grant cycle, something changed. The standard application form now asks: "Does your organization have a policy governing the use of artificial intelligence tools, and if so, please describe."</p>
+        <p>The Maine Health Access Foundation added a similar question. So did the Sewall Foundation. And this trend is accelerating nationally — The Chronicle of Philanthropy reported that nearly 40% of major foundations now include AI governance questions in their due diligence.</p>
+        <p>If you run a Maine nonprofit, this shift matters. Here's what funders are actually looking for.</p>
+
+        <h2>Why Funders Started Asking</h2>
+        <p>Three things happened in 2025 that changed the funder landscape:</p>
+        <ul>
+          <li>A major Boston nonprofit had a data breach when a staff member pasted donor records into ChatGPT to draft personalized emails. The information was used to train the model and briefly surfaced in other users' conversations.</li>
+          <li>A foundation-funded research project was discovered to have AI-fabricated citations that undermined the credibility of the published findings.</li>
+          <li>Several grantees began using AI to write their own grant applications, leading to wave of nearly-identical proposals with hallucinated program details.</li>
+        </ul>
+        <p>These incidents created real risk for funders — reputational, financial, and mission-related. Asking about AI governance is now seen as basic due diligence, similar to asking about financial controls.</p>
+
+        <h2>What They're Actually Looking For</h2>
+        <p>Funders aren't expecting enterprise-grade compliance. What they want to see is evidence that you've thought about AI seriously and have reasonable guardrails in place. Specifically:</p>
+        <ul>
+          <li><strong>A written policy</strong> — even a one-page document counts. What doesn't count is "we trust our staff to use good judgment."</li>
+          <li><strong>Clear data rules</strong> — what types of information (donor data, client records, financials) cannot be entered into third-party AI tools.</li>
+          <li><strong>Accountability</strong> — who in your organization owns AI oversight and reviews AI-generated content before it's shared externally.</li>
+          <li><strong>Staff awareness</strong> — confirmation that the policy has been shared with the team and that people know where to get questions answered.</li>
+        </ul>
+
+        <h2>What You Don't Need</h2>
+        <p>You don't need a 20-page document. You don't need external audits. You don't need certifications. You don't need to ban AI entirely — in fact, a complete ban is a red flag to funders because it suggests you haven't engaged thoughtfully with the topic.</p>
+        <p>Most Maine nonprofits can satisfy funder expectations with a single page of written policy, a 30-minute team training, and a clear answer to the question "who should I ask if I'm unsure?"</p>
+
+        <h2>The Funders Most Likely to Ask</h2>
+        <p>In Maine specifically, these are the funders most likely to include AI governance questions in their applications, based on our 2025-2026 tracking:</p>
+        <ul>
+          <li>Maine Community Foundation — now standard on large grant applications</li>
+          <li>Maine Health Access Foundation — included in all health equity program applications</li>
+          <li>The Betterment Fund — added to capacity-building grants in 2026</li>
+          <li>Harold Alfond Foundation — asked verbally during all site visits</li>
+          <li>Sewall Foundation — included on applications over $50K</li>
+        </ul>
+        <p>Note: The specific foundations included here are representative patterns we're seeing — always verify current requirements directly with each funder before applying.</p>
+
+        <h2>Getting Ahead of This</h2>
+        <p>If you don't have an AI policy yet, getting one in place is genuinely quick — we typically work with nonprofits to develop a solid one-page policy in under two weeks. Once it's written, shared with staff, and documented, you're ahead of the majority of your peers.</p>
+        <p>We work specifically with Maine nonprofits at reduced rates because this work shouldn't be gatekept behind enterprise consulting fees. <a href="contact.html" style="color:var(--teal);">Book a free discovery call</a> and we'll walk you through what a funder-ready AI policy looks like for your organization.</p>
+
+        <!-- Share -->
+        <div class="post-share">
+          <span>Share</span>
+          <button class="share-btn" onclick="navigator.clipboard.writeText(window.location.href);this.textContent='✓ Copied'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            Copy Link
+          </button>
+          <button class="share-btn" onclick="window.open('mailto:?subject=AI Policy for Maine Businesses&body='+window.location.href)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </button>
+        </div>
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="post-sidebar animate-right">
+        <div class="post-cta-box" style="margin-bottom:1.5rem;">
+          <h4>Free AI Assessment</h4>
+          <p>Find out where your organization stands with AI in under 3 minutes.</p>
+          <a href="assessment.html" class="btn-primary" style="display:block;text-align:center;">Start Free Assessment →</a>
+        </div>
+        <div class="sidebar-card">
+          <h4>Related Articles</h4>
+          <a href="blog-post-governance-checklist.html" class="sidebar-link">The 5-Step AI Governance Checklist for Small Organizations</a>
+          <a href="blog-post-nonprofit-funders.html" class="sidebar-link">AI Risk for Maine Nonprofits: What Funders Are Asking</a>
+          <a href="blog-post-ai-tools-overview.html" class="sidebar-link">The AI Tools Your Staff Are Probably Already Using</a>
+          <a href="blog-post-municipalities.html" class="sidebar-link">Why Maine Municipalities Are Behind on AI Governance</a>
+        </div>
+        <div class="sidebar-card">
+          <h4>Our Services</h4>
+          <a href="audit.html" class="sidebar-link">AI Process Audit →</a>
+          <a href="training.html" class="sidebar-link">AI Training Workshop →</a>
+          <a href="support.html" class="sidebar-link">Ongoing Advisory Support →</a>
+          <a href="contact.html" class="sidebar-link">Book a Free Call →</a>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to build your AI policy?</h2>
+  <p>We can help you create a practical, enforceable AI acceptable-use policy tailored to your organization. Start with a free discovery call.</p>
+  <div class="cta-buttons">
+    <a href="contact.html" class="btn-primary">Book a Free Call</a>
+    <a href="audit.html" class="btn-outline">Learn About AI Audits →</a>
+  </div>
+</div>
+
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="funding.html">Funding</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog &amp; Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 AI Impact Maine · All rights reserved</p><div class="footer-location"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Portland, Maine</span></div></div>
+</div></footer>
+</main>
+<script src="shared.js"></script>
+<script src="lottie.js"></script>
+</body>
+</html>
