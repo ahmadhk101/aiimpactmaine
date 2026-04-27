@@ -384,8 +384,18 @@ body { background: #fff; }
   box-shadow: 0 28px 80px rgba(26,39,68,0.12);
 }
 
-.pricing-card.is-muted {
-  opacity: 0.48;
+.pricing-card.is-hidden,
+.portal-section.is-hidden {
+  display: none;
+}
+
+.filter-status {
+  margin: 0.85rem auto 0;
+  max-width: 760px;
+  color: var(--portal-muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: center;
 }
 
 .pricing-card.is-popular {
@@ -823,6 +833,7 @@ body { background: #fff; }
         <button class="mode-btn" type="button" data-mode-filter="one-time">One-time payments</button>
         <button class="mode-btn" type="button" data-mode-filter="monthly">Monthly subscriptions</button>
       </div>
+      <p class="filter-status portal-reveal" id="package-filter-status" aria-live="polite">Showing all 9 packages.</p>
     </div>
   </section>
 
@@ -1120,22 +1131,47 @@ body { background: #fff; }
 <script>
 const modeButtons = document.querySelectorAll('[data-mode-filter]');
 const cards = document.querySelectorAll('[data-payment-mode]');
+const packageSections = document.querySelectorAll('.portal-section');
+const filterStatus = document.getElementById('package-filter-status');
+
+const paymentModeLabels = {
+  all: 'Showing all 9 packages.',
+  'one-time': 'Showing 6 one-time payment packages.',
+  monthly: 'Showing 3 monthly subscription packages.'
+};
 
 function setPaymentMode(mode) {
   modeButtons.forEach((button) => {
-    button.classList.toggle('is-active', button.dataset.modeFilter === mode);
-    button.setAttribute('aria-pressed', String(button.dataset.modeFilter === mode));
+    const isActive = button.dataset.modeFilter === mode;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', String(isActive));
   });
+
+  let visibleCount = 0;
   cards.forEach((card) => {
     const isMatch = mode === 'all' || card.dataset.paymentMode === mode;
-    card.classList.toggle('is-muted', !isMatch);
+    card.classList.toggle('is-hidden', !isMatch);
+    card.setAttribute('aria-hidden', String(!isMatch));
+    if (isMatch) visibleCount += 1;
   });
+
+  packageSections.forEach((section) => {
+    const hasVisibleCards = section.querySelector('[data-payment-mode]:not(.is-hidden)');
+    section.classList.toggle('is-hidden', !hasVisibleCards);
+    section.setAttribute('aria-hidden', String(!hasVisibleCards));
+  });
+
+  if (filterStatus) {
+    filterStatus.textContent = paymentModeLabels[mode] || `Showing ${visibleCount} matching packages.`;
+  }
 }
 
 modeButtons.forEach((button) => {
   button.setAttribute('aria-pressed', String(button.classList.contains('is-active')));
   button.addEventListener('click', () => setPaymentMode(button.dataset.modeFilter));
 });
+
+setPaymentMode('all');
 
 const revealItems = document.querySelectorAll('.portal-reveal');
 const revealObserver = new IntersectionObserver((entries) => {
