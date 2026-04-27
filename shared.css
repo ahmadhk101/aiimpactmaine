@@ -62,6 +62,7 @@
 [data-theme="dark"] .step-content h4 { color: #f0ece4 !important; }
 [data-theme="dark"] .section { background: #0e1520 !important; }
 [data-theme="dark"] .section:nth-child(even) { background: #111b2a !important; }
+[data-theme="dark"] .home-local-help { background: #0e1520 !important; }
 [data-theme="dark"] .faq-page-layout > div:first-child a {
   background: #162030 !important;
   border-color: rgba(255,255,255,0.1) !important;
@@ -118,6 +119,12 @@
   color: var(--text-body) !important;
 }
 
+[data-theme="dark"] .service-keywords,
+[data-theme="dark"] .service-keyword-card {
+  background: #162030 !important;
+  border-color: rgba(255,255,255,0.14) !important;
+}
+
 [data-theme="dark"] .service-card h3,
 [data-theme="dark"] .audience-pill,
 [data-theme="dark"] .ac h4,
@@ -137,6 +144,7 @@
 [data-theme="dark"] .sidebar-link,
 [data-theme="dark"] .source-link-box p,
 [data-theme="dark"] .share-btn,
+[data-theme="dark"] .service-keyword-card strong,
 [data-theme="dark"] .faq-item h4,
 [data-theme="dark"] .check-item h5,
 [data-theme="dark"] .nv-point h4,
@@ -677,7 +685,8 @@ body.menu-open { overflow:hidden; }
 .logo-item:hover { opacity:0.8; }
 .logo-item-icon {
   width:46px; height:46px; border-radius:10px; background:var(--navy);
-  display:flex; align-items:center; justify-content:center; font-size:1.25rem;
+  display:flex; align-items:center; justify-content:center; color:var(--sand);
+  font-family:'DM Sans',sans-serif; font-size:0.72rem; font-weight:800; letter-spacing:0.04em;
 }
 .logo-item-name {
   font-size:0.7rem; font-weight:600; color:var(--text-light);
@@ -940,8 +949,11 @@ footer { background:var(--navy); color:rgba(255,255,255,0.6); padding:3.5rem 6% 
 .footer-col a:hover { color:var(--sand); padding-left:4px; }
 .footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
 .footer-bottom p { font-size:0.82rem; }
+.footer-contact { display:flex; align-items:center; flex-wrap:wrap; gap:1rem; }
 .footer-location { display:flex; align-items:center; gap:0.4rem; font-size:0.82rem; }
 .footer-location span { color:var(--sand); }
+.footer-phone { display:flex; align-items:center; gap:0.4rem; color:var(--sand); font-size:0.82rem; font-weight:700; text-decoration:none; }
+.footer-phone:hover { color:white; }
 
 /* CONTACT FORM */
 .contact-form { background:white; border-radius:12px; padding:2.5rem; box-shadow:0 4px 30px rgba(26,39,68,0.08); border:1px solid var(--border); }
