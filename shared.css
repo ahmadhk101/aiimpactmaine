@@ -949,9 +949,9 @@ footer { background:var(--navy); color:rgba(255,255,255,0.6); padding:3.5rem 6% 
 .footer-col a:hover { color:var(--sand); padding-left:4px; }
 .footer-bottom { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
 .footer-bottom p { font-size:0.82rem; }
-.footer-contact { display:flex; align-items:center; flex-wrap:wrap; gap:1rem; }
-.footer-location { display:flex; align-items:center; gap:0.4rem; font-size:0.82rem; }
-.footer-location span { color:var(--sand); }
+.footer-contact { display:flex; align-items:center; flex-wrap:wrap; gap:1rem; max-width:100%; }
+.footer-location { display:flex; align-items:flex-start; gap:0.4rem; font-size:0.82rem; min-width:0; }
+.footer-location span { color:var(--sand); line-height:1.4; overflow-wrap:anywhere; }
 .footer-phone { display:flex; align-items:center; gap:0.4rem; color:var(--sand); font-size:0.82rem; font-weight:700; text-decoration:none; }
 .footer-phone:hover { color:white; }
 
