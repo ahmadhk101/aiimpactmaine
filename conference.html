@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="assets/logo-icon.svg" type="image/svg+xml">
+<link rel="shortcut icon" href="assets/logo-icon.svg" type="image/svg+xml">
 <title>Maine AI Summit 2027 | AI Impact Maine</title>
 <meta name="description" content="Maine AI Summit 2027 is a free online conference for Maine business leaders, researchers, and practitioners interested in responsible AI.">
 <meta name="robots" content="index, follow">
@@ -176,7 +178,7 @@
 
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <a href="index.html" class="nav-logo"><img src="assets/logo.svg" alt="AI Impact Maine logo" width="205" height="72"></a>
     <ul class="nav-links">
       <li><a href="conference.html" class="nav-conf">Conference</a></li>
       <li class="nav-has-drop"><a href="services.html">Services</a>
@@ -474,8 +476,8 @@ function updateCountdown() {
 }
 updateCountdown(); setInterval(updateCountdown, 1000);
 
-function submitInterest() {
-  const fields = [{id:"if-fname"},{id:"if-email"},{id:"if-org"}];
+async function submitInterest() {
+  const fields = [{id:"if-fname"},{id:"if-lname"},{id:"if-email"},{id:"if-org"}];
   let valid = true;
   fields.forEach(({id}) => {
     const el = document.getElementById(id);
@@ -484,11 +486,49 @@ function submitInterest() {
       el.addEventListener("input", () => { el.style.borderColor = ""; el.style.boxShadow = ""; }, {once:true});
     }
   });
+  const email = document.getElementById("if-email");
+  if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+    valid = false;
+    email.style.borderColor = "#c0392b";
+    email.style.boxShadow = "0 0 0 3px rgba(192,57,43,0.1)";
+    email.addEventListener("input", () => { email.style.borderColor = ""; email.style.boxShadow = ""; }, {once:true});
+  }
   if (!valid) return;
-  document.getElementById("intFormWrap").style.display = "none";
-  const s = document.getElementById("intSuccess");
-  s.style.display = "block";
-  s.scrollIntoView({behavior:"smooth", block:"center"});
+  const wrap = document.getElementById("intFormWrap");
+  const submitBtn = wrap.querySelector(".sub-btn");
+  const existingError = wrap.querySelector(".form-error");
+  if (existingError) existingError.remove();
+  const selects = wrap.querySelectorAll("select");
+  const data = new FormData();
+  data.append("_subject", "Maine AI Summit interest");
+  data.append("firstName", document.getElementById("if-fname").value.trim());
+  data.append("lastName", document.getElementById("if-lname").value.trim());
+  data.append("email", email.value.trim());
+  data.append("phone", wrap.querySelector('input[type="tel"]').value.trim());
+  data.append("organization", document.getElementById("if-org").value.trim());
+  data.append("role", selects[0].value);
+  data.append("sector", selects[1].value);
+  data.append("involvement", Array.from(wrap.querySelectorAll(".int-checks input:checked")).map((input) => input.value).join(", "));
+  data.append("message", wrap.querySelector("textarea").value.trim());
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting...";
+  try {
+    const res = await fetch("https://formspree.io/f/mojyljlv", {
+      method: "POST",
+      body: data,
+      headers: { "Accept": "application/json" }
+    });
+    if (!res.ok) throw new Error("Form submission failed");
+    wrap.style.display = "none";
+    const s = document.getElementById("intSuccess");
+    s.style.display = "block";
+    s.scrollIntoView({behavior:"smooth", block:"center"});
+  } catch (err) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit My Interest →";
+    submitBtn.insertAdjacentHTML("afterend", '<p class="form-error" style="color:#c0392b;font-size:0.84rem;text-align:center;margin-top:0.75rem;">Something went wrong. Please try again or email hello@aiimpactmaine.com.</p>');
+  }
 }
 </script>
 </body>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">AI Impact Maine logo icon</title>
+  <desc id="desc">A stylized Maine pine formed with connected technology nodes and an impact arc.</desc>
+  <defs>
+    <linearGradient id="icon-bg" x1="8" y1="6" x2="58" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#243558"/>
+      <stop offset="1" stop-color="#1a2744"/>
+    </linearGradient>
+    <linearGradient id="icon-teal" x1="18" y1="14" x2="46" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5a9faa"/>
+      <stop offset="1" stop-color="#3d7f8a"/>
+    </linearGradient>
+  </defs>
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="url(#icon-bg)"/>
+  <path d="M31.9 12.8 20.7 28.6h6.9L17 42.3h11.2v8.4h7.6v-8.4H47L36.4 28.6h6.9L31.9 12.8Z" fill="none" stroke="#f7f5f2" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M31.9 18.7v20.2M25.4 34.1h13M29 44.1l8.2-10.1" fill="none" stroke="url(#icon-teal)" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="31.9" cy="18.7" r="2.9" fill="#c8b89a"/>
+  <circle cx="25.4" cy="34.1" r="2.5" fill="#5a9faa"/>
+  <circle cx="38.4" cy="34.1" r="2.5" fill="#5a9faa"/>
+  <circle cx="29" cy="44.1" r="2.4" fill="#c8b89a"/>
+  <circle cx="37.2" cy="34" r="1.2" fill="#f7f5f2"/>
+  <path d="M13.5 49.4c9.2 7.4 27 7.4 36.8-1.1" fill="none" stroke="#c8b89a" stroke-width="2.7" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 205 72" role="img" aria-labelledby="title desc">
+  <title id="title">AI Impact Maine logo</title>
+  <desc id="desc">AI Impact Maine wordmark with a Maine pine technology symbol.</desc>
+  <defs>
+    <linearGradient id="mark-bg" x1="8" y1="8" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#243558"/>
+      <stop offset="1" stop-color="#1a2744"/>
+    </linearGradient>
+    <linearGradient id="mark-teal" x1="19" y1="13" x2="50" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5a9faa"/>
+      <stop offset="1" stop-color="#3d7f8a"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <rect x="5" y="6" width="60" height="60" rx="14" fill="url(#mark-bg)"/>
+    <rect x="5.75" y="6.75" width="58.5" height="58.5" rx="13.25" fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="1.5"/>
+    <path d="M34.8 15.3 24 30.4h6.6L20.2 43.5h11v8h7.3v-8h10.7L38.9 30.4h6.6L34.8 15.3Z" fill="none" stroke="#f7f5f2" stroke-width="2.7" stroke-linejoin="round"/>
+    <path d="M34.8 21v19.5M28.5 35.8H41M32 45.3l7.8-9.8" fill="none" stroke="url(#mark-teal)" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="34.8" cy="21" r="2.6" fill="#c8b89a"/>
+    <circle cx="28.5" cy="35.8" r="2.3" fill="#5a9faa"/>
+    <circle cx="41" cy="35.8" r="2.3" fill="#5a9faa"/>
+    <circle cx="32" cy="45.3" r="2.2" fill="#c8b89a"/>
+    <path d="M17 51.1c8.9 7.1 25.7 7.1 35.1-1.1" fill="none" stroke="#c8b89a" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g fill="#ffffff">
+    <text x="82" y="33" font-family="'Cormorant Garamond', Georgia, serif" font-size="25.5" font-weight="700">AI Impact</text>
+    <text x="83" y="53" font-family="'DM Sans', Arial, sans-serif" font-size="14.5" font-weight="600" letter-spacing="3.2" fill="#c8b89a">MAINE</text>
+  </g>
+  <path d="M83 59.5h101" stroke="#5a9faa" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+</svg>

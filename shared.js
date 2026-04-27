@@ -5,6 +5,7 @@ const isLowEnd = isMobileDevice && (navigator.hardwareConcurrency <= 4 || naviga
 // AIMA Background Videos
 function initBackgroundVideos() {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.fetch) return;
 
   const currentPageName = window.location.pathname.split('/').pop() || 'index.html';
   const pageVideoMap = {
@@ -52,37 +53,52 @@ function initBackgroundVideos() {
     ? [pageVideoMap[currentPageName]]
     : fallbackTargets;
 
+  function assetExists(src) {
+    return fetch(src, { method: 'HEAD', cache: 'force-cache' })
+      .then(function(res) { return res.ok; })
+      .catch(function() { return false; });
+  }
+
   videoTargets.forEach(function(config) {
     document.querySelectorAll(config.selector).forEach(function(target) {
       if (target.querySelector('.aima-bg-video')) return;
 
-      const video = document.createElement('video');
-      video.className = 'aima-bg-video';
-      video.poster = config.poster;
-      video.autoplay = true;
-      video.muted = true;
-      video.loop = true;
-      video.playsInline = true;
-      video.preload = 'auto';
-      video.setAttribute('aria-hidden', 'true');
-      video.setAttribute('tabindex', '-1');
+      assetExists(config.src).then(function(exists) {
+        if (!exists || target.querySelector('.aima-bg-video')) return;
 
-      const source = document.createElement('source');
-      source.src = config.src;
-      source.type = 'video/webm';
-      video.appendChild(source);
+        const video = document.createElement('video');
+        video.className = 'aima-bg-video';
+        video.poster = config.poster;
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.preload = 'metadata';
+        video.setAttribute('aria-hidden', 'true');
+        video.setAttribute('tabindex', '-1');
 
-      const overlay = document.createElement('div');
-      overlay.className = 'aima-bg-video-overlay';
-      overlay.setAttribute('aria-hidden', 'true');
+        const source = document.createElement('source');
+        source.src = config.src;
+        source.type = 'video/webm';
+        video.appendChild(source);
 
-      target.insertBefore(overlay, target.firstChild);
-      target.insertBefore(video, overlay);
+        const overlay = document.createElement('div');
+        overlay.className = 'aima-bg-video-overlay';
+        overlay.setAttribute('aria-hidden', 'true');
 
-      const playAttempt = video.play();
-      if (playAttempt && typeof playAttempt.catch === 'function') {
-        playAttempt.catch(function() {});
-      }
+        video.addEventListener('error', function() {
+          video.remove();
+          if (!target.querySelector('.aima-bg-video')) overlay.remove();
+        }, { once: true });
+
+        target.insertBefore(overlay, target.firstChild);
+        target.insertBefore(video, overlay);
+
+        const playAttempt = video.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') {
+          playAttempt.catch(function() {});
+        }
+      });
     });
   });
 }
@@ -241,7 +257,11 @@ if (hamburger && mobileMenu) {
   </ul>`;
   document.body.appendChild(bnav);
   bnav.querySelectorAll('a').forEach(function(a) {
-    if (a.dataset.page === currentPage) a.classList.add('active');
+    const page = a.dataset.page;
+    const isActive = page === currentPage ||
+      (page === 'blog.html' && currentPage.indexOf('blog-post') === 0) ||
+      (page === 'services.html' && ['training.html', 'audit.html', 'support.html', 'services-payment-portal.html'].indexOf(currentPage) !== -1);
+    if (isActive) a.classList.add('active');
   });
 })();
 
@@ -277,8 +297,30 @@ document.addEventListener('click', function(e) {
   const wasOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(function(i) {
     i.classList.remove('open');
+    const openQuestion = i.querySelector('.faq-question');
+    if (openQuestion) openQuestion.setAttribute('aria-expanded', 'false');
   });
   if (!wasOpen) item.classList.add('open');
+  question.setAttribute('aria-expanded', String(!wasOpen));
+});
+
+document.querySelectorAll('.faq-question').forEach(function(question, index) {
+  const item = question.closest('.faq-item');
+  const answer = item && item.querySelector('.faq-answer');
+  const answerId = answer && (answer.id || 'faq-answer-' + index);
+  question.setAttribute('role', 'button');
+  question.setAttribute('tabindex', '0');
+  question.setAttribute('aria-expanded', item && item.classList.contains('open') ? 'true' : 'false');
+  if (answer && answerId) {
+    answer.id = answerId;
+    question.setAttribute('aria-controls', answerId);
+  }
+  question.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      question.click();
+    }
+  });
 });
 
 // ── Typewriter Effect ─────────────────────────────────────────────────────
@@ -363,6 +405,7 @@ window.addEventListener('load', function() { setTimeout(initCounters, 300); });
 // ── Form Submit ───────────────────────────────────────────────────────────
 document.querySelectorAll('.form-submit').forEach(function(btn) {
   btn.addEventListener('click', function(e) {
+    if (btn.closest('form')) return;
     e.preventDefault();
     const form = btn.closest('.contact-form');
     if (!form) return;

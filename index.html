@@ -1,8 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="assets/logo-icon.svg" type="image/svg+xml">
+<link rel="shortcut icon" href="assets/logo-icon.svg" type="image/svg+xml">
 <title>AI Impact Maine | Responsible AI Consulting &amp; Training</title>
 <meta name="description" content="AI Impact Maine provides responsible AI consulting, training, audits, automation support, and governance guidance for Maine businesses and organizations.">
 <meta name="robots" content="index, follow">
@@ -277,7 +279,12 @@
 .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
 
 @media(max-width:900px){
+  .hero { min-height: auto; align-items: flex-start; padding: 112px 5% 74px; }
   .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-left { min-width: 0; }
+  .hero h1 { font-size: 2.75rem; max-width: 100%; overflow-wrap: break-word; }
+  .hero h1 em { overflow-wrap: anywhere; }
+  .hero-sub { max-width: 100%; }
   .hero-right { display: none; }
   .services-grid { grid-template-columns: 1fr; }
   .why-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -286,9 +293,18 @@
   .home-quiz .section-inner > div > div[style*="grid-template-columns:repeat(5"] { grid-template-columns: repeat(5, 1fr) !important; }
 }
 @media(max-width:600px){
+  .hero { padding: 104px 1rem 64px; }
+  .hero-badge { max-width: 100%; white-space: normal; line-height: 1.45; }
+  .hero h1 { font-size: 2.25rem; line-height: 1.12; }
+  .hero h1 em { display: block; }
+  .hero-sub { font-size: 1rem; line-height: 1.7; }
+  .hero-buttons a { width: 100%; }
   .audience-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
   .why-stats { grid-template-columns: 1fr; }
   .home-quiz .section-inner > div > div[style*="grid-template-columns:repeat(5"] { grid-template-columns: repeat(2, 1fr) !important; gap:0.6rem !important; }
+}
+@media(max-width:380px){
+  .hero h1 { font-size: 2.05rem; }
 }
 </style>
 </head>
@@ -297,7 +313,7 @@
 <!-- NAV -->
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">AI Impact <span>Maine</span></a>
+    <a href="index.html" class="nav-logo"><img src="assets/logo.svg" alt="AI Impact Maine logo" width="205" height="72"></a>
     <ul class="nav-links">
       <li><a href="conference.html" class="nav-conf">Conference</a></li>
       <li class="nav-has-drop"><a href="services.html">Services</a>
