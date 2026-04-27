@@ -5,6 +5,7 @@ const isLowEnd = isMobileDevice && (navigator.hardwareConcurrency <= 4 || naviga
 // AIMA Background Videos
 function initBackgroundVideos() {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.location.protocol === 'file:') return;
   if (!window.fetch) return;
 
   const currentPageName = window.location.pathname.split('/').pop() || 'index.html';

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -66,7 +66,7 @@
       <li><a href="conference.html" class="nav-conf">Conference</a></li>
       <li class="nav-has-drop"><a href="services.html">Services</a>
         <ul class="nav-drop">
-          <li><a href="services-payment-portal.html">Payment Portal</a></li>
+          <li><a href="services-payment-portal.html">Pricing Guide</a></li>
           <li><a href="training.html">AI Training</a></li>
           <li><a href="audit.html">AI Audit</a></li>
           <li><a href="support.html">Ongoing Support</a></li>
@@ -180,7 +180,38 @@
           <p style="font-size:0.8rem;color:var(--text-light);margin-top:1rem;text-align:center;">We respond within one business day. Your information is kept private and never shared.</p>
         </form>
         <script>
-          document.getElementById('contact-form-el').addEventListener('submit', async function(e) {
+          const contactForm = document.getElementById('contact-form-el');
+          const packageDetails = {
+            training_starter: { label: 'Intro Training', interest: 'AI Training Workshop' },
+            training_professional: { label: 'Team Workshop', interest: 'AI Training Workshop' },
+            training_enterprise: { label: 'Capability Program', interest: 'AI Training Workshop' },
+            audit_basic: { label: 'Readiness Check', interest: 'AI Process Audit' },
+            audit_advanced: { label: 'Workflow Audit', interest: 'AI Process Audit' },
+            audit_enterprise: { label: 'Strategy Audit', interest: 'AI Process Audit' },
+            support_basic: { label: 'Advisor Access', interest: 'Ongoing Advisory Support' },
+            support_growth: { label: 'Workflow Partner', interest: 'Ongoing Advisory Support' },
+            support_enterprise: { label: 'Dedicated Advisor', interest: 'Ongoing Advisory Support' }
+          };
+          const requestedPackage = packageDetails[new URLSearchParams(window.location.search).get('package')];
+
+          if (requestedPackage && contactForm) {
+            const interest = document.getElementById('contact-interest');
+            const message = document.getElementById('contact-message');
+            const packageInput = document.createElement('input');
+            packageInput.type = 'hidden';
+            packageInput.name = 'package';
+            packageInput.value = requestedPackage.label;
+            contactForm.appendChild(packageInput);
+
+            if (interest) {
+              interest.value = requestedPackage.interest;
+            }
+            if (message && !message.value.trim()) {
+              message.value = "I'm interested in the " + requestedPackage.label + " package from the pricing guide. Please send the next steps and a final scope before payment.";
+            }
+          }
+
+          contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             const btn = document.getElementById('form-submit-btn');
             btn.textContent = 'Sending…';

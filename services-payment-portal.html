@@ -1,26 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="assets/logo-icon.svg" type="image/svg+xml">
 <link rel="shortcut icon" href="assets/logo-icon.svg" type="image/svg+xml">
-<title>Services & Payment Portal | AI Impact Maine</title>
-<meta name="description" content="Compare AI Impact Maine service tiers and request secure checkout links for AI training, AI audits, and ongoing AI support packages.">
+<title>Services & Pricing Guide | AI Impact Maine</title>
+<meta name="description" content="Compare AI Impact Maine service tiers for AI training, AI audits, and ongoing advisory support. Request a fit check before any payment is required.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://aiimpactmaine.com/services-payment-portal.html">
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Services & Payment Portal | AI Impact Maine">
-<meta property="og:description" content="Compare AI consulting, training, audit, and support packages from AI Impact Maine.">
+<meta property="og:title" content="Services & Pricing Guide | AI Impact Maine">
+<meta property="og:description" content="Compare AI consulting, training, audit, and support packages from AI Impact Maine before requesting a fit check.">
 <meta property="og:url" content="https://aiimpactmaine.com/services-payment-portal.html">
 <meta property="og:site_name" content="AI Impact Maine">
 <meta property="og:image" content="https://aiimpactmaine.com/social-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Services & Payment Portal | AI Impact Maine">
-<meta name="twitter:description" content="Compare AI Impact Maine services and request checkout links for training, audits, and support retainers.">
+<meta name="twitter:title" content="Services & Pricing Guide | AI Impact Maine">
+<meta name="twitter:description" content="Compare AI Impact Maine services and request a fit check for training, audits, and support retainers.">
 <meta name="twitter:image" content="https://aiimpactmaine.com/social-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -242,6 +242,48 @@ body { background: #fff; }
   color: #66758a;
   font-size: 0.74rem;
   line-height: 1.35;
+}
+
+.buyer-path {
+  margin: 2rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.buyer-step {
+  background: rgba(255,255,255,0.88);
+  border: 1px solid var(--portal-line);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 14px 38px rgba(26,39,68,0.06);
+}
+
+.buyer-step span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 999px;
+  background: #eef8f7;
+  color: var(--teal);
+  font-size: 0.78rem;
+  font-weight: 900;
+  margin-bottom: 0.65rem;
+}
+
+.buyer-step strong {
+  display: block;
+  color: var(--portal-ink);
+  font-size: 0.96rem;
+  margin-bottom: 0.35rem;
+}
+
+.buyer-step p {
+  color: #607086;
+  font-size: 0.86rem;
+  line-height: 1.55;
 }
 
 .mode-bar {
@@ -466,30 +508,40 @@ body { background: #fff; }
   max-width: 460px;
 }
 
-.testimonial-grid {
+.trust-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
-.portal-testimonial {
+.trust-card {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 18px;
   padding: 1.25rem;
 }
 
-.portal-testimonial p {
+.trust-card span {
+  display: inline-flex;
+  color: var(--sand);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.trust-card p {
   color: rgba(255,255,255,0.76);
   line-height: 1.7;
   font-size: 0.93rem;
 }
 
-.portal-testimonial strong {
+.trust-card strong {
   display: block;
-  color: var(--sand);
-  margin-top: 1rem;
-  font-size: 0.85rem;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .portal-faq {
@@ -575,8 +627,11 @@ body { background: #fff; }
   .proof-grid {
     grid-template-columns: 1fr;
   }
+  .buyer-path {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .pricing-grid,
-  .testimonial-grid,
+  .trust-grid,
   .faq-portal-grid {
     grid-template-columns: 1fr;
   }
@@ -608,6 +663,9 @@ body { background: #fff; }
     padding: 0.85rem;
   }
   .summary-metrics {
+    grid-template-columns: 1fr;
+  }
+  .buyer-path {
     grid-template-columns: 1fr;
   }
   .mode-bar {
@@ -675,7 +733,7 @@ body { background: #fff; }
       <li><a href="conference.html" class="nav-conf">Conference</a></li>
       <li class="nav-has-drop"><a href="services.html">Services</a>
         <ul class="nav-drop">
-          <li><a href="services-payment-portal.html">Payment Portal</a></li>
+          <li><a href="services-payment-portal.html">Pricing Guide</a></li>
           <li><a href="training.html">AI Training</a></li>
           <li><a href="audit.html">AI Audit</a></li>
           <li><a href="support.html">Ongoing Support</a></li>
@@ -714,30 +772,53 @@ body { background: #fff; }
     <div class="portal-inner">
       <div class="hero-panel portal-reveal">
         <div>
-          <span class="portal-badge">Services & Payment Portal</span>
-          <h1>Choose the AI support your organization needs <em>right now.</em></h1>
-      <p class="portal-lede">A simple portal for AI training, AI audits, and retained advisory support. Request a secure checkout link or schedule a consultation for custom scoping.</p>
+          <span class="portal-badge">Services & Pricing Guide</span>
+          <h1>Find the right AI support <em>before you pay.</em></h1>
+      <p class="portal-lede">Compare practical AI training, audits, and retained advisory support. Pick a package to start a fit check; we confirm scope, timing, and price before any payment is required.</p>
           <div class="hero-actions">
-            <a href="#ai-training" class="portal-btn portal-btn-primary">View Packages</a>
-            <a href="https://cal.com/aiimpactmaine/30min" class="portal-btn portal-btn-soft" target="_blank" rel="noopener">Schedule Consultation</a>
+            <a href="#ai-training" class="portal-btn portal-btn-primary">Compare Packages</a>
+            <a href="https://cal.com/aiimpactmaine/30min" class="portal-btn portal-btn-soft" target="_blank" rel="noopener">Book a Fit Check</a>
           </div>
         </div>
 
         <aside class="portal-summary" aria-label="Portal summary">
           <div class="summary-top">
-        <span>Secure payment links</span>
-        <strong>Checkout by request</strong>
-        <p>Use the package cards to request the right checkout link or schedule custom scoping.</p>
+        <span>No card required</span>
+        <strong>Scope first, payment second</strong>
+        <p>Use the package cards to tell us what looks close. You receive a written recommendation before checkout.</p>
           </div>
           <div class="summary-metrics">
-            <div class="metric"><b>9</b><span>service tiers</span></div>
-            <div class="metric"><b>3</b><span>ways to engage</span></div>
-            <div class="metric"><b>0</b><span>pressure sales calls</span></div>
+            <div class="metric"><b>9</b><span>package options</span></div>
+            <div class="metric"><b>1</b><span>written scope before payment</span></div>
+            <div class="metric"><b>0</b><span>card details needed to ask</span></div>
           </div>
         </aside>
       </div>
 
-      <div class="mode-bar portal-reveal" aria-label="Payment type filter">
+      <div class="buyer-path portal-reveal" aria-label="How the buying process works">
+        <article class="buyer-step">
+          <span>1</span>
+          <strong>Choose a likely fit</strong>
+          <p>Start with the package that seems closest, even if you are not sure.</p>
+        </article>
+        <article class="buyer-step">
+          <span>2</span>
+          <strong>Talk through goals</strong>
+          <p>A short fit check confirms your team, timeline, and risk concerns.</p>
+        </article>
+        <article class="buyer-step">
+          <span>3</span>
+          <strong>Review the scope</strong>
+          <p>You get clear deliverables, price, and next steps before approving work.</p>
+        </article>
+        <article class="buyer-step">
+          <span>4</span>
+          <strong>Pay only when ready</strong>
+          <p>Checkout happens after the scope is right, not before the conversation.</p>
+        </article>
+      </div>
+
+      <div class="mode-bar portal-reveal" aria-label="Package type filter">
         <button class="mode-btn is-active" type="button" data-mode-filter="all">All packages</button>
         <button class="mode-btn" type="button" data-mode-filter="one-time">One-time payments</button>
         <button class="mode-btn" type="button" data-mode-filter="monthly">Monthly subscriptions</button>
@@ -769,8 +850,8 @@ body { background: #fff; }
             <li>PDF guide for staff follow-up</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html" data-checkout-key="training_starter">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=training_starter#contact-form-el" data-checkout-key="training_starter">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
 
@@ -788,8 +869,8 @@ body { background: #fff; }
             <li>Session recording and recap materials</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-teal buy-now" href="contact.html" data-checkout-key="training_professional">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-teal buy-now" href="contact.html?package=training_professional#contact-form-el" data-checkout-key="training_professional">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
 
@@ -806,8 +887,8 @@ body { background: #fff; }
             <li>Adoption roadmap and internal rollout plan</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html" data-checkout-key="training_enterprise">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=training_enterprise#contact-form-el" data-checkout-key="training_enterprise">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
       </div>
@@ -838,8 +919,8 @@ body { background: #fff; }
             <li>Concise written report</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html" data-checkout-key="audit_basic">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=audit_basic#contact-form-el" data-checkout-key="audit_basic">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
 
@@ -857,8 +938,8 @@ body { background: #fff; }
             <li>AI adoption roadmap</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-teal buy-now" href="contact.html" data-checkout-key="audit_advanced">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-teal buy-now" href="contact.html?package=audit_advanced#contact-form-el" data-checkout-key="audit_advanced">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
 
@@ -875,8 +956,8 @@ body { background: #fff; }
             <li>Strategic roadmap and operating model</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html" data-checkout-key="audit_enterprise">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=audit_enterprise#contact-form-el" data-checkout-key="audit_enterprise">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
       </div>
@@ -907,8 +988,8 @@ body { background: #fff; }
             <li>Short written follow-up notes</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html" data-checkout-key="support_basic">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=support_basic#contact-form-el" data-checkout-key="support_basic">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
 
@@ -926,8 +1007,8 @@ body { background: #fff; }
             <li>Tool evaluation and implementation guidance</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-teal buy-now" href="contact.html" data-checkout-key="support_growth">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-teal buy-now" href="contact.html?package=support_growth#contact-form-el" data-checkout-key="support_growth">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
 
@@ -944,8 +1025,8 @@ body { background: #fff; }
             <li>Executive check-ins and roadmap updates</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html" data-checkout-key="support_enterprise">Request Checkout Link</a>
-            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=support_enterprise#contact-form-el" data-checkout-key="support_enterprise">Discuss This Package</a>
+            <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
       </div>
@@ -955,22 +1036,25 @@ body { background: #fff; }
   <section class="portal-proof">
     <div class="portal-inner proof-grid">
       <div class="proof-copy portal-reveal">
-        <span class="portal-badge">Client Signals</span>
+        <span class="portal-badge">Why Trust the Process</span>
         <h2>Clear pricing, thoughtful scoping, practical outcomes.</h2>
-        <p>Organizations use AI Impact Maine when they need AI to become understandable, governable, and useful without turning every engagement into a bloated transformation project.</p>
+        <p>AI decisions touch data, staff workflows, policy, and risk. The buying process is designed to slow down just enough to protect your organization before work begins.</p>
       </div>
-      <div class="testimonial-grid">
-        <article class="portal-testimonial portal-reveal">
-          <p>"The workshop turned AI from a vague leadership concern into a practical staff capability."</p>
-          <strong>Executive Director, Maine nonprofit</strong>
+      <div class="trust-grid">
+        <article class="trust-card portal-reveal">
+          <span>Vendor neutral</span>
+          <strong>No software reseller agenda</strong>
+          <p>Recommendations focus on fit, governance, and practical value instead of pushing a specific AI tool.</p>
         </article>
-        <article class="portal-testimonial portal-reveal">
-          <p>"The audit surfaced tools we did not know were already in use and gave us a realistic roadmap."</p>
-          <strong>Operations lead, construction firm</strong>
+        <article class="trust-card portal-reveal">
+          <span>Confidential by default</span>
+          <strong>Your internal details stay private</strong>
+          <p>Discovery conversations can stay high level until you approve a scope and any needed confidentiality terms.</p>
         </article>
-        <article class="portal-testimonial portal-reveal">
-          <p>"Ongoing support gives our team a trusted partner as new tools and questions keep appearing."</p>
-          <strong>HR director, professional services</strong>
+        <article class="trust-card portal-reveal">
+          <span>Maine focused</span>
+          <strong>Built for local organizations</strong>
+          <p>Packages are sized for small businesses, nonprofits, public-sector teams, and growing Maine employers.</p>
         </article>
       </div>
     </div>
@@ -981,22 +1065,26 @@ body { background: #fff; }
       <div class="section-heading portal-reveal">
         <div>
           <span class="payment-pill">FAQ</span>
-          <h2>Payment and customization questions.</h2>
+          <h2>Scope, payment, and fit questions.</h2>
         </div>
-        <p>Every tier is designed as a starting point. Final scope can be adjusted before payment when your organization needs something more specific.</p>
+        <p>Every tier is a starting point. Final scope can be adjusted before payment when your organization needs something more specific.</p>
       </div>
       <div class="faq-portal-grid">
+        <article class="portal-faq-item portal-reveal">
+          <h3>What happens after we click a package?</h3>
+          <p>The contact form opens with that package noted. We review fit, answer questions, and send a written scope or recommendation before payment.</p>
+        </article>
+        <article class="portal-faq-item portal-reveal">
+          <h3>Do we need to pay before talking?</h3>
+          <p>No. You can ask questions or book a fit check first. Payment happens only after the scope, deliverables, and timeline are clear.</p>
+        </article>
         <article class="portal-faq-item portal-reveal">
           <h3>Can pricing be customized?</h3>
           <p>Yes. The listed ranges are packaged starting points. Enterprise work, grant-funded engagements, and multi-service bundles can be scoped after a consultation.</p>
         </article>
         <article class="portal-faq-item portal-reveal">
-          <h3>How do refunds work?</h3>
-          <p>For one-time projects, refunds depend on scheduling and work already completed. Subscription retainers can be cancelled or changed at renewal unless a separate agreement says otherwise.</p>
-        </article>
-        <article class="portal-faq-item portal-reveal">
-          <h3>Do we need to pay before talking?</h3>
-          <p>No. You can schedule a consultation first. Checkout links are best for organizations that already know the tier they want to start with.</p>
+          <h3>Are recommendations vendor-neutral?</h3>
+          <p>Yes. The goal is to help your organization choose useful, responsible AI practices and tools without a reseller-driven agenda.</p>
         </article>
       </div>
     </div>
@@ -1006,11 +1094,11 @@ body { background: #fff; }
     <div class="portal-inner">
       <div class="final-panel portal-reveal">
         <div>
-          <h2>Not sure which package fits?</h2>
-          <p>Book a consultation and we will recommend a tier, bundle, or custom scope based on your goals.</p>
+          <h2>Still comparing options?</h2>
+          <p>Book a fit check and we will recommend a tier, bundle, or custom scope based on your goals.</p>
         </div>
         <div class="hero-actions">
-          <a href="https://cal.com/aiimpactmaine/30min" class="portal-btn portal-btn-primary" target="_blank" rel="noopener">Schedule Consultation</a>
+          <a href="https://cal.com/aiimpactmaine/30min" class="portal-btn portal-btn-primary" target="_blank" rel="noopener">Book Fit Check</a>
           <a href="assessment.html" class="portal-btn portal-btn-soft">Take Free Assessment</a>
         </div>
       </div>
@@ -1021,7 +1109,7 @@ body { background: #fff; }
 <footer><div class="footer-inner">
   <div class="footer-top">
     <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Responsible AI training, governance audits, and ongoing advisory support for Maine businesses and organizations.</p></div>
-    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="services-payment-portal.html">Payment Portal</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="training.html">AI Training</a></li><li><a href="audit.html">AI Process Audit</a></li><li><a href="support.html">Ongoing Support</a></li><li><a href="services-payment-portal.html">Pricing Guide</a></li><li><a href="assessment.html">Free Assessment</a></li></ul></div>
     <div class="footer-col"><h4>Resources</h4><ul><li><a href="blog.html">Blog & Insights</a></li><li><a href="faq.html">FAQ</a></li><li><a href="conference.html">Conference</a></li><li><a href="funding.html">Funding</a></li></ul></div>
     <div class="footer-col"><h4>Organization</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
   </div>
