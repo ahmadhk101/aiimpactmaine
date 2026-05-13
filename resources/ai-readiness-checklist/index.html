@@ -234,10 +234,9 @@
 
   <aside class="resource-sidebar">
     <div class="sidebar-box">
-      <h3>Download this resource</h3>
-      <p>Open the preview now, or request the full version below.</p>
+      <h3>Get this resource</h3>
+      <p>Read the free preview now. The full version is sent by email after you tell us a bit about your situation below.</p>
       <a href="preview.pdf" class="sidebar-cta" target="_blank" rel="noopener" data-version="preview">📄 Open Preview PDF</a>
-      <a href="full.pdf" class="sidebar-cta secondary" target="_blank" rel="noopener" data-version="full">⬇️ Download Full Guide</a>
     </div>
 
     <div class="sidebar-box">
@@ -373,7 +372,7 @@
       });
       if (res.ok) {
         status.className = 'form-status success show';
-        status.textContent = 'Thanks — we’ll send the full guide and a short note within one business day.';
+        status.innerHTML = 'Thanks! Your full guide is ready: <a href="full.pdf" target="_blank" rel="noopener" style="color:inherit;font-weight:600;text-decoration:underline;">⬇️ Download the full guide</a>. We will also follow up by email within one business day with implementation notes that fit your situation.';
         form.reset();
       } else {
         const data = await res.json().catch(() => ({}));
