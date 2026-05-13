@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../../assets/logo-icon.svg" type="image/svg+xml">
+<title>Nonprofit AI Adoption Guide | Free AI Guide | AI Impact Maine</title>
+<meta name="description" content="Mission-aligned AI implementation guide for nonprofits with 20+ use cases for fundraising, programs, operations, and volunteer management — plus grant funding sources.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aiimpactmaine.com/resources/nonprofit-ai-adoption/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared.css">
+
+<style>
+/* RESOURCE HERO */
+.resource-hero {
+  background: var(--navy);
+  padding: 80px 6% 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+}
+
+.resource-hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.resource-hero h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: white;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.resource-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+.resource-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* MAIN CONTENT */
+.resource-main {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 4rem auto;
+  padding: 0 6%;
+}
+
+.resource-content {
+  background: white;
+}
+
+.resource-section {
+  margin-bottom: 3rem;
+}
+
+.resource-section h2 {
+  font-size: 1.6rem;
+  color: var(--navy);
+  margin-bottom: 1rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.resource-section p {
+  color: var(--text-light);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.resource-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.resource-section li {
+  padding: 0.6rem 0 0.6rem 1.8rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  position: relative;
+}
+
+.resource-section li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: bold;
+}
+
+/* SIDEBAR */
+.resource-sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+.sidebar-box {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar-box h3 {
+  font-size: 1.1rem;
+  color: var(--navy);
+  margin-bottom: 1rem;
+}
+
+.sidebar-box p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-cta {
+  display: block;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  background: var(--teal);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s;
+  margin-bottom: 0.8rem;
+}
+
+.sidebar-cta:hover {
+  background: #4a8b93;
+}
+
+.sidebar-cta.secondary {
+  background: transparent;
+  border: 1px solid var(--teal);
+  color: var(--teal);
+}
+
+.sidebar-cta.secondary:hover {
+  background: rgba(61,127,138,0.1);
+}
+
+/* EMAIL FORM */
+.email-form {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.email-form h4 {
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 0.8rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--navy);
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(61,127,138,0.1);
+}
+
+.form-submit {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--teal);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.form-submit:hover {
+  background: #4a8b93;
+}
+
+/* RELATED RESOURCES */
+.related-resources {
+  background: var(--off-white);
+  padding: 4rem 6%;
+  margin-top: 4rem;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 2rem auto;
+}
+
+.related-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: var(--navy);
+  transition: all 0.3s;
+}
+
+.related-card:hover {
+  box-shadow: 0 8px 32px rgba(26,39,68,0.1);
+  transform: translateY(-4px);
+}
+
+.related-card h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--navy);
+}
+
+.related-card p {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media(max-width: 900px) {
+  .resource-main {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-sidebar {
+    position: static;
+  }
+
+  .sidebar-box {
+    margin-bottom: 2rem;
+  }
+}
+
+@media(max-width: 600px) {
+  .resource-hero {
+    padding: 60px 1rem 40px;
+  }
+
+  .resource-main {
+    padding: 0 1rem;
+    margin: 2rem auto;
+  }
+
+  .resource-hero h1 {
+    font-size: 2rem;
+  }
+
+  .resource-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-logo"><img src="../../assets/logo.svg" alt="AI Impact Maine logo" width="205" height="72"></a>
+    <ul class="nav-links">
+      <li><a href="../../conference.html">Conference</a></li>
+      <li class="nav-has-drop"><a href="../../services.html">Services</a>
+        <ul class="nav-drop">
+          <li><a href="../../training.html">AI Training</a></li>
+          <li><a href="../../audit.html">AI Audit</a></li>
+          <li><a href="../../support.html">Ongoing Support</a></li>
+        </ul>
+      </li>
+      <li><a href="../../services-payment-portal.html">Pricing</a></li>
+      <li><a href="../../funding.html">Funding</a></li>
+      <li><a href="../../assessment.html">Free Assessment</a></li>
+      <li><a href="../index.html">Resources</a></li>
+      <li><a href="../../faq.html">FAQ</a></li>
+      <li><a href="../../about.html">About</a></li>
+      <li><a href="../../contact.html" class="nav-cta">Book a Call</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu" type="button" aria-controls="mobileMenu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <ul>
+    <li><a href="../../conference.html">Conference</a></li>
+    <li><a href="../../services.html">Services</a></li>
+    <li><a href="../../assessment.html">Free Assessment</a></li>
+    <li><a href="../index.html">Resources</a></li>
+    <li><a href="../../faq.html">FAQ</a></li>
+    <li><a href="../../about.html">About</a></li>
+    <li><a href="../../contact.html">Book a Call</a></li>
+  </ul>
+</div>
+
+<!-- RESOURCE HERO -->
+<section class="resource-hero">
+  <div class="resource-hero-grid"></div>
+  <div class="resource-hero-inner">
+    <h1>Nonprofit AI Adoption Guide</h1>
+    <p style="color: rgba(255,255,255,0.8); font-size: 1.05rem; max-width: 700px; line-height: 1.7; margin: 1rem 0;">Mission-aligned AI implementation guide for nonprofits with 20+ use cases for fundraising, programs, operations, and volunteer management — plus grant funding sources.</p>
+    <div class="resource-meta">
+      <span>📄 32-page guide</span>
+      <span>⏱️ 30 minute read</span>
+      <span>✓ Ready to implement</span>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="resource-main">
+  <!-- LEFT: Content -->
+  <div class="resource-content">
+    <div class="resource-section">
+      <h2>What’s Inside</h2>
+      <p>AI adoption built around nonprofit reality: tight budgets, mission accountability, and staff stretched across functions. Twenty-plus concrete use cases, free-tool starting points, and the grant funding paths that actually pay for this work.</p>
+      <ul>
+        <li>20+ AI use cases across fundraising, programs, communications, and operations</li>
+        <li>Free-tool starter kit (what to use today, with no budget)</li>
+        <li>Mission impact framework: how to measure AI's value to your mission</li>
+        <li>Grant and foundation funding sources for nonprofit AI work</li>
+        <li>Volunteer management automation patterns</li>
+        <li>Three nonprofit case studies (anonymized) with measurable outcomes</li>
+      </ul>
+    </div>
+
+    <div class="resource-section">
+      <h2>Who Should Use This</h2>
+      <p>Nonprofit leaders, fundraisers, and program staff at organizations of any size.</p>
+      <ul>
+        <li>Executive directors and program leads</li>
+        <li>Fundraising and communications staff</li>
+        <li>Volunteer coordinators and operations roles</li>
+      </ul>
+    </div>
+
+    <div class="resource-section">
+      <h2>Key Outcomes</h2>
+      <p>After using this resource, you’ll be able to:</p>
+      <ul>
+        <li>Identify two or three high-impact AI pilots that fit your budget</li>
+        <li>Build a fundable AI proposal for a foundation or grant</li>
+        <li>Free up staff time for mission work, not administration</li>
+        <li>Demonstrate measurable mission impact to your board and funders</li>
+      </ul>
+    </div>
+
+    <div class="resource-section">
+      <h2>How to Use</h2>
+      <p>Read the use cases and tag the three most relevant to your programs. Run a 30-day pilot on the smallest one. Document the time saved and use that data to make the case for the next pilot — and for funder support.</p>
+    </div>
+  </div>
+
+  <!-- RIGHT: Sidebar -->
+  <aside class="resource-sidebar">
+    <!-- Preview & Download -->
+    <div class="sidebar-box">
+      <h3>Download This Resource</h3>
+      <p>Get both the preview and full version of this guide.</p>
+      <a href="#" class="sidebar-cta">📄 Preview (Free)</a>
+      <a href="#" class="sidebar-cta secondary">⬇️ Full Guide</a>
+    </div>
+
+    <!-- What's Included -->
+    <div class="sidebar-box">
+      <h3>Full Version Includes</h3>
+      <ul style="list-style: none; padding: 0; font-size: 0.85rem; color: var(--text-light);">
+        <li style="padding: 0.4rem 0;">✓ 20+ detailed use cases</li>
+        <li style="padding: 0.4rem 0;">✓ Grant funding source list</li>
+        <li style="padding: 0.4rem 0;">✓ Volunteer management toolkit</li>
+        <li style="padding: 0.4rem 0;">✓ Mission impact measurement framework</li>
+        <li style="padding: 0.4rem 0;">✓ Three case studies</li>
+      </ul>
+    </div>
+
+    <!-- Email Signup for Full -->
+    <div class="email-form">
+      <h4>Get the Full Version</h4>
+      <form action="https://formspree.io/f/[YOUR_FORM_ID]" method="POST">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="org">Organization</label>
+          <input type="text" id="org" name="organization">
+        </div>
+        <div class="form-group">
+          <label for="message">Questions (optional)</label>
+          <textarea id="message" name="message" rows="3" style="resize: vertical;"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Get Full Guide</button>
+      </form>
+    </div>
+
+    <!-- Help Section -->
+    <div class="sidebar-box">
+      <h3>Questions?</h3>
+      <p>Need help with this resource or want a consultation?</p>
+      <a href="../../contact.html" class="sidebar-cta">📞 Contact Us</a>
+    </div>
+  </aside>
+</section>
+
+<!-- RELATED RESOURCES -->
+<section class="related-resources">
+  <div class="section-inner" style="max-width: 1100px; margin: 0 auto; padding: 0 6%;">
+    <h2 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 0.5rem;">Related Resources</h2>
+    <p style="color: var(--text-light); margin-bottom: 2rem;">These resources work well together. Explore them:</p>
+
+    <div class="related-grid">
+      <a href="../ai-readiness-checklist/index.html" class="related-card">
+        <h4>Maine Business AI Readiness Checklist</h4>
+        <p>Assessment — maine business ai readiness checklist</p>
+      </a>
+      <a href="../ai-policy-template/index.html" class="related-card">
+        <h4>AI Policy Template for Small Organizations</h4>
+        <p>Policy &amp; Governance — ai policy template for small organizations</p>
+      </a>
+      <a href="../ai-training-workbook/index.html" class="related-card">
+        <h4>AI Staff Training Workbook</h4>
+        <p>Training Program — ai staff training workbook</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Ready for personalized support?</h2>
+  <p>Our team can help implement these recommendations or provide direct consulting.</p>
+  <div class="cta-buttons">
+    <a href="../../contact.html" class="btn-primary">Schedule a Consultation</a>
+    <a href="../../training.html" class="btn-outline">Explore Training</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer><div class="footer-inner">
+  <div class="footer-top">
+    <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Free resources and expert consulting for responsible AI adoption.</p></div>
+    <div class="footer-col"><h4>Resources</h4><ul><li><a href="../index.html">All Resources</a></li><li><a href="../../assessment.html">Free Assessment</a></li><li><a href="../../blog.html">Blog</a></li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="../../training.html">AI Training</a></li><li><a href="../../audit.html">AI Audit</a></li><li><a href="../../support.html">Ongoing Support</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="../../about.html">About</a></li><li><a href="../../contact.html">Contact</a></li><li><a href="../../privacy.html">Privacy</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>&copy; 2026 AI Impact Maine &middot; All rights reserved</p><div class="footer-contact"><a class="footer-phone" href="tel:2074058604"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.08 4.18 2 2 0 014.06 2h3a2 2 0 012 1.72c.12.91.33 1.8.63 2.65a2 2 0 01-.45 2.11L8 9.72a16 16 0 006.28 6.28l1.24-1.24a2 2 0 012.11-.45c.85.3 1.74.51 2.65.63A2 2 0 0122 16.92z"/></svg><span>207-405-8604</span></a></div></div>
+</div></footer>
+
+<script src="../../shared.js"></script>
+</body>
+</html>
