@@ -106,9 +106,10 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 2rem;
-  transition: all 0.3s;
+  transition: box-shadow 0.25s, transform 0.2s;
   display: flex;
   flex-direction: column;
+  min-height: 360px;
 }
 
 .resource-card:hover {
@@ -132,7 +133,6 @@
 
 .resource-card h3 {
   font-size: 1.3rem;
-  color: var(--navy);
   margin-bottom: 0.6rem;
   line-height: 1.3;
 }
@@ -187,7 +187,7 @@
 
 .btn-preview {
   background: var(--off-white);
-  color: var(--navy);
+  color: var(--text-body);
   border-color: var(--border);
 }
 
@@ -362,14 +362,14 @@
           <li>Decision-making matrices</li>
           <li>Implementation checklist</li>
         </ul>
-        <a href="responsible-ai-framework/index.html" class="featured-cta">Download Resource →</a>
+        <a href="responsible-ai-framework/" class="featured-cta">Explore the framework →</a>
       </div>
       <div style="text-align: center; color: var(--sand); font-size: 4rem; font-weight: 600; opacity: 0.3;">10</div>
     </div>
 
     <!-- Grid Filters -->
     <div style="margin-top: 4rem;">
-      <h3 style="font-size: 1.1rem; margin-bottom: 1.5rem; color: var(--navy);">Filter by Audience</h3>
+      <h3 style="font-size: 1.1rem; margin-bottom: 1.5rem;">Filter by audience</h3>
       <div class="resource-filters">
         <button class="filter-btn active" data-filter="all">All Resources</button>
         <button class="filter-btn" data-filter="business">Small Business</button>
@@ -393,8 +393,8 @@
           <li>Incident response procedure</li>
         </ul>
         <div class="resource-buttons">
-          <a href="ai-policy-template/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="ai-policy-template/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="ai-policy-template/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="ai-policy-template/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -410,8 +410,8 @@
           <li>Implementation roadmap</li>
         </ul>
         <div class="resource-buttons">
-          <a href="ai-readiness-checklist/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="ai-readiness-checklist/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="ai-readiness-checklist/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="ai-readiness-checklist/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -427,8 +427,8 @@
           <li>Quick reference card</li>
         </ul>
         <div class="resource-buttons">
-          <a href="chatgpt-safety-guide/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="chatgpt-safety-guide/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="chatgpt-safety-guide/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="chatgpt-safety-guide/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -444,8 +444,8 @@
           <li>Meeting agendas</li>
         </ul>
         <div class="resource-buttons">
-          <a href="ai-governance-starter-kit/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="ai-governance-starter-kit/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="ai-governance-starter-kit/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="ai-governance-starter-kit/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -461,8 +461,8 @@
           <li>Risk mitigation</li>
         </ul>
         <div class="resource-buttons">
-          <a href="nonprofit-ai-adoption/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="nonprofit-ai-adoption/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="nonprofit-ai-adoption/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="nonprofit-ai-adoption/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -478,8 +478,8 @@
           <li>Compliance checklist</li>
         </ul>
         <div class="resource-buttons">
-          <a href="municipal-ai-risk-assessment/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="municipal-ai-risk-assessment/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="municipal-ai-risk-assessment/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="municipal-ai-risk-assessment/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -495,8 +495,8 @@
           <li>Troubleshooting guide</li>
         </ul>
         <div class="resource-buttons">
-          <a href="prompt-engineering-guide/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="prompt-engineering-guide/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="prompt-engineering-guide/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="prompt-engineering-guide/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -512,8 +512,8 @@
           <li>Facilitator guide</li>
         </ul>
         <div class="resource-buttons">
-          <a href="ai-training-workbook/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="ai-training-workbook/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="ai-training-workbook/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="ai-training-workbook/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
 
@@ -529,8 +529,8 @@
           <li>Incident response plan</li>
         </ul>
         <div class="resource-buttons">
-          <a href="ai-cybersecurity-guide/index.html?version=lite" class="btn-preview">Preview</a>
-          <a href="ai-cybersecurity-guide/index.html?version=full" class="btn-full">Full Guide</a>
+          <a href="ai-cybersecurity-guide/preview.pdf" target="_blank" rel="noopener" class="btn-preview">Preview PDF</a>
+          <a href="ai-cybersecurity-guide/index.html?version=full" class="btn-full">Full Guide →</a>
         </div>
       </div>
     </div>

@@ -1469,3 +1469,136 @@ html { -webkit-overflow-scrolling: touch; }
     align-items: flex-start;
   }
 }
+
+
+/* =============================================
+   RESOURCES SECTION — light + dark mode rules
+   Added by audit pass; isolates /resources/ overrides
+   ============================================= */
+
+.resource-card,
+.related-card,
+.email-form,
+.sidebar-box {
+  color: var(--text-body);
+}
+
+.resource-section h2,
+.resource-card h3,
+.related-card h4,
+.sidebar-box h3,
+.email-form h4,
+.related-resources h2 {
+  color: var(--navy);
+}
+
+.email-form .form-group input,
+.email-form .form-group select,
+.email-form .form-group textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  background: white;
+  color: var(--text-body);
+  box-sizing: border-box;
+}
+
+.form-status {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  display: none;
+}
+.form-status.show { display: block; }
+.form-status.success { background: rgba(45,122,79,0.12); color: #1e5532; border: 1px solid rgba(45,122,79,0.3); }
+.form-status.error   { background: rgba(178,58,72,0.10); color: #8a2434; border: 1px solid rgba(178,58,72,0.3); }
+
+.sidebar-cta.is-active-version {
+  outline: 2px solid var(--sand);
+  outline-offset: 2px;
+}
+
+/* =============================================
+   RESOURCES — DARK MODE OVERRIDES
+   ============================================= */
+[data-theme="dark"] .resource-card,
+[data-theme="dark"] .related-card,
+[data-theme="dark"] .email-form {
+  background: #162030 !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+[data-theme="dark"] .sidebar-box {
+  background: #162030 !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+[data-theme="dark"] .resource-content {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .resource-card h3,
+[data-theme="dark"] .resource-section h2,
+[data-theme="dark"] .resource-content h2,
+[data-theme="dark"] .sidebar-box h3,
+[data-theme="dark"] .email-form h4,
+[data-theme="dark"] .related-card h4,
+[data-theme="dark"] .related-resources h2 {
+  color: #f0ece4 !important;
+}
+
+[data-theme="dark"] .resource-card-desc,
+[data-theme="dark"] .resource-features,
+[data-theme="dark"] .resource-features li,
+[data-theme="dark"] .resource-section p,
+[data-theme="dark"] .resource-section li,
+[data-theme="dark"] .related-card p,
+[data-theme="dark"] .related-resources p,
+[data-theme="dark"] .sidebar-box p,
+[data-theme="dark"] .email-form p,
+[data-theme="dark"] .resource-meta {
+  color: rgba(255,255,255,0.78) !important;
+}
+
+[data-theme="dark"] .resource-card-tag {
+  background: rgba(90,159,170,0.18) !important;
+  color: #8fc0c9 !important;
+}
+
+[data-theme="dark"] .btn-preview {
+  background: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.92) !important;
+  border-color: rgba(255,255,255,0.14) !important;
+}
+
+[data-theme="dark"] .btn-preview:hover {
+  background: var(--teal) !important;
+  color: white !important;
+  border-color: var(--teal) !important;
+}
+
+[data-theme="dark"] .related-resources {
+  background: #0e1520 !important;
+}
+
+[data-theme="dark"] .email-form .form-group label {
+  color: rgba(255,255,255,0.88) !important;
+}
+
+[data-theme="dark"] .form-status.success {
+  background: rgba(45,122,79,0.18) !important;
+  color: #b6e5c2 !important;
+  border-color: rgba(45,122,79,0.45) !important;
+}
+[data-theme="dark"] .form-status.error {
+  background: rgba(178,58,72,0.18) !important;
+  color: #f5b7be !important;
+  border-color: rgba(178,58,72,0.45) !important;
+}
+
+/* Featured resource keeps navy gradient in both modes — no dark override */

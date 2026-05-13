@@ -8,20 +8,23 @@
 <meta name="description" content="50-question AI readiness assessment for Maine organizations covering strategy, technology, skills, data, and governance — with maturity scoring and a personalized implementation roadmap.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://aiimpactmaine.com/resources/ai-readiness-checklist/">
+<meta property="og:title" content="Maine Business AI Readiness Checklist | AI Impact Maine">
+<meta property="og:description" content="50-question AI readiness assessment for Maine organizations covering strategy, technology, skills, data, and governance — with maturity scoring and a personalized implementation roadmap.">
+<meta property="og:url" content="https://aiimpactmaine.com/resources/ai-readiness-checklist/">
+<meta property="og:image" content="https://aiimpactmaine.com/social-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../shared.css">
 
 <style>
-/* RESOURCE HERO */
+/* Page-specific layout — colors come from shared.css so dark mode works */
 .resource-hero {
   background: var(--navy);
   padding: 80px 6% 60px;
   position: relative;
   overflow: hidden;
 }
-
 .resource-hero-grid {
   position: absolute; inset: 0;
   background-image:
@@ -30,285 +33,104 @@
   background-size: 72px 72px;
   pointer-events: none;
 }
-
-.resource-hero-inner {
-  position: relative;
-  z-index: 2;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
+.resource-hero-inner { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
 .resource-hero h1 {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  color: white;
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 600;
-  line-height: 1.2;
-  margin-bottom: 1rem;
+  color: white; font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 600; line-height: 1.2; margin-bottom: 1rem;
 }
+.resource-hero-sub { color: rgba(255,255,255,0.85); font-size: 1.05rem; max-width: 700px; line-height: 1.7; margin: 1rem 0; }
+.resource-meta { display: flex; gap: 2rem; flex-wrap: wrap; color: rgba(255,255,255,0.78); font-size: 0.9rem; margin-top: 1.5rem; }
+.resource-meta span { display: flex; align-items: center; gap: 0.5rem; }
 
-.resource-meta {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  color: rgba(255,255,255,0.7);
-  font-size: 0.9rem;
-  margin-top: 1.5rem;
-}
-
-.resource-meta span {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* MAIN CONTENT */
 .resource-main {
-  display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 3rem;
-  max-width: 1100px;
-  margin: 4rem auto;
-  padding: 0 6%;
+  display: grid; grid-template-columns: 1fr 350px; gap: 3rem;
+  max-width: 1100px; margin: 4rem auto; padding: 0 6%;
 }
+.resource-content { background: transparent; }
+.resource-section { margin-bottom: 3rem; }
+.resource-section h2 { font-size: 1.6rem; margin-bottom: 1rem; font-family: 'Cormorant Garamond', Georgia, serif; }
+.resource-section p { line-height: 1.8; margin-bottom: 1rem; }
+.resource-section ul { list-style: none; padding: 0; }
+.resource-section li { padding: 0.6rem 0 0.6rem 1.8rem; line-height: 1.6; position: relative; }
+.resource-section li::before { content: "→"; position: absolute; left: 0; color: var(--teal); font-weight: bold; }
 
-.resource-content {
-  background: white;
-}
-
-.resource-section {
-  margin-bottom: 3rem;
-}
-
-.resource-section h2 {
-  font-size: 1.6rem;
-  color: var(--navy);
-  margin-bottom: 1rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-}
-
-.resource-section p {
-  color: var(--text-light);
-  line-height: 1.8;
-  margin-bottom: 1rem;
-}
-
-.resource-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.resource-section li {
-  padding: 0.6rem 0 0.6rem 1.8rem;
-  color: var(--text-light);
-  line-height: 1.6;
-  position: relative;
-}
-
-.resource-section li::before {
-  content: "→";
-  position: absolute;
-  left: 0;
-  color: var(--teal);
-  font-weight: bold;
-}
-
-/* SIDEBAR */
-.resource-sidebar {
-  position: sticky;
-  top: 100px;
-}
-
+.resource-sidebar { position: sticky; top: 100px; }
 .sidebar-box {
   background: var(--off-white);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 2rem;
-  margin-bottom: 2rem;
-}
-
-.sidebar-box h3 {
-  font-size: 1.1rem;
-  color: var(--navy);
-  margin-bottom: 1rem;
-}
-
-.sidebar-box p {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  line-height: 1.6;
   margin-bottom: 1.5rem;
 }
-
+.sidebar-box h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+.sidebar-box p { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.2rem; }
+.includes-list { list-style: none; padding: 0; font-size: 0.88rem; margin: 0; }
+.includes-list li { padding: 0.35rem 0 0.35rem 1.4rem; position: relative; line-height: 1.5; }
+.includes-list li::before { content: "✓"; position: absolute; left: 0; color: var(--teal); font-weight: bold; }
 .sidebar-cta {
-  display: block;
-  text-align: center;
-  padding: 1rem 1.5rem;
-  background: var(--teal);
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.3s;
-  margin-bottom: 0.8rem;
+  display: block; text-align: center;
+  padding: 0.9rem 1.2rem;
+  background: var(--teal); color: white;
+  text-decoration: none; border-radius: 6px;
+  font-weight: 600; font-size: 0.92rem;
+  transition: background 0.2s, transform 0.15s;
+  margin-bottom: 0.6rem;
 }
-
-.sidebar-cta:hover {
-  background: #4a8b93;
-}
-
+.sidebar-cta:hover { background: #4a8b93; transform: translateY(-1px); }
+.sidebar-cta:last-child { margin-bottom: 0; }
 .sidebar-cta.secondary {
-  background: transparent;
-  border: 1px solid var(--teal);
-  color: var(--teal);
+  background: transparent; border: 1px solid var(--teal); color: var(--teal);
 }
+.sidebar-cta.secondary:hover { background: rgba(61,127,138,0.10); }
 
-.sidebar-cta.secondary:hover {
-  background: rgba(61,127,138,0.1);
-}
-
-/* EMAIL FORM */
 .email-form {
   background: white;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 1.5rem;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
-
-.email-form h4 {
-  font-size: 0.95rem;
-  color: var(--navy);
-  margin-bottom: 1rem;
-}
-
-.form-group {
-  margin-bottom: 0.8rem;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--navy);
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem;
-  box-sizing: border-box;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(61,127,138,0.1);
-}
-
+.email-form h4 { font-size: 1rem; margin-bottom: 0.4rem; }
+.email-form p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem; }
+.form-group { margin-bottom: 0.7rem; }
+.form-group label { display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--navy); }
 .form-submit {
-  width: 100%;
-  padding: 0.8rem;
-  background: var(--teal);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-size: 0.9rem;
+  width: 100%; padding: 0.8rem; background: var(--teal); color: white;
+  border: none; border-radius: 6px; font-weight: 600; cursor: pointer;
+  font-size: 0.92rem; transition: background 0.2s;
 }
+.form-submit:hover { background: #4a8b93; }
+.form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-.form-submit:hover {
-  background: #4a8b93;
-}
-
-/* RELATED RESOURCES */
-.related-resources {
-  background: var(--off-white);
-  padding: 4rem 6%;
-  margin-top: 4rem;
-}
-
+.related-resources { background: var(--off-white); padding: 4rem 6%; margin-top: 4rem; }
 .related-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  max-width: 1100px;
-  margin: 2rem auto;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem; max-width: 1100px; margin: 2rem auto;
 }
-
 .related-card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1.5rem;
-  text-decoration: none;
-  color: var(--navy);
-  transition: all 0.3s;
+  background: white; border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.5rem;
+  text-decoration: none; color: var(--text-body);
+  transition: box-shadow 0.25s, transform 0.2s;
+  display: block;
 }
-
-.related-card:hover {
-  box-shadow: 0 8px 32px rgba(26,39,68,0.1);
-  transform: translateY(-4px);
-}
-
-.related-card h4 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: var(--navy);
-}
-
-.related-card p {
-  font-size: 0.85rem;
-  color: var(--text-light);
-  line-height: 1.5;
-  margin: 0;
-}
+.related-card:hover { box-shadow: 0 8px 32px rgba(26,39,68,0.10); transform: translateY(-3px); }
+.related-card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+.related-card p { font-size: 0.88rem; line-height: 1.55; margin: 0; }
+.related-resources h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; margin-bottom: 0.5rem; }
+.related-resources > div > p { color: var(--text-light); margin-bottom: 1.5rem; }
 
 @media(max-width: 900px) {
-  .resource-main {
-    grid-template-columns: 1fr;
-  }
-
-  .resource-sidebar {
-    position: static;
-  }
-
-  .sidebar-box {
-    margin-bottom: 2rem;
-  }
+  .resource-main { grid-template-columns: 1fr; }
+  .resource-sidebar { position: static; }
 }
-
 @media(max-width: 600px) {
-  .resource-hero {
-    padding: 60px 1rem 40px;
-  }
-
-  .resource-main {
-    padding: 0 1rem;
-    margin: 2rem auto;
-  }
-
-  .resource-hero h1 {
-    font-size: 2rem;
-  }
-
-  .resource-meta {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .related-grid {
-    grid-template-columns: 1fr;
-  }
+  .resource-hero { padding: 60px 1rem 40px; }
+  .resource-main { padding: 0 1rem; margin: 2rem auto; gap: 2rem; }
+  .resource-hero h1 { font-size: 2rem; }
+  .resource-meta { flex-direction: column; gap: 0.5rem; }
+  .related-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -330,7 +152,7 @@
       <li><a href="../../services-payment-portal.html">Pricing</a></li>
       <li><a href="../../funding.html">Funding</a></li>
       <li><a href="../../assessment.html">Free Assessment</a></li>
-      <li><a href="../index.html">Resources</a></li>
+      <li><a href="../index.html" class="active">Resources</a></li>
       <li><a href="../../faq.html">FAQ</a></li>
       <li><a href="../../about.html">About</a></li>
       <li><a href="../../contact.html" class="nav-cta">Book a Call</a></li>
@@ -344,6 +166,8 @@
   <ul>
     <li><a href="../../conference.html">Conference</a></li>
     <li><a href="../../services.html">Services</a></li>
+    <li><a href="../../services-payment-portal.html">Pricing</a></li>
+    <li><a href="../../funding.html">Funding</a></li>
     <li><a href="../../assessment.html">Free Assessment</a></li>
     <li><a href="../index.html">Resources</a></li>
     <li><a href="../../faq.html">FAQ</a></li>
@@ -352,12 +176,12 @@
   </ul>
 </div>
 
-<!-- RESOURCE HERO -->
+<!-- HERO -->
 <section class="resource-hero">
   <div class="resource-hero-grid"></div>
   <div class="resource-hero-inner">
     <h1>Maine Business AI Readiness Checklist</h1>
-    <p style="color: rgba(255,255,255,0.8); font-size: 1.05rem; max-width: 700px; line-height: 1.7; margin: 1rem 0;">50-question AI readiness assessment for Maine organizations covering strategy, technology, skills, data, and governance — with maturity scoring and a personalized implementation roadmap.</p>
+    <p class="resource-hero-sub">50-question AI readiness assessment for Maine organizations covering strategy, technology, skills, data, and governance — with maturity scoring and a personalized implementation roadmap.</p>
     <div class="resource-meta">
       <span>📄 22-page guide</span>
       <span>⏱️ 30 minute read</span>
@@ -366,118 +190,120 @@
   </div>
 </section>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <section class="resource-main">
-  <!-- LEFT: Content -->
   <div class="resource-content">
     <div class="resource-section">
-      <h2>What’s Inside</h2>
+      <h2>What’s inside</h2>
       <p>Find out exactly where your organization stands on AI before you invest a dollar. 50 questions across five dimensions, a scoring matrix that maps to maturity levels, and a personalized roadmap based on your gaps.</p>
       <ul>
-        <li>50 assessment questions across strategy, technology, skills, data, and culture</li>
-        <li>Scoring matrix with five maturity levels (Aware → Optimizing)</li>
-        <li>Gap analysis worksheet</li>
-        <li>Sector benchmarking data (where peer Maine orgs typically score)</li>
-        <li>Personalized 90-day, 6-month, and 12-month roadmap templates</li>
+      <li>50 assessment questions across strategy, technology, skills, data, and culture</li>
+      <li>Scoring matrix with five maturity levels (Aware → Optimizing)</li>
+      <li>Gap analysis worksheet</li>
+      <li>Sector benchmarking data (where peer Maine orgs typically score)</li>
+      <li>Personalized 90-day, 6-month, and 12-month roadmap templates</li>
       </ul>
     </div>
 
     <div class="resource-section">
-      <h2>Who Should Use This</h2>
+      <h2>Who should use this</h2>
       <p>Anyone leading or scoping an AI initiative who needs evidence — not opinion — about organizational readiness.</p>
       <ul>
-        <li>Executive directors and COOs evaluating AI investment</li>
-        <li>IT leads building a business case for AI tooling</li>
-        <li>Consultants and grant writers documenting client readiness</li>
+      <li>Executive directors and COOs evaluating AI investment</li>
+      <li>IT leads building a business case for AI tooling</li>
+      <li>Consultants and grant writers documenting client readiness</li>
       </ul>
     </div>
 
     <div class="resource-section">
-      <h2>Key Outcomes</h2>
+      <h2>Key outcomes</h2>
       <p>After using this resource, you’ll be able to:</p>
       <ul>
-        <li>Replace gut feel with a numbered, defensible readiness score</li>
-        <li>Identify the three highest-leverage gaps to close first</li>
-        <li>Set a realistic 12-month AI roadmap your board can approve</li>
-        <li>Benchmark against similar Maine organizations</li>
+      <li>Replace gut feel with a numbered, defensible readiness score</li>
+      <li>Identify the three highest-leverage gaps to close first</li>
+      <li>Set a realistic 12-month AI roadmap your board can approve</li>
+      <li>Benchmark against similar Maine organizations</li>
       </ul>
     </div>
 
     <div class="resource-section">
-      <h2>How to Use</h2>
+      <h2>How to use</h2>
       <p>Print the checklist and complete it with two or three colleagues from different functions. Compare scores — divergences reveal blind spots. Use the gap analysis worksheet to prioritize.</p>
     </div>
   </div>
 
-  <!-- RIGHT: Sidebar -->
   <aside class="resource-sidebar">
-    <!-- Preview & Download -->
     <div class="sidebar-box">
-      <h3>Download This Resource</h3>
-      <p>Get both the preview and full version of this guide.</p>
-      <a href="#" class="sidebar-cta">📄 Preview (Free)</a>
-      <a href="#" class="sidebar-cta secondary">⬇️ Full Guide</a>
+      <h3>Download this resource</h3>
+      <p>Open the preview now, or request the full version below.</p>
+      <a href="preview.pdf" class="sidebar-cta" target="_blank" rel="noopener" data-version="preview">📄 Open Preview PDF</a>
+      <a href="full.pdf" class="sidebar-cta secondary" target="_blank" rel="noopener" data-version="full">⬇️ Download Full Guide</a>
     </div>
 
-    <!-- What's Included -->
     <div class="sidebar-box">
-      <h3>Full Version Includes</h3>
-      <ul style="list-style: none; padding: 0; font-size: 0.85rem; color: var(--text-light);">
-        <li style="padding: 0.4rem 0;">✓ Full 50-question checklist</li>
-        <li style="padding: 0.4rem 0;">✓ Maturity-level scoring matrix</li>
-        <li style="padding: 0.4rem 0;">✓ Gap analysis worksheet</li>
-        <li style="padding: 0.4rem 0;">✓ Maine-specific benchmarks</li>
-        <li style="padding: 0.4rem 0;">✓ 90/180/365-day roadmap template</li>
+      <h3>Full version includes</h3>
+      <ul class="includes-list">
+        <li>Full 50-question checklist</li>
+        <li>Maturity-level scoring matrix</li>
+        <li>Gap analysis worksheet</li>
+        <li>Maine-specific benchmarks</li>
+        <li>90/180/365-day roadmap template</li>
       </ul>
     </div>
 
-    <!-- Email Signup for Full -->
     <div class="email-form">
-      <h4>Get the Full Version</h4>
-      <form action="https://formspree.io/f/[YOUR_FORM_ID]" method="POST">
+      <h4>Want it tailored?</h4>
+      <p>Send your role and what you’re trying to accomplish — we’ll send the full guide plus implementation notes that fit your situation.</p>
+      <form class="resource-form" action="https://formspree.io/f/mojyljlv" method="POST" novalidate>
+        <input type="hidden" name="resource" value="Maine Business AI Readiness Checklist">
+        <input type="hidden" name="resource_slug" value="ai-readiness-checklist">
+        <input type="hidden" name="_subject" value="Resource request: Maine Business AI Readiness Checklist">
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
+          <label for="rf-name-ai-readiness-checklist">Name</label>
+          <input type="text" id="rf-name-ai-readiness-checklist" name="name" autocomplete="name">
         </div>
         <div class="form-group">
-          <label for="org">Organization</label>
-          <input type="text" id="org" name="organization">
+          <label for="rf-email-ai-readiness-checklist">Email</label>
+          <input type="email" id="rf-email-ai-readiness-checklist" name="email" autocomplete="email" required>
         </div>
         <div class="form-group">
-          <label for="message">Questions (optional)</label>
-          <textarea id="message" name="message" rows="3" style="resize: vertical;"></textarea>
+          <label for="rf-org-ai-readiness-checklist">Organization</label>
+          <input type="text" id="rf-org-ai-readiness-checklist" name="organization" autocomplete="organization">
         </div>
-        <button type="submit" class="form-submit">Get Full Guide</button>
+        <div class="form-group">
+          <label for="rf-msg-ai-readiness-checklist">What are you trying to accomplish? (optional)</label>
+          <textarea id="rf-msg-ai-readiness-checklist" name="message" rows="3" style="resize: vertical;"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Request the full guide</button>
+        <div class="form-status" role="status" aria-live="polite"></div>
       </form>
     </div>
 
-    <!-- Help Section -->
     <div class="sidebar-box">
       <h3>Questions?</h3>
-      <p>Need help with this resource or want a consultation?</p>
-      <a href="../../contact.html" class="sidebar-cta">📞 Contact Us</a>
+      <p>Need help applying this resource? Schedule a free 30-minute consultation.</p>
+      <a href="../../contact.html" class="sidebar-cta">📞 Contact us</a>
     </div>
   </aside>
 </section>
 
-<!-- RELATED RESOURCES -->
+<!-- RELATED -->
 <section class="related-resources">
-  <div class="section-inner" style="max-width: 1100px; margin: 0 auto; padding: 0 6%;">
-    <h2 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; color: var(--navy); margin-bottom: 0.5rem;">Related Resources</h2>
-    <p style="color: var(--text-light); margin-bottom: 2rem;">These resources work well together. Explore them:</p>
-
+  <div style="max-width: 1100px; margin: 0 auto; padding: 0 6%;">
+    <h2>Related resources</h2>
+    <p>These resources work well together. Explore them:</p>
     <div class="related-grid">
       <a href="../responsible-ai-framework/index.html" class="related-card">
         <h4>Responsible AI Implementation Framework</h4>
-        <p>Featured Framework — responsible ai implementation framework</p>
+        <p>Ethics-first implementation framework with governance, bias mitigation, and stakeholder engagement.</p>
       </a>
       <a href="../ai-governance-starter-kit/index.html" class="related-card">
         <h4>AI Governance Starter Kit</h4>
-        <p>Governance — ai governance starter kit</p>
+        <p>Frameworks, RACI matrices, meeting templates, and approval workflows for an AI governance program.</p>
       </a>
       <a href="../ai-training-workbook/index.html" class="related-card">
         <h4>AI Staff Training Workbook</h4>
-        <p>Training Program — ai staff training workbook</p>
+        <p>Eight-module AI literacy curriculum with exercises, assessments, and a facilitator guide.</p>
       </a>
     </div>
   </div>
@@ -488,8 +314,8 @@
   <h2>Ready for personalized support?</h2>
   <p>Our team can help implement these recommendations or provide direct consulting.</p>
   <div class="cta-buttons">
-    <a href="../../contact.html" class="btn-primary">Schedule a Consultation</a>
-    <a href="../../training.html" class="btn-outline">Explore Training</a>
+    <a href="../../contact.html" class="btn-primary">Schedule a consultation</a>
+    <a href="../../training.html" class="btn-outline">Explore training</a>
   </div>
 </div>
 
@@ -499,11 +325,72 @@
     <div class="footer-brand"><h3>AI Impact <span>Maine</span></h3><p>Free resources and expert consulting for responsible AI adoption.</p></div>
     <div class="footer-col"><h4>Resources</h4><ul><li><a href="../index.html">All Resources</a></li><li><a href="../../assessment.html">Free Assessment</a></li><li><a href="../../blog.html">Blog</a></li></ul></div>
     <div class="footer-col"><h4>Services</h4><ul><li><a href="../../training.html">AI Training</a></li><li><a href="../../audit.html">AI Audit</a></li><li><a href="../../support.html">Ongoing Support</a></li></ul></div>
-    <div class="footer-col"><h4>Organization</h4><ul><li><a href="../../about.html">About</a></li><li><a href="../../contact.html">Contact</a></li><li><a href="../../privacy.html">Privacy</a></li></ul></div>
+    <div class="footer-col"><h4>Organization</h4><ul><li><a href="../../about.html">About</a></li><li><a href="../../contact.html">Contact</a></li><li><a href="../../privacy.html">Privacy</a></li><li><a href="../../faq.html">FAQ</a></li></ul></div>
   </div>
-  <div class="footer-bottom"><p>&copy; 2026 AI Impact Maine &middot; All rights reserved</p><div class="footer-contact"><a class="footer-phone" href="tel:2074058604"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.08 4.18 2 2 0 014.06 2h3a2 2 0 012 1.72c.12.91.33 1.8.63 2.65a2 2 0 01-.45 2.11L8 9.72a16 16 0 006.28 6.28l1.24-1.24a2 2 0 012.11-.45c.85.3 1.74.51 2.65.63A2 2 0 0122 16.92z"/></svg><span>207-405-8604</span></a></div></div>
+  <div class="footer-bottom"><p>&copy; 2026 AI Impact Maine &middot; All rights reserved</p><div class="footer-contact"><a class="footer-phone" href="tel:2074058604" aria-label="Call AI Impact Maine"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.08 4.18 2 2 0 014.06 2h3a2 2 0 012 1.72c.12.91.33 1.8.63 2.65a2 2 0 01-.45 2.11L8 9.72a16 16 0 006.28 6.28l1.24-1.24a2 2 0 012.11-.45c.85.3 1.74.51 2.65.63A2 2 0 0122 16.92z"/></svg><span>207-405-8604</span></a></div></div>
 </div></footer>
 
 <script src="../../shared.js"></script>
+
+<script>
+// Resource page: version toggle + Formspree submission handler
+(function(){
+  // 1) ?version=lite|full visual cue
+  const params = new URLSearchParams(location.search);
+  const v = (params.get('version') || '').toLowerCase();
+  if (v === 'lite' || v === 'full') {
+    const isFull = v === 'full';
+    const hero = document.querySelector('.resource-hero h1');
+    if (hero && !hero.querySelector('.version-tag')) {
+      const tag = document.createElement('span');
+      tag.className = 'version-tag';
+      tag.textContent = isFull ? '  ·  Full Version' : '  ·  Free Preview';
+      tag.style.cssText = 'font-size: 0.55em; color: var(--sand); font-weight: 400; font-style: italic; margin-left: 0.4em;';
+      hero.appendChild(tag);
+    }
+    document.querySelectorAll('.sidebar-cta[data-version]').forEach(btn => {
+      if (btn.dataset.version === v) btn.classList.add('is-active-version');
+    });
+  }
+
+  // 2) Formspree submission with success/error UI
+  const form = document.querySelector('.resource-form');
+  if (!form) return;
+  const status = form.querySelector('.form-status');
+  const submitBtn = form.querySelector('.form-submit');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.className = 'form-status';
+    status.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      if (res.ok) {
+        status.className = 'form-status success show';
+        status.textContent = 'Thanks — we’ll send the full guide and a short note within one business day.';
+        form.reset();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        const msg = (data.errors && data.errors[0] && data.errors[0].message) ||
+          'Something went wrong sending that. Email ahmad@aiimpactmaine.com directly and we’ll send it manually.';
+        status.className = 'form-status error show';
+        status.textContent = msg;
+      }
+    } catch (err) {
+      status.className = 'form-status error show';
+      status.textContent = 'Network error. Please try again, or email ahmad@aiimpactmaine.com directly.';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Request the full guide';
+    }
+  });
+})();
+</script>
 </body>
 </html>
