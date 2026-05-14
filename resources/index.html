@@ -320,6 +320,22 @@
     padding: 2rem 1.5rem;
   }
 }
+
+.resource-card-lottie {
+  width: 68px; height: 68px; margin-bottom: 1rem; opacity: 0.95;
+}
+.featured-resource-lottie {
+  width: 240px; height: 240px; margin: 0 auto; opacity: 0.92;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,0.25));
+}
+.cta-band-lottie {
+  width: 96px; height: 96px; margin: 0 auto 1.2rem; opacity: 0.95;
+}
+@media (max-width: 600px) {
+  .resource-card-lottie { width: 54px; height: 54px; }
+  .featured-resource-lottie { width: 160px; height: 160px; }
+  .cta-band-lottie { width: 72px; height: 72px; }
+}
 </style>
 </head>
 <body>
@@ -396,7 +412,7 @@
         </ul>
         <a href="responsible-ai-framework/" class="featured-cta">Explore the framework →</a>
       </div>
-      <div style="text-align: center; color: var(--sand); font-size: 4rem; font-weight: 600; opacity: 0.3;">10</div>
+      <div class="featured-resource-lottie" data-lottie="panel" data-lottie-height="240px" role="img" aria-label="Featured resource animation"></div>
     </div>
 
     <!-- Grid Filters -->
@@ -415,6 +431,7 @@
     <div class="resources-grid stagger-children">
       <!-- Resource 1 -->
       <div class="resource-card animate card-hover" data-type="business policy">
+        <div class="resource-card-lottie" data-lottie="governance" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Policy & Governance</span>
         <h3>AI Policy Template for Small Organizations</h3>
         <p class="resource-card-desc">Complete, customizable AI policy template with approval forms, tool classification system, and implementation roadmap.</p>
@@ -432,6 +449,7 @@
 
       <!-- Resource 2 -->
       <div class="resource-card animate card-hover" data-type="business assessment">
+        <div class="resource-card-lottie" data-lottie="audit" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Assessment</span>
         <h3>Maine Business AI Readiness Checklist</h3>
         <p class="resource-card-desc">Comprehensive 50-question assessment across strategy, technology, skills, data, and culture with personalized roadmap.</p>
@@ -449,6 +467,7 @@
 
       <!-- Resource 3 -->
       <div class="resource-card animate card-hover" data-type="business training">
+        <div class="resource-card-lottie" data-lottie="training" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Training</span>
         <h3>Safe ChatGPT Use Guide for Employees</h3>
         <p class="resource-card-desc">Non-technical training guide with 5 essential safety rules, real scenarios, productivity tips, and best practices.</p>
@@ -466,6 +485,7 @@
 
       <!-- Resource 4 -->
       <div class="resource-card animate card-hover" data-type="all policy">
+        <div class="resource-card-lottie" data-lottie="keynote" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Governance</span>
         <h3>AI Governance Starter Kit</h3>
         <p class="resource-card-desc">Complete governance system with policies, frameworks, decision matrices, and meeting templates for any organization size.</p>
@@ -483,6 +503,7 @@
 
       <!-- Resource 5 -->
       <div class="resource-card animate card-hover" data-type="nonprofit">
+        <div class="resource-card-lottie" data-lottie="nonprofit" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Sector Guide</span>
         <h3>Nonprofit AI Adoption Guide</h3>
         <p class="resource-card-desc">Mission-aligned AI implementation guide with 20+ use cases for fundraising, programs, operations, and volunteer management.</p>
@@ -500,6 +521,7 @@
 
       <!-- Resource 6 -->
       <div class="resource-card animate card-hover" data-type="municipal">
+        <div class="resource-card-lottie" data-lottie="municipality" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Sector Guide</span>
         <h3>Municipality AI Risk Assessment Toolkit</h3>
         <p class="resource-card-desc">Government-specific risk assessment framework with bias testing, vendor evaluation, and public accountability guidelines.</p>
@@ -517,6 +539,7 @@
 
       <!-- Resource 7 -->
       <div class="resource-card animate card-hover" data-type="all training">
+        <div class="resource-card-lottie" data-lottie="workshop" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Skills</span>
         <h3>AI Prompt Engineering Guide</h3>
         <p class="resource-card-desc">Practical guide with 20+ prompting techniques and 50+ ready-to-use prompt templates organized by use case and industry.</p>
@@ -534,6 +557,7 @@
 
       <!-- Resource 8 -->
       <div class="resource-card animate card-hover" data-type="all training education">
+        <div class="resource-card-lottie" data-lottie="education" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Training Program</span>
         <h3>AI Staff Training Workbook</h3>
         <p class="resource-card-desc">Self-contained 8-10 module training program with workbook exercises, assessments, and facilitator guide for team training.</p>
@@ -551,6 +575,7 @@
 
       <!-- Resource 9 -->
       <div class="resource-card animate card-hover" data-type="all business nonprofit municipal education">
+        <div class="resource-card-lottie" data-lottie="support" data-lottie-height="68px" aria-hidden="true"></div>
         <span class="resource-card-tag">Security & Compliance</span>
         <h3>AI Cybersecurity Awareness Guide</h3>
         <p class="resource-card-desc">Data privacy and security guide covering threats, compliance requirements (GDPR, HIPAA, FERPA), and protection strategies.</p>
@@ -572,6 +597,7 @@
 
 <!-- CTA BAND -->
 <div class="cta-band">
+  <div class="cta-band-lottie" data-lottie="globe" data-lottie-height="96px" aria-hidden="true"></div>
   <h2>Need personalized guidance?</h2>
   <p>Our consulting team can help customize these resources or provide direct support for your AI strategy.</p>
   <div class="cta-buttons">
