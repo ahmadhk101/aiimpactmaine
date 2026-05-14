@@ -756,6 +756,26 @@ body { background: #fff; }
     transition: none;
   }
 }
+
+/* Lottie placements — pricing portal */
+.portal-hero-lottie {
+  width: 260px; max-width: 100%; aspect-ratio: 1/1; margin: 0 auto;
+  opacity: 0.92; filter: drop-shadow(0 8px 22px rgba(0,0,0,0.22));
+}
+.summary-lottie { width: 56px; height: 56px; margin-bottom: 0.5rem; opacity: 0.95; }
+.buyer-step-lottie { width: 60px; height: 60px; margin-bottom: 0.6rem; opacity: 0.95; }
+.pricing-card-lottie { width: 64px; height: 64px; margin-bottom: 1rem; opacity: 0.95; }
+.trust-card-lottie { width: 60px; height: 60px; margin-bottom: 0.6rem; opacity: 0.95; }
+.proof-section-lottie { width: 84px; height: 84px; margin-bottom: 0.8rem; opacity: 0.95; }
+.final-panel-lottie { width: 96px; height: 96px; margin: 0 auto 1rem; opacity: 0.95; }
+.hero-panel-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: center; }
+@media (max-width: 900px) {
+  .portal-hero-lottie { width: 180px; }
+  .pricing-card-lottie { width: 52px; height: 52px; }
+  .buyer-step-lottie { width: 48px; height: 48px; }
+  .hero-panel-grid { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -803,7 +823,7 @@ body { background: #fff; }
 <main class="portal-shell" id="main">
   <section class="portal-hero">
     <div class="portal-inner">
-      <div class="hero-panel portal-reveal">
+      <div class="hero-panel portal-reveal hero-panel-grid">
         <div>
           <span class="portal-badge">Services & Pricing Guide</span>
           <h1>Find the right AI support <em>before you pay.</em></h1>
@@ -814,9 +834,11 @@ body { background: #fff; }
           </div>
         </div>
 
+        <div class="portal-hero-lottie" data-lottie="audit" data-lottie-height="260px" role="img" aria-label="Pricing analysis animation"></div>
         <aside class="portal-summary" aria-label="Portal summary">
           <div class="summary-top">
-        <span>No card required</span>
+            <div class="summary-lottie" data-lottie="keynote" data-lottie-height="56px" aria-hidden="true"></div>
+            <span>No card required</span>
         <strong>Scope first, payment second</strong>
         <p>Use the package cards to tell us what looks close. You receive a written recommendation before checkout.</p>
           </div>
@@ -830,21 +852,25 @@ body { background: #fff; }
 
       <div class="buyer-path portal-reveal" aria-label="How the buying process works">
         <article class="buyer-step">
+          <div class="buyer-step-lottie" data-lottie="panel" data-lottie-height="60px" aria-hidden="true"></div>
           <span>1</span>
           <strong>Choose a likely fit</strong>
           <p>Start with the package that seems closest, even if you are not sure.</p>
         </article>
         <article class="buyer-step">
+          <div class="buyer-step-lottie" data-lottie="keynote" data-lottie-height="60px" aria-hidden="true"></div>
           <span>2</span>
           <strong>Talk through goals</strong>
           <p>A short fit check confirms your team, timeline, and risk concerns.</p>
         </article>
         <article class="buyer-step">
+          <div class="buyer-step-lottie" data-lottie="audit" data-lottie-height="60px" aria-hidden="true"></div>
           <span>3</span>
           <strong>Review the scope</strong>
           <p>You get clear deliverables, price, and next steps before approving work.</p>
         </article>
         <article class="buyer-step">
+          <div class="buyer-step-lottie" data-lottie="finance" data-lottie-height="60px" aria-hidden="true"></div>
           <span>4</span>
           <strong>Pay only when ready</strong>
           <p>Checkout happens after the scope is right, not before the conversation.</p>
@@ -872,6 +898,15 @@ body { background: #fff; }
 
       <div class="pricing-grid">
         <article class="pricing-card portal-reveal" data-payment-mode="one-time">
+          <div class="pricing-card-lottie" data-lottie="keynote" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="workshop" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="support" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="panel" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="governance" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="audit" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="education" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="workshop" data-lottie-height="64px" aria-hidden="true"></div>
+          <div class="pricing-card-lottie" data-lottie="training" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Starter</div>
           <h3>Intro Training</h3>
           <div class="price">$499-$1,500</div>
@@ -1070,22 +1105,26 @@ body { background: #fff; }
   <section class="portal-proof">
     <div class="portal-inner proof-grid">
       <div class="proof-copy portal-reveal">
+        <div class="proof-section-lottie" data-lottie="panel" data-lottie-height="84px" aria-hidden="true"></div>
         <span class="portal-badge">Why Trust the Process</span>
         <h2>Clear pricing, thoughtful scoping, practical outcomes.</h2>
         <p>AI decisions touch data, staff workflows, policy, and risk. The buying process is designed to slow down just enough to protect your organization before work begins.</p>
       </div>
       <div class="trust-grid">
         <article class="trust-card portal-reveal">
+          <div class="trust-card-lottie" data-lottie="governance" data-lottie-height="60px" aria-hidden="true"></div>
           <span>Vendor neutral</span>
           <strong>No software reseller agenda</strong>
           <p>Recommendations focus on fit, governance, and practical value instead of pushing a specific AI tool.</p>
         </article>
         <article class="trust-card portal-reveal">
+          <div class="trust-card-lottie" data-lottie="support" data-lottie-height="60px" aria-hidden="true"></div>
           <span>Confidential by default</span>
           <strong>Your internal details stay private</strong>
           <p>Discovery conversations can stay high level until you approve a scope and any needed confidentiality terms.</p>
         </article>
         <article class="trust-card portal-reveal">
+          <div class="trust-card-lottie" data-lottie="municipality" data-lottie-height="60px" aria-hidden="true"></div>
           <span>Maine focused</span>
           <strong>Built for local organizations</strong>
           <p>Packages are sized for small businesses, nonprofits, public-sector teams, and growing Maine employers.</p>
@@ -1128,6 +1167,7 @@ body { background: #fff; }
     <div class="portal-inner">
       <div class="final-panel portal-reveal">
         <div>
+          <div class="final-panel-lottie" data-lottie="globe" data-lottie-height="96px" aria-hidden="true"></div>
           <h2>Still comparing options?</h2>
           <p>Book a fit check and we will recommend a tier, bundle, or custom scope based on your goals.</p>
         </div>
@@ -1208,6 +1248,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealItems.forEach((item) => revealObserver.observe(item));
 </script>
+<script src="lottie.js"></script>
 </body>
 </html>
 
