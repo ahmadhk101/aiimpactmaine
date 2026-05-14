@@ -132,6 +132,28 @@
   .resource-meta { flex-direction: column; gap: 0.5rem; }
   .related-grid { grid-template-columns: 1fr; }
 }
+
+.resource-hero-glow {
+  position: absolute; top: -25%; right: -8%;
+  width: 60vw; height: 130%;
+  background: radial-gradient(ellipse, rgba(61,127,138,0.22) 0%, transparent 65%);
+  pointer-events: none; z-index: 1;
+}
+.resource-hero-glow2 {
+  position: absolute; bottom: -30%; left: -10%;
+  width: 40vw; height: 80%;
+  background: radial-gradient(ellipse, rgba(200,184,154,0.09) 0%, transparent 65%);
+  pointer-events: none; z-index: 1;
+}
+.resource-hero-inner { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.5rem; align-items: center; }
+.resource-hero-lottie {
+  width: 200px; max-width: 100%; aspect-ratio: 1 / 1; margin-left: auto;
+  opacity: 0.92; filter: drop-shadow(0 6px 20px rgba(0,0,0,0.20));
+}
+@media (max-width: 900px) {
+  .resource-hero-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .resource-hero-lottie { width: 140px; margin: 0 auto; }
+}
 </style>
 </head>
 <body>
@@ -179,7 +201,10 @@
 <!-- HERO -->
 <section class="resource-hero">
   <div class="resource-hero-grid"></div>
+  <div class="resource-hero-glow"></div>
+  <div class="resource-hero-glow2"></div>
   <div class="resource-hero-inner">
+    <div>
     <h1 class="animate">Nonprofit AI Adoption Guide</h1>
     <p class="resource-hero-sub animate">Mission-aligned AI implementation guide for nonprofits with 20+ use cases for fundraising, programs, operations, and volunteer management — plus grant funding sources.</p>
     <div class="resource-meta animate">
@@ -187,6 +212,8 @@
       <span>⏱️ 30 minute read</span>
       <span>✓ Ready to implement</span>
     </div>
+    </div>
+    <div class="resource-hero-lottie animate" data-lottie="nonprofit" data-lottie-height="200px" role="img" aria-label="nonprofit animation"></div>
   </div>
 </section>
 
@@ -392,5 +419,6 @@
   });
 })();
 </script>
+<script src="../../lottie.js"></script>
 </body>
 </html>

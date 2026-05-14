@@ -36,6 +36,33 @@
   background-size: 72px 72px;
   pointer-events: none;
 }
+.resources-hero-glow {
+  position: absolute; top: -15%; right: -5%;
+  width: 65vw; height: 120%;
+  background: radial-gradient(ellipse, rgba(61,127,138,0.22) 0%, transparent 65%);
+  pointer-events: none; z-index: 1;
+}
+.resources-hero-glow2 {
+  position: absolute; bottom: -20%; left: -10%;
+  width: 45vw; height: 70%;
+  background: radial-gradient(ellipse, rgba(200,184,154,0.10) 0%, transparent 65%);
+  pointer-events: none; z-index: 1;
+}
+.resources-hero-inner-grid {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 3rem; align-items: center;
+  max-width: 1200px; margin: 0 auto;
+}
+.resources-hero-lottie {
+  width: 320px; max-width: 100%; aspect-ratio: 1 / 1; margin-left: auto;
+  opacity: 0.95; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.18));
+}
+@media (max-width: 900px) {
+  .resources-hero-inner-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .resources-hero-lottie { width: 200px; margin: 0 auto; }
+}
+
 
 .resources-hero h1 {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -341,9 +368,14 @@
 <!-- HERO -->
 <section class="resources-hero">
   <div class="resources-hero-grid"></div>
-  <div class="section-inner" style="position: relative; z-index: 2;">
-    <h1 class="animate">Free AI Resources for Maine <em>Organizations</em></h1>
-    <p class="resources-hero-sub animate">Professional templates, guides, and toolkits for implementing AI responsibly. Designed for small businesses, nonprofits, municipalities, and educators.</p>
+  <div class="resources-hero-glow"></div>
+  <div class="resources-hero-glow2"></div>
+  <div class="resources-hero-inner-grid section-inner">
+    <div>
+      <h1 class="animate">Free AI Resources for Maine <em>Organizations</em></h1>
+      <p class="resources-hero-sub animate">Professional templates, guides, and toolkits for implementing AI responsibly. Designed for small businesses, nonprofits, municipalities, and educators.</p>
+    </div>
+    <div class="resources-hero-lottie animate" data-lottie="globe" data-lottie-height="320px" role="img" aria-label="Maine resource library globe animation"></div>
   </div>
 </section>
 
@@ -578,5 +610,6 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 </script>
+<script src="../lottie.js"></script>
 </body>
 </html>
