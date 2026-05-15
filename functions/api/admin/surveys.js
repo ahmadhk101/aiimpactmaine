@@ -12,15 +12,21 @@ export async function onRequestGet({ request, env }) {
   if (!engagementId) return json({ error: "engagement_id required" }, 400);
 
   const { results } = await env.DB.prepare(
-    "SELECT id, type, responses, submitted_at FROM surveys WHERE engagement_id = ? ORDER BY submitted_at DESC"
+    `SELECT s.id, s.type, s.responses, s.submitted_at, s.survey_id,
+            es.title AS survey_title, es.questions AS survey_questions
+     FROM surveys s
+     LEFT JOIN engagement_surveys es ON es.id = s.survey_id
+     WHERE s.engagement_id = ?
+     ORDER BY s.submitted_at DESC`
   )
     .bind(engagementId)
     .all();
 
-  // Parse JSON responses for convenience
+  // Parse JSON responses + questions for convenience
   const surveys = results.map((r) => ({
     ...r,
     responses: JSON.parse(r.responses),
+    survey_questions: r.survey_questions ? JSON.parse(r.survey_questions) : null,
   }));
   return json({ surveys });
 }

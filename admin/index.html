@@ -90,6 +90,7 @@
 <nav class="tabs">
   <button data-tab="engagements" class="active">Engagements</button>
   <button data-tab="clients">Clients</button>
+  <button data-tab="templates">Survey Templates</button>
   <button data-tab="library">Resource Library</button>
 </nav>
 
@@ -150,6 +151,19 @@
     </section>
   </div>
 
+  <!-- ===== SURVEY TEMPLATES TAB ===== -->
+  <div class="tab-content" id="tab-templates" style="display:none;">
+    <section class="panel">
+      <h2>Survey templates</h2>
+      <p style="color:var(--muted);font-size:0.9rem;">Templates are reusable survey definitions. Once created, you can assign them to any engagement and optionally customize the questions per engagement.</p>
+      <table>
+        <thead><tr><th>Name</th><th>Description</th><th>Questions</th><th>Type</th><th></th></tr></thead>
+        <tbody id="templatesTable"></tbody>
+      </table>
+      <button style="margin-top:1rem;" onclick="openTemplateEditor(null)">+ New template</button>
+    </section>
+  </div>
+
   <!-- ===== LIBRARY TAB ===== -->
   <div class="tab-content" id="tab-library" style="display:none;">
     <section class="panel">
@@ -205,6 +219,7 @@ document.querySelectorAll('nav.tabs button').forEach(b => {
     document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
     document.getElementById('tab-' + b.dataset.tab).style.display = '';
     if (b.dataset.tab === 'library') loadLibrary();
+    if (b.dataset.tab === 'templates') loadTemplates();
   };
 });
 
@@ -295,12 +310,23 @@ async function openEngagement(id) {
       </div>`).join('')
     : '<div class="empty" style="padding:1rem;">No activity recorded.</div>';
 
+  // Build map of survey_id -> question label lookup for nicer response display
   const surveysHtml = d.surveys.length
-    ? d.surveys.map(s => `<details style="margin:0.5rem 0;"><summary style="cursor:pointer;font-weight:500;"><span class="pill ${s.type==='pre'?'pre':'post'}">${esc(s.type)}</span> &nbsp; ${esc(s.submitted_at)}</summary>
-        <div style="padding:0.75rem;background:white;margin-top:0.5rem;border-radius:2px;">
-          ${Object.entries(s.responses).map(([k,v])=>`<div style="margin:0.4rem 0;"><strong>${esc(k)}:</strong> ${esc(String(v))}</div>`).join('')}
-        </div></details>`).join('')
-    : '<div class="empty">No surveys submitted.</div>';
+    ? d.surveys.map(s => {
+        const qMap = {};
+        if (s.survey_questions) s.survey_questions.forEach(q => qMap[q.id] = q.label);
+        const titlePill = s.survey_title ? esc(s.survey_title) : esc(s.type);
+        return `<details style="margin:0.5rem 0;"><summary style="cursor:pointer;font-weight:500;">
+          <strong>${titlePill}</strong> <span style="color:var(--muted);font-size:0.8rem;">${esc(s.submitted_at)}</span></summary>
+          <div style="padding:0.75rem;background:white;margin-top:0.5rem;border-radius:2px;">
+            ${Object.entries(s.responses).map(([k,v]) => {
+              const label = qMap[k] || k;
+              const displayVal = Array.isArray(v) ? v.join(', ') : String(v);
+              return `<div style="margin:0.4rem 0;"><strong>${esc(label)}:</strong> ${esc(displayVal)}</div>`;
+            }).join('')}
+          </div></details>`;
+      }).join('')
+    : '<div class="empty">No survey responses yet.</div>';
 
   const messagesHtml = d.messages.length
     ? d.messages.map(m => `<div class="msg ${m.sender}">${esc(m.body)}<div class="msg-time">${esc(m.created_at)}</div></div>`).join('')
@@ -393,13 +419,105 @@ async function openEngagement(id) {
     </div>
     <div id="emailResult"></div>
 
-    <h3>Surveys</h3>
+    <h3>Assigned surveys</h3>
+    <div id="engSurveysList" style="margin-bottom:0.75rem;"></div>
+    <div class="grid-2">
+      <div>
+        <label>Add from template</label>
+        <select id="addSurveyTpl"><option value="">Loading…</option></select>
+      </div>
+      <div style="display:flex;align-items:flex-end;">
+        <button onclick="assignSurvey(${e.id})">+ Assign survey</button>
+      </div>
+    </div>
+
+    <h3>Survey responses</h3>
     ${surveysHtml}
 
     <h3>Activity log</h3>
     <div class="activity-list">${activityHtml}</div>
   `;
   document.getElementById('modalBg').classList.add('show');
+  loadEngagementSurveys(e.id);
+}
+
+async function loadEngagementSurveys(engagementId) {
+  // Load templates for dropdown
+  const tr = await api('/api/admin/survey-templates');
+  const tpls = (await tr.json()).templates || [];
+  const sel = document.getElementById('addSurveyTpl');
+  if (sel) sel.innerHTML = '<option value="">Select a template…</option>' + tpls.map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join('');
+
+  // Load already-assigned surveys for this engagement
+  const r = await api('/api/admin/engagement-surveys?engagement_id=' + engagementId);
+  const data = await r.json();
+  const list = document.getElementById('engSurveysList');
+  if (!data.surveys || !data.surveys.length) {
+    list.innerHTML = '<div class="empty">No surveys assigned yet. Use the dropdown below to assign one.</div>';
+    return;
+  }
+  const VIS_LABELS = { pre: 'Pre-engagement', active: 'During engagement', post: 'Post-engagement', all: 'All stages' };
+  list.innerHTML = '<table><thead><tr><th>Title</th><th>Visible at</th><th>Repeatable</th><th>Responses</th><th></th></tr></thead><tbody>' +
+    data.surveys.map(s => `
+      <tr>
+        <td><strong>${esc(s.title)}</strong>${s.template_name ? `<br><span style="color:var(--muted);font-size:0.75rem;">From: ${esc(s.template_name)}</span>` : ''}</td>
+        <td>
+          <select class="small" onchange="updateEngSurvey(${s.id},'visibility',this.value,${engagementId})">
+            ${['all','pre','active','post'].map(v => `<option value="${v}" ${s.visibility===v?'selected':''}>${VIS_LABELS[v]}</option>`).join('')}
+          </select>
+        </td>
+        <td><input type="checkbox" ${s.repeatable?'checked':''} onchange="updateEngSurvey(${s.id},'repeatable',this.checked,${engagementId})"></td>
+        <td>${s.response_count}</td>
+        <td><button class="small danger" onclick="removeEngSurvey(${s.id},'${esc(s.title)}',${engagementId})">Remove</button></td>
+      </tr>
+    `).join('') + '</tbody></table>';
+}
+
+async function assignSurvey(engagementId) {
+  const templateId = document.getElementById('addSurveyTpl').value;
+  if (!templateId) { toast('Pick a template first'); return; }
+  // Fetch template to copy its name/desc as defaults
+  const tr = await api('/api/admin/survey-templates?id=' + templateId);
+  const tpl = (await tr.json()).template;
+  if (!tpl) return;
+
+  // Pick default visibility based on template name hint
+  let defaultVis = 'all';
+  let defaultRepeat = 0;
+  const nm = tpl.name.toLowerCase();
+  if (nm.includes('pre-')) defaultVis = 'pre';
+  else if (nm.includes('post-')) defaultVis = 'post';
+  else if (nm.includes('weekly') || nm.includes('session')) { defaultVis = 'active'; defaultRepeat = 1; }
+
+  const r = await api('/api/admin/engagement-surveys', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      engagement_id: engagementId,
+      template_id: parseInt(templateId, 10),
+      title: tpl.name,
+      description: tpl.description,
+      visibility: defaultVis,
+      repeatable: defaultRepeat,
+    }),
+  });
+  if (r.ok) { toast('Survey assigned'); loadEngagementSurveys(engagementId); }
+  else { const e = await r.json(); toast(e.error || 'Failed'); }
+}
+
+async function updateEngSurvey(id, field, value, engagementId) {
+  await api('/api/admin/engagement-surveys', {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ id, [field]: value }),
+  });
+  toast('Updated');
+}
+
+async function removeEngSurvey(id, title, engagementId) {
+  if (!confirm('Remove "' + title + '" from this engagement?\\n\\nExisting responses will be preserved but the survey will no longer appear in the client portal.')) return;
+  await api('/api/admin/engagement-surveys?id=' + id, { method: 'DELETE' });
+  toast('Removed'); loadEngagementSurveys(engagementId);
 }
 
 function closeModal() { document.getElementById('modalBg').classList.remove('show'); currentEng = null; }
@@ -532,6 +650,144 @@ document.addEventListener('change', (e) => {
     document.getElementById('customFields').style.display = e.target.value === 'custom' ? '' : 'none';
   }
 });
+
+// ===== Survey Templates =====
+let templates = [];
+const QUESTION_TYPES = [
+  { value: 'text', label: 'Short text' },
+  { value: 'longtext', label: 'Long text' },
+  { value: 'single', label: 'Single choice (dropdown)' },
+  { value: 'multi', label: 'Multiple choice (checkboxes)' },
+  { value: 'rating', label: 'Rating (1-5)' },
+  { value: 'yesno', label: 'Yes / No' },
+];
+
+async function loadTemplates() {
+  const r = await api('/api/admin/survey-templates');
+  templates = (await r.json()).templates || [];
+  const tbody = document.getElementById('templatesTable');
+  if (!templates.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">No templates yet.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = await Promise.all(templates.map(async t => {
+    const tr = await api('/api/admin/survey-templates?id=' + t.id);
+    const td = await tr.json();
+    const qCount = td.template.questions.length;
+    return `<tr>
+      <td><strong>${esc(t.name)}</strong></td>
+      <td style="color:var(--muted);">${esc(t.description||'')}</td>
+      <td>${qCount} question${qCount===1?'':'s'}</td>
+      <td>${t.is_system ? '<span class="pill complete">system</span>' : '<span class="pill active">custom</span>'}</td>
+      <td>
+        <button class="small ghost" onclick="openTemplateEditor(${t.id})">${t.is_system?'View':'Edit'}</button>
+        ${!t.is_system?`<button class="small danger" onclick="deleteTemplate(${t.id},'${esc(t.name)}')">Delete</button>`:''}
+      </td>
+    </tr>`;
+  })).then(rows => rows.join(''));
+}
+
+async function openTemplateEditor(id) {
+  let template = { name: '', description: '', questions: [], is_system: false };
+  if (id) {
+    const r = await api('/api/admin/survey-templates?id=' + id);
+    template = (await r.json()).template;
+  }
+  const isSystem = !!template.is_system;
+  const readonlyAttr = isSystem ? 'readonly' : '';
+  document.getElementById('modalContent').innerHTML = `
+    <button class="modal-close ghost small" onclick="closeModal()">✕ Close</button>
+    <h2>${id ? (isSystem?'View':'Edit')+' template' : 'New template'}</h2>
+    ${isSystem ? '<p style="color:var(--muted);font-size:0.85rem;">This is a system template — view only. Duplicate it (create new) to make a customized version.</p>' : ''}
+    <label>Template name</label>
+    <input id="tplName" value="${esc(template.name)}" ${readonlyAttr}>
+    <label>Description (optional)</label>
+    <textarea id="tplDesc" rows="2" ${readonlyAttr}>${esc(template.description||'')}</textarea>
+    <h3>Questions</h3>
+    <div id="questionsBuilder"></div>
+    ${!isSystem ? '<button class="ghost" style="margin-top:0.5rem;" onclick="addQuestion()">+ Add question</button>' : ''}
+    ${!isSystem ? `<div style="margin-top:1.5rem;display:flex;gap:0.5rem;"><button onclick="saveTemplate(${id || 'null'})" style="background:var(--teal);">${id?'Save changes':'Create template'}</button><button class="ghost" onclick="closeModal()">Cancel</button></div>` : ''}
+  `;
+  window.__editingQuestions = JSON.parse(JSON.stringify(template.questions || []));
+  renderQuestionsBuilder(isSystem);
+  document.getElementById('modalBg').classList.add('show');
+}
+
+function renderQuestionsBuilder(readonly) {
+  const builder = document.getElementById('questionsBuilder');
+  if (!window.__editingQuestions.length) {
+    builder.innerHTML = '<div class="empty">No questions yet. Click "Add question" below.</div>';
+    return;
+  }
+  builder.innerHTML = window.__editingQuestions.map((q, i) => `
+    <div style="background:var(--sand);padding:1rem;border-radius:2px;margin-bottom:0.75rem;border:1px solid var(--line);">
+      <div class="grid-2">
+        <div>
+          <label>Question label</label>
+          <input value="${esc(q.label||'')}" onchange="updateQ(${i},'label',this.value)" ${readonly?'readonly':''}>
+        </div>
+        <div>
+          <label>Type</label>
+          <select onchange="updateQ(${i},'type',this.value)" ${readonly?'disabled':''}>
+            ${QUESTION_TYPES.map(t => `<option value="${t.value}" ${q.type===t.value?'selected':''}>${t.label}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label>Field ID (alphanumeric, no spaces)</label>
+          <input value="${esc(q.id||'')}" onchange="updateQ(${i},'id',this.value)" ${readonly?'readonly':''}>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:0.5rem;">
+          <label style="display:flex;align-items:center;gap:0.5rem;margin:0;"><input type="checkbox" ${q.required?'checked':''} onchange="updateQ(${i},'required',this.checked)" ${readonly?'disabled':''}> Required</label>
+          ${!readonly ? `<button class="small danger" onclick="removeQ(${i})">Remove</button>` : ''}
+        </div>
+      </div>
+      ${(q.type==='single'||q.type==='multi') ? `
+        <label>Options (one per line)</label>
+        <textarea rows="3" onchange="updateQOptions(${i},this.value)" ${readonly?'readonly':''}>${(q.options||[]).map(esc).join('\\n')}</textarea>
+      ` : ''}
+    </div>
+  `).join('');
+}
+
+function addQuestion() {
+  const nextNum = window.__editingQuestions.length + 1;
+  window.__editingQuestions.push({ id: 'q' + nextNum, type: 'longtext', label: '', required: false });
+  renderQuestionsBuilder(false);
+}
+function updateQ(i, field, value) { window.__editingQuestions[i][field] = value; if(field==='type') renderQuestionsBuilder(false); }
+function updateQOptions(i, value) {
+  window.__editingQuestions[i].options = value.split('\\n').map(s => s.trim()).filter(Boolean);
+}
+function removeQ(i) {
+  if (!confirm('Remove this question?')) return;
+  window.__editingQuestions.splice(i, 1);
+  renderQuestionsBuilder(false);
+}
+
+async function saveTemplate(id) {
+  const name = document.getElementById('tplName').value.trim();
+  const description = document.getElementById('tplDesc').value.trim();
+  if (!name) { toast('Name required'); return; }
+  if (!window.__editingQuestions.length) { toast('Add at least one question'); return; }
+  const payload = { name, description, questions: window.__editingQuestions };
+  if (id) payload.id = id;
+  const r = await api('/api/admin/survey-templates', {
+    method: id ? 'PUT' : 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(payload),
+  });
+  const result = await r.json();
+  if (r.ok) { toast(id?'Template saved':'Template created'); closeModal(); loadTemplates(); }
+  else toast(result.error || 'Save failed');
+}
+
+async function deleteTemplate(id, name) {
+  if (!confirm('Delete template "' + name + '"?')) return;
+  await api('/api/admin/survey-templates?id=' + id, { method: 'DELETE' });
+  toast('Template deleted'); loadTemplates();
+}
 
 // ===== Form submit =====
 document.getElementById('clientForm').addEventListener('submit', async (e) => {

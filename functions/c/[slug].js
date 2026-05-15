@@ -24,26 +24,28 @@ export async function onRequest({ params, env, request }) {
     "SELECT id, filename, size_bytes FROM documents WHERE engagement_id = ? AND (visibility = 'all' OR visibility = ?) ORDER BY uploaded_at DESC"
   ).bind(eng.id, eng.stage).all();
 
-  // Survey state for current stage
-  const surveyType = eng.stage === "pre" ? "pre" : eng.stage === "post" ? "post" : null;
-  let surveyDone = false;
-  if (surveyType) {
-    const existing = await env.DB.prepare("SELECT id FROM surveys WHERE engagement_id = ? AND type = ?")
-      .bind(eng.id, surveyType).first();
-    surveyDone = !!existing;
-  }
+  // Survey state — fetch all surveys assigned to this engagement, visible at current stage,
+  // along with response counts to know which one-time surveys have been submitted
+  const { results: surveysRaw } = await env.DB.prepare(
+    `SELECT es.id, es.title, es.description, es.questions, es.visibility, es.repeatable,
+            (SELECT COUNT(*) FROM surveys s WHERE s.survey_id = es.id) AS response_count
+     FROM engagement_surveys es
+     WHERE es.engagement_id = ? AND (es.visibility = 'all' OR es.visibility = ?)
+     ORDER BY es.created_at ASC`
+  ).bind(eng.id, eng.stage).all();
+  const surveys = surveysRaw.map(s => ({ ...s, questions: JSON.parse(s.questions) }));
 
   // Unread admin messages count
   const unread = await env.DB.prepare(
     "SELECT COUNT(*) AS n FROM messages WHERE engagement_id = ? AND sender = 'admin' AND read_at IS NULL"
   ).bind(eng.id).first();
 
-  return new Response(renderPortal(eng, docs, surveyType, surveyDone, unread?.n || 0), {
+  return new Response(renderPortal(eng, docs, surveys, unread?.n || 0), {
     headers: { "Content-Type": "text/html; charset=utf-8" },
   });
 }
 
-function renderPortal(eng, docs, surveyType, surveyDone, unreadCount) {
+function renderPortal(eng, docs, surveys, unreadCount) {
   const stages = [
     { key: "pre", label: "Intake" },
     { key: "active", label: "In Progress" },
@@ -100,11 +102,14 @@ function renderPortal(eng, docs, surveyType, surveyDone, unreadCount) {
         </ul>` : `<p class="empty-note">No materials available at this stage yet.</p>`}
     </section>`;
 
-  // ====== Surveys ======
-  const surveyHtml = surveyType && !surveyDone ? renderSurveyForm(eng.slug, surveyType) : "";
-  const surveyDoneHtml = surveyDone
-    ? `<section class="card"><h2>Survey complete</h2><p>Thank you — your response has been recorded.</p></section>`
-    : "";
+  // ====== Surveys (dynamic — from engagement_surveys table) ======
+  const surveysHtml = surveys.map(s => {
+    const submitted = s.response_count > 0;
+    if (submitted && !s.repeatable) {
+      return `<section class="card"><h2>${escapeHtml(s.title)}</h2>${s.description ? `<p>${escapeHtml(s.description)}</p>` : ""}<p style="color:var(--teal);">✓ Submitted — thank you.</p></section>`;
+    }
+    return renderDynamicSurvey(s, submitted);
+  }).join("");
 
   // ====== Messaging ======
   const messagingHtml = `
@@ -218,8 +223,7 @@ function renderPortal(eng, docs, surveyType, surveyDone, unreadCount) {
   ${invoiceHtml}
   ${calHtml}
   ${docsHtml}
-  ${surveyHtml}
-  ${surveyDoneHtml}
+  ${surveysHtml}
   ${messagingHtml}
 
   <div class="footer">Questions? Email <a href="mailto:hello@aiimpactmaine.com">hello@aiimpactmaine.com</a></div>
@@ -228,24 +232,40 @@ function renderPortal(eng, docs, surveyType, surveyDone, unreadCount) {
 <script>
 const SLUG = ${JSON.stringify(eng.slug)};
 
-// ===== Survey submit =====
-const surveyForm = document.querySelector('form.survey');
-if (surveyForm) {
-  surveyForm.addEventListener('submit', async (e) => {
+// ===== Survey submit (handles multiple forms, checkbox arrays, survey_id) =====
+document.querySelectorAll('form.survey').forEach(form => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const fd = new FormData(surveyForm);
+    const fd = new FormData(form);
     const responses = {};
-    for (const [k, v] of fd.entries()) responses[k] = v;
+    for (const [k, v] of fd.entries()) {
+      // Checkbox arrays use name="key[]"
+      if (k.endsWith('[]')) {
+        const cleanKey = k.slice(0, -2);
+        if (!responses[cleanKey]) responses[cleanKey] = [];
+        responses[cleanKey].push(v);
+      } else {
+        responses[k] = v;
+      }
+    }
+    const surveyId = parseInt(form.dataset.surveyId, 10);
+    const btn = form.querySelector('button[type=submit]');
+    btn.disabled = true;
     const res = await fetch('/api/client/survey', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug: SLUG, type: surveyForm.dataset.type, responses }),
+      body: JSON.stringify({ slug: SLUG, survey_id: surveyId, responses }),
     });
+    btn.disabled = false;
     if (res.ok) {
-      surveyForm.outerHTML = '<section class="card"><h2>Survey complete</h2><p>Thank you — your response has been recorded.</p></section>';
-    } else { alert('Sorry, something went wrong.'); }
+      // Reload to refresh state (handles both one-time and repeatable nicely)
+      location.reload();
+    } else {
+      const err = await res.json().catch(() => ({}));
+      alert(err.error || 'Sorry, something went wrong.');
+    }
   });
-}
+});
 
 // ===== Contract sign =====
 const contractForm = document.querySelector('form.contract-sign');
@@ -337,47 +357,61 @@ function renderInvoiceSection(eng) {
     </section>`;
 }
 
-function renderSurveyForm(slug, type) {
-  if (type === "pre") {
-    return `
-    <section class="card">
-      <h2>Pre-engagement questionnaire</h2>
-      <form class="survey" data-type="pre">
-        <label>What is the primary outcome you want from this engagement?</label>
-        <textarea name="primary_goal" required></textarea>
-        <label>How would you describe your team's current AI familiarity?</label>
-        <select name="ai_familiarity" required>
-          <option value="">Select…</option>
-          <option>None — we are just starting to explore</option>
-          <option>Some — a few people use AI tools casually</option>
-          <option>Moderate — used in some workflows</option>
-          <option>High — integrated across teams</option>
-        </select>
-        <label>What specific tools, processes, or roles do you want covered?</label>
-        <textarea name="scope_notes"></textarea>
-        <label>Are there any topics or vendors you want excluded?</label>
-        <textarea name="exclusions"></textarea>
-        <button class="btn-primary" type="submit">Submit questionnaire</button>
-      </form>
-    </section>`;
-  }
+function renderDynamicSurvey(s, submittedBefore) {
+  const fieldsHtml = s.questions.map(q => renderQuestion(q)).join("");
+  const buttonLabel = submittedBefore ? "Submit another response" : "Submit";
+  const repeatNote = s.repeatable && submittedBefore
+    ? `<p style="color:var(--muted);font-size:0.85rem;">You've submitted ${s.response_count} response${s.response_count === 1 ? "" : "s"} to this survey. You can submit again.</p>`
+    : "";
   return `
     <section class="card">
-      <h2>Post-engagement feedback</h2>
-      <form class="survey" data-type="post">
-        <label>Overall, how would you rate this engagement? (1–5)</label>
-        <div class="rating">
-          ${[1,2,3,4,5].map(n => `<label><input type="radio" name="rating" value="${n}" required><span>${n}</span></label>`).join("")}
-        </div>
-        <label>What was most valuable?</label>
-        <textarea name="most_valuable" required></textarea>
-        <label>What could have been better?</label>
-        <textarea name="improvement"></textarea>
-        <label>Would you recommend AI Impact Maine to a peer? Why or why not?</label>
-        <textarea name="recommend"></textarea>
-        <button class="btn-primary" type="submit">Submit feedback</button>
+      <h2>${escapeHtml(s.title)}</h2>
+      ${s.description ? `<p>${escapeHtml(s.description)}</p>` : ""}
+      ${repeatNote}
+      <form class="survey" data-survey-id="${s.id}">
+        ${fieldsHtml}
+        <button class="btn-primary" type="submit">${buttonLabel}</button>
       </form>
     </section>`;
+}
+
+function renderQuestion(q) {
+  const req = q.required ? "required" : "";
+  const reqMark = q.required ? ' <span style="color:var(--danger);">*</span>' : "";
+  switch (q.type) {
+    case "text":
+      return `<label>${escapeHtml(q.label)}${reqMark}</label><input type="text" name="${escapeHtml(q.id)}" ${req}>`;
+    case "longtext":
+      return `<label>${escapeHtml(q.label)}${reqMark}</label><textarea name="${escapeHtml(q.id)}" ${req}></textarea>`;
+    case "single":
+      return `<label>${escapeHtml(q.label)}${reqMark}</label>
+        <select name="${escapeHtml(q.id)}" ${req}>
+          <option value="">Select…</option>
+          ${(q.options || []).map(o => `<option>${escapeHtml(o)}</option>`).join("")}
+        </select>`;
+    case "multi":
+      return `<label>${escapeHtml(q.label)}${reqMark}</label>
+        <div class="multi-choices">
+          ${(q.options || []).map((o, i) => `
+            <label style="display:flex;align-items:center;gap:0.5rem;font-weight:normal;margin:0.25rem 0;">
+              <input type="checkbox" name="${escapeHtml(q.id)}[]" value="${escapeHtml(o)}" style="width:auto;">
+              <span>${escapeHtml(o)}</span>
+            </label>`).join("")}
+        </div>`;
+    case "rating":
+      return `<label>${escapeHtml(q.label)} (1–5)${reqMark}</label>
+        <div class="rating">
+          ${[1,2,3,4,5].map(n => `<label><input type="radio" name="${escapeHtml(q.id)}" value="${n}" ${req}><span>${n}</span></label>`).join("")}
+        </div>`;
+    case "yesno":
+      return `<label>${escapeHtml(q.label)}${reqMark}</label>
+        <div class="rating">
+          <label><input type="radio" name="${escapeHtml(q.id)}" value="Yes" ${req}><span>Yes</span></label>
+          <label><input type="radio" name="${escapeHtml(q.id)}" value="No" ${req}><span>No</span></label>
+        </div>`;
+    default:
+      return "";
+  }
 }
 
 function renderNotFound() {
