@@ -1,0 +1,25 @@
+# Cloudflare Pages configuration for aiimpactmaine.com
+# After creating D1 + R2 in the dashboard, update the IDs below.
+# Then in Pages > Settings > Functions, add the same bindings via the UI
+# (the dashboard bindings are what production actually uses; this file is
+# primarily for local dev via `wrangler pages dev`).
+
+name = "aiimpactmaine"
+compatibility_date = "2025-09-01"
+pages_build_output_dir = "."
+
+# D1 database binding — env.DB inside Functions
+[[d1_databases]]
+binding = "DB"
+database_name = "aiimpact-db"
+database_id = "d96e991f-fa61-4f12-9ba3-2ec42a371dce"
+
+# R2 bucket binding — env.DOCS inside Functions
+[[r2_buckets]]
+binding = "DOCS"
+bucket_name = "aiimpact-docs"
+
+# Environment variables — set ADMIN_PASSWORD as a SECRET in the dashboard,
+# not here. This file goes to GitHub; secrets do not.
+[vars]
+SITE_NAME = "AI Impact Maine"
