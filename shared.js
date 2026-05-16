@@ -162,27 +162,40 @@ document.querySelectorAll('.nav-links a, .nav-drop a').forEach(a => {
 function adjustSiteNavLinks() {
   const isPortalPage = window.location.pathname === '/client-portal' ||
     window.location.pathname === '/client-dashboard';
+  const inResources = window.location.pathname.includes('/resources/');
+  const resourceHref = inResources ? 'index.html' : 'resources/';
+  const assessmentHref = inResources ? '../assessment.html' : 'assessment.html';
+  const cleanHref = (link) => (link?.getAttribute('href') || '').replace(/^\.\//, '');
+  const isAssessmentLink = (link) =>
+    link && link.textContent.trim() === 'Free Assessment' && cleanHref(link).endsWith('assessment.html');
+  const isResourcesLink = (link) => {
+    if (!link || link.textContent.trim() !== 'Resources') return false;
+    const href = cleanHref(link);
+    return href === 'resources/' || href.endsWith('/resources/') || href.endsWith('resources/index.html') ||
+      (inResources && href === 'index.html');
+  };
+
   const desktopNav = document.querySelector('.nav-links');
   if (desktopNav) {
     const topAssessment = Array.from(desktopNav.children).find((li) => {
-      const link = li.querySelector(':scope > a[href="assessment.html"]');
-      return link && link.textContent.trim() === 'Free Assessment';
+      const link = li.querySelector(':scope > a');
+      return isAssessmentLink(link);
     });
     topAssessment?.remove();
 
     const resourcesLi = Array.from(desktopNav.children).find((li) =>
-      li.querySelector(':scope > a[href="resources/"]')
+      isResourcesLink(li.querySelector(':scope > a'))
     );
     if (resourcesLi && !resourcesLi.classList.contains('nav-has-drop')) {
       resourcesLi.classList.add('nav-has-drop');
-      resourcesLi.innerHTML = '<a href="resources/">Resources</a><ul class="nav-drop"><li><a href="resources/">Resource Library</a></li><li><a href="assessment.html">Free Assessment</a></li></ul>';
-    } else if (resourcesLi && !resourcesLi.querySelector('a[href="assessment.html"]')) {
+      resourcesLi.innerHTML = `<a href="${resourceHref}">Resources</a><ul class="nav-drop"><li><a href="${resourceHref}">Resource Library</a></li><li><a href="${assessmentHref}">Free Assessment</a></li></ul>`;
+    } else if (resourcesLi && !Array.from(resourcesLi.querySelectorAll('a')).some(isAssessmentLink)) {
       const drop = resourcesLi.querySelector('.nav-drop');
-      drop?.insertAdjacentHTML('beforeend', '<li><a href="assessment.html">Free Assessment</a></li>');
+      drop?.insertAdjacentHTML('beforeend', `<li><a href="${assessmentHref}">Free Assessment</a></li>`);
     }
     if (currentPage === 'assessment.html') {
       resourcesLi?.querySelector(':scope > a')?.classList.add('nav-active');
-      resourcesLi?.querySelector('a[href="assessment.html"]')?.classList.add('nav-active');
+      Array.from(resourcesLi?.querySelectorAll('a') || []).find(isAssessmentLink)?.classList.add('nav-active');
     }
   }
 
@@ -197,14 +210,14 @@ function adjustSiteNavLinks() {
   const mobileNav = document.querySelector('.mobile-menu ul');
   if (mobileNav) {
     Array.from(mobileNav.children).forEach((li) => {
-      const link = li.querySelector(':scope > a[href="assessment.html"]');
-      if (link && link.textContent.trim() === 'Free Assessment') li.remove();
+      const link = li.querySelector(':scope > a');
+      if (isAssessmentLink(link)) li.remove();
     });
     const resourcesItem = Array.from(mobileNav.children).find((li) =>
-      li.querySelector(':scope > a[href="resources/"]')
+      isResourcesLink(li.querySelector(':scope > a'))
     );
     if (resourcesItem && !mobileNav.querySelector('a[data-assessment-resource]')) {
-      resourcesItem.insertAdjacentHTML('afterend', '<li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="assessment.html" data-assessment-resource style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Free Assessment</a></li>');
+      resourcesItem.insertAdjacentHTML('afterend', `<li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="${assessmentHref}" data-assessment-resource style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Free Assessment</a></li>`);
     }
   }
 

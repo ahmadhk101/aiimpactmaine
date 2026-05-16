@@ -31,6 +31,7 @@ function pageShell({ title, body }) {
   .engagement-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
   .engagement-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem; box-shadow: 0 8px 26px rgba(26,39,68,0.08); }
   .engagement-card h2 { font-family: 'Cormorant Garamond', serif; color: var(--navy); font-size: 1.45rem; margin: 0 0 0.75rem; }
+  .engagement-desc { color: var(--text-body); font-size: 0.92rem; line-height: 1.6; margin: 0 0 1rem; }
   .engagement-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
   .engagement-pill { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 999px; color: var(--text-body); font-size: 0.78rem; padding: 0.28rem 0.65rem; text-transform: capitalize; }
   .empty-panel { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; color: var(--text-body); }
@@ -74,9 +75,12 @@ function dashboardPage(client, engagements) {
   const cards = engagements.length ? engagements.map(e => `
     <article class="engagement-card">
       <h2>${escapeHtml(e.title)}</h2>
+      ${e.description ? `<p class="engagement-desc">${escapeHtml(e.description)}</p>` : ""}
       <div class="engagement-meta">
         <span class="engagement-pill">${escapeHtml(e.stage || "pre")}</span>
         <span class="engagement-pill">Invoice: ${escapeHtml(e.invoice_status || "unpaid")}</span>
+        ${e.invoice_number ? `<span class="engagement-pill">#${escapeHtml(e.invoice_number)}</span>` : ""}
+        ${e.invoice_date ? `<span class="engagement-pill">${escapeHtml(e.invoice_date)}</span>` : ""}
         ${e.invoice_amount_cents ? `<span class="engagement-pill">${formatMoney(e.invoice_amount_cents)}</span>` : ""}
       </div>
       <a class="btn-primary" href="/c/${encodeURIComponent(e.slug)}">Open portal</a>
@@ -114,7 +118,7 @@ export async function onRequestGet({ request, env }) {
     .run();
 
   const { results } = await env.DB.prepare(
-    "SELECT id, slug, title, stage, invoice_status, invoice_amount_cents, created_at FROM engagements WHERE client_id = ? ORDER BY created_at DESC"
+    "SELECT id, slug, title, description, stage, invoice_number, invoice_date, invoice_status, invoice_amount_cents, created_at FROM engagements WHERE client_id = ? ORDER BY created_at DESC"
   ).bind(link.client_id).all();
 
   return new Response(dashboardPage(link, results), {

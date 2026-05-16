@@ -75,6 +75,9 @@ function renderPortal(eng, docs, surveys, unreadCount) {
   // ====== Contract section ======
   const contractHtml = eng.contract_text ? renderContractSection(eng) : "";
 
+  // ====== Engagement details ======
+  const detailsHtml = eng.description ? renderEngagementDetails(eng) : "";
+
   // ====== Invoice section ======
   const hasInvoice = eng.invoice_amount_cents || eng.invoice_number || eng.invoice_date || eng.invoice_notes || eng.payment_link;
   const invoiceHtml = hasInvoice ? renderInvoiceSection(eng) : "";
@@ -158,6 +161,7 @@ function renderPortal(eng, docs, surveys, unreadCount) {
   .card { background:white; border-radius:4px; padding:2rem 2.5rem; margin-bottom:1.5rem; box-shadow:0 4px 16px rgba(10,37,64,0.05); }
   .card h2 { font-family:'Cormorant Garamond',serif; font-size:1.5rem; margin:0 0 1rem; color:var(--navy); }
   .badge { background:var(--teal); color:white; font-size:0.7rem; padding:0.15rem 0.55rem; border-radius:10px; margin-left:0.5rem; vertical-align:middle; }
+  .description-text { color:var(--muted); white-space:pre-wrap; margin:0; }
 
   .doc-list { list-style:none; padding:0; margin:0; }
   .doc-item { display:grid; grid-template-columns:1fr auto auto; gap:1rem; align-items:center; padding:0.85rem 0; border-bottom:1px solid var(--line); }
@@ -223,6 +227,7 @@ function renderPortal(eng, docs, surveys, unreadCount) {
     <p class="stage-message">${stageMessage}</p>
   </section>
 
+  ${detailsHtml}
   ${contractHtml}
   ${invoiceHtml}
   ${calHtml}
@@ -323,6 +328,14 @@ loadMessages();
 function escape(s){return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 </script>
 </body></html>`;
+}
+
+function renderEngagementDetails(eng) {
+  return `
+    <section class="card">
+      <h2>Engagement details</h2>
+      <p class="description-text">${escapeHtml(eng.description)}</p>
+    </section>`;
 }
 
 function renderContractSection(eng) {
