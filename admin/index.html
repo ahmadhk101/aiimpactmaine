@@ -81,6 +81,15 @@
   .attachment-row { display:grid; grid-template-columns:1fr auto auto; gap:0.75rem; align-items:center; padding:0.65rem 0; border-bottom:1px solid var(--line); }
   .attachment-row:last-child { border-bottom:none; }
   .attachment-meta { color:var(--muted); font-size:0.8rem; margin-top:0.15rem; }
+  .client-block { border:1px solid var(--line); border-radius:4px; margin-top:1rem; overflow:hidden; }
+  .client-header-row { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; padding:1rem; background:var(--sand); }
+  .client-header-row p { margin:0.2rem 0 0; color:var(--muted); font-size:0.85rem; }
+  .client-engagements { overflow-x:auto; background:white; }
+  .client-engagements table { min-width:1320px; }
+  .client-engagements input, .client-engagements select, .client-engagements textarea { background:white; font-size:0.84rem; min-width:120px; }
+  .client-engagements textarea { min-height:52px; min-width:180px; }
+  .client-engagements .wide-input { min-width:220px; }
+  .client-engagements .notes-input { min-width:240px; }
 </style>
 </head>
 <body>
@@ -154,10 +163,7 @@
         <h2 style="margin:0;">All clients</h2>
         <button type="button" onclick="exportCsv('clients')" style="font-size:0.85rem;padding:0.4rem 0.8rem;">Export clients (CSV)</button>
       </div>
-      <table>
-        <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Phone</th><th>Created</th><th></th></tr></thead>
-        <tbody id="clientsTable"></tbody>
-      </table>
+      <div id="clientsTable"></div>
     </section>
   </div>
 
@@ -267,17 +273,67 @@ async function loadClients() {
   sel.innerHTML = clients.length
     ? clients.map(c => `<option value="${c.id}">${esc(c.name)}${c.company?' — '+esc(c.company):''}</option>`).join('')
     : '<option value="">(no clients yet)</option>';
-  const tbody = document.getElementById('clientsTable');
-  tbody.innerHTML = clients.length ? clients.map(c => `
+  const wrap = document.getElementById('clientsTable');
+  wrap.innerHTML = clients.length ? clients.map(renderClientBlock).join('') : '<div class="empty">No clients yet.</div>';
+}
+
+function renderClientBlock(c) {
+  const rows = (c.engagements || []).length ? c.engagements.map(e => `
     <tr>
-      <td>${esc(c.name)}</td>
-      <td>${esc(c.company||'')}</td>
-      <td>${esc(c.email)}</td>
-      <td>${esc(c.phone||'')}</td>
-      <td style="color:var(--muted);font-size:0.8rem;">${esc(c.created_at)}</td>
-      <td><button class="small ghost" onclick="openClientEditor(${c.id})">Edit</button></td>
+      <td>
+        <strong>${esc(e.title)}</strong><br>
+        <span class="copy-link" onclick="openEngagement(${e.id})">Open engagement</span>
+      </td>
+      <td>
+        <select id="clientStage-${e.id}">
+          ${['pre','active','post','complete'].map(s=>`<option value="${s}" ${s===(e.stage||'pre')?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td><textarea id="clientDescription-${e.id}" class="wide-input" rows="2">${esc(e.description||'')}</textarea></td>
+      <td><input id="clientInvoiceNumber-${e.id}" value="${esc(e.invoice_number||'')}"></td>
+      <td><input id="clientInvoiceDate-${e.id}" type="date" value="${esc(e.invoice_date||'')}"></td>
+      <td><input id="clientInvoiceAmount-${e.id}" type="number" step="0.01" value="${e.invoice_amount_cents?(e.invoice_amount_cents/100):''}"></td>
+      <td>
+        <select id="clientInvoiceStatus-${e.id}">
+          ${['unpaid','paid','waived'].map(s=>`<option value="${s}" ${s===(e.invoice_status||'unpaid')?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select id="clientPaymentMethod-${e.id}">
+          <option value="">Blank</option>
+          <option value="stripe" ${e.payment_method==='stripe'?'selected':''}>Stripe</option>
+          <option value="check" ${e.payment_method==='check'?'selected':''}>Check</option>
+          <option value="ach" ${e.payment_method==='ach'?'selected':''}>ACH</option>
+          <option value="wire" ${e.payment_method==='wire'?'selected':''}>Wire</option>
+          <option value="other" ${e.payment_method==='other'?'selected':''}>Other</option>
+        </select>
+      </td>
+      <td><input id="clientPaymentLink-${e.id}" class="wide-input" value="${esc(e.payment_link||'')}"></td>
+      <td><input id="clientPaymentReference-${e.id}" value="${esc(e.payment_reference||'')}"></td>
+      <td><textarea id="clientInvoiceNotes-${e.id}" class="notes-input" rows="2">${esc(e.invoice_notes||'')}</textarea></td>
+      <td><button class="small" onclick="saveClientEngagement(${e.id})">Save</button></td>
     </tr>
-  `).join('') : '<tr><td colspan="6" class="empty">No clients yet.</td></tr>';
+    `).join('') : '<tr><td colspan="12" class="empty">No engagements for this client yet.</td></tr>';
+
+  return `
+    <div class="client-block">
+      <div class="client-header-row">
+        <div>
+          <strong>${esc(c.name)}</strong>${c.company ? ` · ${esc(c.company)}` : ''}
+          <p>${esc(c.email)}${c.phone ? ` · ${esc(c.phone)}` : ''}${c.created_at ? ` · Created ${esc(c.created_at)}` : ''}</p>
+        </div>
+        <button class="small ghost" onclick="openClientEditor(${c.id})">Edit client</button>
+      </div>
+      <div class="client-engagements">
+        <table>
+          <thead><tr>
+            <th>Engagement</th><th>Stage</th><th>Description</th><th>Invoice #</th><th>Invoice date</th><th>Amount USD</th>
+            <th>Status</th><th>Payment method</th><th>Payment link</th><th>Reference</th><th>Invoice notes</th><th></th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
 }
 
 async function loadEngagements() {
@@ -360,6 +416,37 @@ async function saveClient(id) {
   closeModal();
   loadClients();
   loadEngagements();
+}
+
+async function saveClientEngagement(id) {
+  const amount = document.getElementById('clientInvoiceAmount-' + id).value;
+  const body = {
+    id,
+    stage: document.getElementById('clientStage-' + id).value,
+    description: document.getElementById('clientDescription-' + id).value || null,
+    invoice_number: document.getElementById('clientInvoiceNumber-' + id).value || null,
+    invoice_date: document.getElementById('clientInvoiceDate-' + id).value || null,
+    invoice_amount_cents: amount ? Math.round(parseFloat(amount) * 100) : null,
+    invoice_status: document.getElementById('clientInvoiceStatus-' + id).value,
+    payment_method: document.getElementById('clientPaymentMethod-' + id).value || null,
+    payment_link: document.getElementById('clientPaymentLink-' + id).value || null,
+    payment_reference: document.getElementById('clientPaymentReference-' + id).value || null,
+    invoice_notes: document.getElementById('clientInvoiceNotes-' + id).value || null,
+  };
+  const r = await api('/api/admin/engagements', {
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body),
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { toast(data.detail || data.error || 'Save failed'); return; }
+  if (data.skipped && data.skipped.length) {
+    toast('Saved, but D1 is missing: ' + data.skipped.join(', '));
+  } else {
+    toast('Engagement saved');
+  }
+  await loadClients();
+  await loadEngagements();
 }
 
 // ===== Engagement detail =====
@@ -693,6 +780,7 @@ async function saveEngagement(id) {
     return;
   }
   toast('Saved');
+  loadClients();
   loadEngagements();
   openEngagement(id);
 }
@@ -980,7 +1068,7 @@ document.getElementById('engagementForm').addEventListener('submit', async (e) =
   if (body.invoice_amount) body.invoice_amount_cents = Math.round(parseFloat(body.invoice_amount) * 100);
   delete body.invoice_amount;
   const r = await api('/api/admin/engagements', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-  if (r.ok) { e.target.reset(); toast('Engagement created'); loadEngagements(); } else toast('Error');
+  if (r.ok) { e.target.reset(); toast('Engagement created'); loadClients(); loadEngagements(); } else toast('Error');
 });
 
 document.getElementById('libraryForm').addEventListener('submit', async (e) => {

@@ -11,7 +11,32 @@ export async function onRequestGet({ request, env }) {
   const { results } = await env.DB.prepare(
     "SELECT id, name, company, email, phone, notes, created_at FROM clients ORDER BY created_at DESC"
   ).all();
-  return json({ clients: results });
+
+  const { results: columns } = await env.DB.prepare("SELECT name FROM pragma_table_info('engagements')").all();
+  const existingColumns = new Set(columns.map(c => c.name));
+  const optional = (name) => existingColumns.has(name) ? `e.${name}` : `NULL AS ${name}`;
+
+  const { results: engagements } = await env.DB.prepare(
+    `SELECT e.id, e.client_id, e.slug, e.title, e.stage, e.created_at,
+            ${optional("description")},
+            ${optional("invoice_number")},
+            ${optional("invoice_date")},
+            ${optional("invoice_amount_cents")},
+            ${optional("invoice_status")},
+            ${optional("payment_method")},
+            ${optional("payment_link")},
+            ${optional("payment_reference")},
+            ${optional("invoice_notes")}
+     FROM engagements e
+     ORDER BY e.created_at DESC`
+  ).all();
+
+  const byClient = new Map(results.map(c => [c.id, { ...c, engagements: [] }]));
+  for (const engagement of engagements) {
+    byClient.get(engagement.client_id)?.engagements.push(engagement);
+  }
+
+  return json({ clients: Array.from(byClient.values()) });
 }
 
 export async function onRequestPost({ request, env }) {
