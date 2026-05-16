@@ -425,6 +425,10 @@ async function openEngagement(id) {
     <p style="color:var(--muted);margin-top:-0.5rem;">${esc(e.client_name)}${e.client_company?' · '+esc(e.client_company):''} · ${esc(e.client_email)}</p>
     <p><span class="copy-link" onclick="copy('${portalUrl}')">${portalUrl}</span></p>
 
+    <h3>Engagement Details</h3>
+    <label>Description</label>
+    <textarea id="engagementDescription" rows="3">${esc(e.description||'')}</textarea>
+
     <h3>Stage & Status</h3>
     <div class="grid-2">
       <div>
@@ -665,6 +669,7 @@ async function saveEngagement(id) {
   const amount = document.getElementById('invoiceAmount').value;
   const body = {
     id,
+    description: document.getElementById('engagementDescription').value || null,
     stage: document.getElementById('stageSel').value,
     invoice_status: document.getElementById('invoiceSel').value,
     invoice_number: document.getElementById('invoiceNumber').value || null,
@@ -677,8 +682,19 @@ async function saveEngagement(id) {
     cal_link: document.getElementById('calLink').value || null,
     contract_text: document.getElementById('contractText').value || null,
   };
-  await api('/api/admin/engagements', { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
-  toast('Saved'); loadEngagements(); openEngagement(id);
+  const r = await api('/api/admin/engagements', { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    toast(data.detail || data.error || 'Save failed');
+    return;
+  }
+  if (data.skipped && data.skipped.length) {
+    toast('Saved, but D1 is missing: ' + data.skipped.join(', '));
+    return;
+  }
+  toast('Saved');
+  loadEngagements();
+  openEngagement(id);
 }
 
 async function uploadFile(e, id) {

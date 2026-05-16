@@ -101,14 +101,22 @@ export async function onRequestPut({ request, env }) {
   const { id } = body;
   if (!id) return json({ error: "id required" }, 400);
 
+  const { results: columns } = await env.DB.prepare("SELECT name FROM pragma_table_info('engagements')").all();
+  const existingColumns = new Set(columns.map(c => c.name));
+
   // Only allow specific fields to be updated
   const ALLOWED = ["title", "description", "stage", "contract_text",
     "invoice_amount_cents", "invoice_status", "invoice_notes", "cal_link",
     "invoice_number", "invoice_date", "payment_link", "payment_method", "payment_reference"];
   const updates = [];
   const params = [];
+  const skipped = [];
   for (const k of ALLOWED) {
     if (k in body) {
+      if (!existingColumns.has(k)) {
+        skipped.push(k);
+        continue;
+      }
       updates.push(`${k} = ?`);
       params.push(body[k]);
     }
@@ -121,8 +129,12 @@ export async function onRequestPut({ request, env }) {
   }
 
   params.push(id);
-  await env.DB.prepare(`UPDATE engagements SET ${updates.join(", ")} WHERE id = ?`)
-    .bind(...params).run();
+  try {
+    await env.DB.prepare(`UPDATE engagements SET ${updates.join(", ")} WHERE id = ?`)
+      .bind(...params).run();
+  } catch (err) {
+    return json({ error: "save failed", detail: String(err?.message || err) }, 500);
+  }
 
   if (body.stage) {
     await logActivity(env, { engagement_id: id, event_type: "stage_changed", detail: body.stage, request });
@@ -131,5 +143,5 @@ export async function onRequestPut({ request, env }) {
     await logActivity(env, { engagement_id: id, event_type: "invoice_paid", detail: body.invoice_notes || "", request });
   }
 
-  return json({ id, updated: updates.length });
+  return json({ id, updated: updates.length, skipped });
 }
