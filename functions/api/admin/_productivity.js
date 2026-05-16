@@ -39,7 +39,7 @@ export function idFromRequest(request, params = {}) {
 }
 
 export function missingMigrationResponse() {
-  return json({ error: "productivity tables missing; run migrations/0006_productivity_ops.sql in D1" }, 503);
+  return json({ error: "required tables missing; run the pending D1 migrations" }, 503);
 }
 
 export function isMissingTable(err) {

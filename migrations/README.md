@@ -20,4 +20,6 @@ Current migration order:
 4. `0004_invoice_columns_and_attachments.sql`
 5. `0005_leads.sql`
 6. `0006_productivity_ops.sql`
+7. `0007_business_templates_and_agreements.sql`
+8. `0008_resource_survey_templates.sql`
 

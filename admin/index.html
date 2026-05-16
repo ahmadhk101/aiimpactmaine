@@ -23,6 +23,7 @@
   label { display:block; font-size:0.8rem; font-weight:500; margin:0.6rem 0 0.25rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; }
   input, select, textarea { width:100%; padding:0.55rem; border:1px solid var(--line); border-radius:2px; font-family:inherit; font-size:0.95rem; background:var(--sand); }
   textarea { resize:vertical; min-height:60px; }
+  textarea.json-editor { min-height:260px; font-family:Consolas, Monaco, monospace; font-size:0.82rem; white-space:pre; }
   button { background:var(--navy); color:var(--sand); border:none; padding:0.55rem 1.2rem; font-family:inherit; font-size:0.9rem; font-weight:500; cursor:pointer; border-radius:2px; }
   button:hover { background:var(--teal); }
   button.small { padding:0.3rem 0.65rem; font-size:0.8rem; }
@@ -163,6 +164,8 @@
   <button data-tab="tasks">Tasks</button>
   <button data-tab="leads">Leads / CRM</button>
   <button data-tab="projects">Projects</button>
+  <button data-tab="business-templates">Business Templates</button>
+  <button data-tab="agreements">Agreements</button>
   <button data-tab="templates">Survey Templates</button>
   <button data-tab="library">Resource Library</button>
 </nav>
@@ -325,6 +328,55 @@
     </section>
   </div>
 
+  <!-- ===== BUSINESS TEMPLATES TAB ===== -->
+  <div class="tab-content" id="tab-business-templates" style="display:none;">
+    <section class="panel">
+      <h2>New business template</h2>
+      <form id="businessTemplateForm">
+        <div class="ops-form-grid">
+          <div><label>Type</label><select name="template_type"><option value="proposal">Proposal</option><option value="invoice">Invoice</option><option value="speaker">Speaker / public profile</option><option value="compliance_quick_card">Compliance quick card</option><option value="other">Other</option></select></div>
+          <div class="wide"><label>Name *</label><input name="name" required></div>
+          <div><label>Status</label><select name="status"><option>active</option><option>draft</option><option>archived</option></select></div>
+          <div class="wide"><label>Source filename</label><input name="source_filename" placeholder="10_Proposal_Template.docx"></div>
+          <div class="full"><label>Description</label><textarea name="description" rows="2"></textarea></div>
+          <div class="full"><label>Content JSON *</label><textarea name="content_json" class="json-editor" required>{}</textarea></div>
+        </div>
+        <button type="submit" style="margin-top:1rem;">Save template</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>Business templates</h2>
+      <div id="businessTemplatesList" class="ops-list"></div>
+    </section>
+  </div>
+
+  <!-- ===== AGREEMENTS TAB ===== -->
+  <div class="tab-content" id="tab-agreements" style="display:none;">
+    <section class="panel">
+      <h2>New agreement record</h2>
+      <p style="color:var(--muted);font-size:0.85rem;margin-top:-0.4rem;">Legal templates are stored for workflow tracking only. Human/legal review is still required before use.</p>
+      <form id="agreementForm">
+        <div class="ops-form-grid">
+          <div><label>Type</label><select name="agreement_type"><option>MSA</option><option>NDA</option><option>SOW</option><option>other</option></select></div>
+          <div class="wide"><label>Title *</label><input name="title" required placeholder="Master Services Agreement"></div>
+          <div><label>Status</label><select name="status"><option>draft</option><option>review</option><option>sent</option><option>signed</option><option>active</option><option>expired</option></select></div>
+          <div><label>Signed state</label><select name="signed_state"><option>unsigned</option><option>sent</option><option>signed</option><option>not_required</option></select></div>
+          <div><label>Client</label><select name="client_id" class="clientSelectOptional"></select></div>
+          <div><label>Engagement</label><select name="engagement_id" class="engagementSelectOptional"></select></div>
+          <div><label>Effective date</label><input name="effective_date" type="date"></div>
+          <div><label>File/reference</label><input name="file_reference" placeholder="Shared drive link or note"></div>
+          <div><label>Upload file</label><input name="file" type="file"></div>
+          <div class="full"><label>Notes</label><textarea name="notes" rows="2"></textarea></div>
+        </div>
+        <button type="submit" style="margin-top:1rem;">Save agreement</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>Agreements</h2>
+      <div id="agreementsList" class="ops-list"></div>
+    </section>
+  </div>
+
   <!-- ===== SURVEY TEMPLATES TAB ===== -->
   <div class="tab-content" id="tab-templates" style="display:none;">
     <section class="panel">
@@ -382,7 +434,7 @@
 
 <script>
 // ===== State =====
-let clients = [], engagements = [], library = [], leads = [], calendarEvents = [], tasks = [], projects = [];
+let clients = [], engagements = [], library = [], leads = [], calendarEvents = [], tasks = [], projects = [], businessTemplates = [], agreements = [];
 let currentEng = null; // detail being viewed
 
 // ===== Tabs =====
@@ -396,6 +448,8 @@ document.querySelectorAll('nav.tabs button').forEach(b => {
     if (b.dataset.tab === 'calendar') loadCalendar();
     if (b.dataset.tab === 'tasks') loadTasks();
     if (b.dataset.tab === 'projects') loadProjects();
+    if (b.dataset.tab === 'business-templates') loadBusinessTemplates();
+    if (b.dataset.tab === 'agreements') loadAgreements();
     if (b.dataset.tab === 'library') loadLibrary();
     if (b.dataset.tab === 'templates') loadTemplates();
     if (b.dataset.tab === 'leads') loadLeads();
@@ -414,10 +468,19 @@ function dateTimeLocal(s){return s ? String(s).slice(0,16) : '';}
 function clientOptions(selected='') {
   return '<option value="">None</option>' + clients.map(c => `<option value="${c.id}" ${String(c.id)===String(selected)?'selected':''}>${esc(c.name)}${c.company?' - '+esc(c.company):''}</option>`).join('');
 }
+function engagementOptions(selected='') {
+  return '<option value="">None</option>' + engagements.map(e => `<option value="${e.id}" ${String(e.id)===String(selected)?'selected':''}>${esc(e.client_name)} - ${esc(e.title)}</option>`).join('');
+}
 function refreshClientSelects() {
   document.querySelectorAll('.clientSelectOptional').forEach(sel => {
     const current = sel.value;
     sel.innerHTML = clientOptions(current);
+  });
+}
+function refreshEngagementSelects() {
+  document.querySelectorAll('.engagementSelectOptional').forEach(sel => {
+    const current = sel.value;
+    sel.innerHTML = engagementOptions(current);
   });
 }
 
@@ -593,6 +656,7 @@ async function loadEngagements() {
       <td onclick="event.stopPropagation()"><span class="copy-link" onclick="copy('${url}')">Copy link</span></td>
     </tr>`;
   }).join('');
+  refreshEngagementSelects();
 }
 
 function miniItems(items, render, empty='Nothing to show.') {
@@ -969,6 +1033,138 @@ async function addProjectUpdate(projectId) {
   if (!body.update_text) { toast('Update text required'); return; }
   const r = await api('/api/admin/projects/' + projectId + '/updates', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
   if (r.ok) { toast('Update added'); loadProjects(); loadProductivityDashboard(); openProject(projectId); } else toast('Update failed');
+}
+
+async function loadBusinessTemplates() {
+  const r = await api('/api/admin/business-templates');
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { document.getElementById('businessTemplatesList').innerHTML = `<div class="empty">${esc(data.error || 'Templates unavailable')}</div>`; return; }
+  businessTemplates = data.templates || [];
+  document.getElementById('businessTemplatesList').innerHTML = businessTemplates.length ? businessTemplates.map(t => `
+    <div class="ops-card">
+      <div>
+        <strong>${esc(t.name)}</strong> <span class="pill active">${esc(t.template_type)}</span> <span class="pill complete">${esc(t.status || 'active')}</span>
+        <p>${esc(t.description || '')}</p>
+        <p>${t.source_filename ? 'Source: ' + esc(t.source_filename) : ''}</p>
+      </div>
+      <div class="ops-actions">
+        <button class="small ghost" onclick="openBusinessTemplate(${t.id})">Edit</button>
+        <button class="small danger" onclick="archiveBusinessTemplate(${t.id})">Archive</button>
+      </div>
+    </div>
+  `).join('') : '<div class="empty">No business templates yet. Run migration 0007 to load the starter templates.</div>';
+}
+
+async function openBusinessTemplate(id) {
+  const r = await api('/api/admin/business-templates?id=' + id);
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { toast(d.error || 'Template unavailable'); return; }
+  const t = d.template;
+  document.getElementById('modalContent').innerHTML = `
+    <button class="modal-close ghost small" onclick="closeModal()">Close</button>
+    <h2>Edit business template</h2>
+    <div class="grid-2">
+      <div><label>Type</label><select id="btType">${['proposal','invoice','speaker','compliance_quick_card','other'].map(v=>`<option value="${v}" ${v===t.template_type?'selected':''}>${v}</option>`).join('')}</select></div>
+      <div><label>Status</label><select id="btStatus">${['active','draft','archived'].map(v=>`<option value="${v}" ${v===t.status?'selected':''}>${v}</option>`).join('')}</select></div>
+    </div>
+    <label>Name</label><input id="btName" value="${esc(t.name||'')}">
+    <label>Source filename</label><input id="btSource" value="${esc(t.source_filename||'')}">
+    <label>Description</label><textarea id="btDescription" rows="2">${esc(t.description||'')}</textarea>
+    <label>Content JSON</label><textarea id="btContent" class="json-editor">${esc(JSON.stringify(t.content || {}, null, 2))}</textarea>
+    <button style="margin-top:0.75rem;" onclick="saveBusinessTemplate(${id})">Save template</button>
+  `;
+  document.getElementById('modalBg').classList.add('show');
+}
+
+async function saveBusinessTemplate(id) {
+  let content;
+  try { content = JSON.parse(document.getElementById('btContent').value); }
+  catch { toast('Content JSON is invalid'); return; }
+  const body = {
+    id,
+    template_type: document.getElementById('btType').value,
+    status: document.getElementById('btStatus').value,
+    name: document.getElementById('btName').value,
+    source_filename: document.getElementById('btSource').value || null,
+    description: document.getElementById('btDescription').value || null,
+    content,
+  };
+  const r = await api('/api/admin/business-templates', { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (r.ok) { toast('Template saved'); closeModal(); loadBusinessTemplates(); } else { const d = await r.json().catch(()=>({})); toast(d.error || 'Save failed'); }
+}
+
+async function archiveBusinessTemplate(id) {
+  if (!confirm('Archive this template?')) return;
+  const r = await api('/api/admin/business-templates?id=' + id, { method:'DELETE' });
+  if (r.ok) { toast('Template archived'); loadBusinessTemplates(); } else toast('Archive failed');
+}
+
+async function loadAgreements() {
+  const r = await api('/api/admin/agreements');
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { document.getElementById('agreementsList').innerHTML = `<div class="empty">${esc(data.error || 'Agreements unavailable')}</div>`; return; }
+  agreements = data.agreements || [];
+  document.getElementById('agreementsList').innerHTML = agreements.length ? agreements.map(a => `
+    <div class="ops-card">
+      <div>
+        <strong>${esc(a.title)}</strong> <span class="pill active">${esc(a.agreement_type)}</span> <span class="pill complete">${esc(a.status)}</span>
+        <p>${a.client_name ? esc(a.client_name) : 'No client'}${a.engagement_title ? ' - ' + esc(a.engagement_title) : ''}${a.effective_date ? ' - effective ' + esc(a.effective_date) : ''}</p>
+        <p>${esc(a.notes || a.file_reference || '')}</p>
+      </div>
+      <div class="ops-actions">
+        ${a.r2_key ? `<a href="/api/admin/agreement-download?id=${a.id}" target="_blank"><button class="small ghost">Download</button></a>` : ''}
+        <button class="small ghost" onclick="openAgreement(${a.id})">Edit</button>
+        <button class="small danger" onclick="archiveAgreement(${a.id})">Archive</button>
+      </div>
+    </div>
+  `).join('') : '<div class="empty">No agreement records yet.</div>';
+}
+
+async function openAgreement(id) {
+  const r = await api('/api/admin/agreements?id=' + id);
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { toast(d.error || 'Agreement unavailable'); return; }
+  const a = d.agreement;
+  document.getElementById('modalContent').innerHTML = `
+    <button class="modal-close ghost small" onclick="closeModal()">Close</button>
+    <h2>Edit agreement</h2>
+    <div class="grid-2">
+      <div><label>Type</label><select id="agType">${['MSA','NDA','SOW','other'].map(v=>`<option ${v===a.agreement_type?'selected':''}>${v}</option>`).join('')}</select></div>
+      <div><label>Status</label><select id="agStatus">${['draft','review','sent','signed','active','expired','archived'].map(v=>`<option ${v===a.status?'selected':''}>${v}</option>`).join('')}</select></div>
+      <div><label>Signed state</label><select id="agSigned">${['unsigned','sent','signed','not_required'].map(v=>`<option ${v===a.signed_state?'selected':''}>${v}</option>`).join('')}</select></div>
+      <div><label>Effective date</label><input id="agEffective" type="date" value="${esc(dateOnly(a.effective_date))}"></div>
+      <div><label>Client</label><select id="agClient">${clientOptions(a.client_id)}</select></div>
+      <div><label>Engagement</label><select id="agEngagement">${engagementOptions(a.engagement_id)}</select></div>
+    </div>
+    <label>Title</label><input id="agTitle" value="${esc(a.title||'')}">
+    <label>File/reference</label><input id="agReference" value="${esc(a.file_reference||'')}">
+    <label>Notes</label><textarea id="agNotes" rows="4">${esc(a.notes||'')}</textarea>
+    <button style="margin-top:0.75rem;" onclick="saveAgreement(${id})">Save agreement</button>
+  `;
+  document.getElementById('modalBg').classList.add('show');
+}
+
+async function saveAgreement(id) {
+  const body = {
+    id,
+    agreement_type: document.getElementById('agType').value,
+    status: document.getElementById('agStatus').value,
+    signed_state: document.getElementById('agSigned').value,
+    effective_date: document.getElementById('agEffective').value || null,
+    client_id: document.getElementById('agClient').value || null,
+    engagement_id: document.getElementById('agEngagement').value || null,
+    title: document.getElementById('agTitle').value,
+    file_reference: document.getElementById('agReference').value || null,
+    notes: document.getElementById('agNotes').value || null,
+  };
+  const r = await api('/api/admin/agreements', { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (r.ok) { toast('Agreement saved'); closeModal(); loadAgreements(); } else toast('Agreement save failed');
+}
+
+async function archiveAgreement(id) {
+  if (!confirm('Archive this agreement record?')) return;
+  const r = await api('/api/admin/agreements?id=' + id, { method:'DELETE' });
+  if (r.ok) { toast('Agreement archived'); loadAgreements(); } else toast('Archive failed');
 }
 
 async function deleteLibResource(id, title) {
@@ -1550,7 +1746,7 @@ async function loadTemplates() {
       <td>${qCount} question${qCount===1?'':'s'}</td>
       <td>${t.is_system ? '<span class="pill complete">system</span>' : '<span class="pill active">custom</span>'}</td>
       <td>
-        <button class="small ghost" onclick="openTemplateEditor(${t.id})">${t.is_system?'View':'Edit'}</button>
+        <button class="small ghost" onclick="openTemplateEditor(${t.id})">Edit</button>
         ${!t.is_system?`<button class="small danger" onclick="deleteTemplate(${t.id},'${esc(t.name)}')">Delete</button>`:''}
       </td>
     </tr>`;
@@ -1564,22 +1760,22 @@ async function openTemplateEditor(id) {
     template = (await r.json()).template;
   }
   const isSystem = !!template.is_system;
-  const readonlyAttr = isSystem ? 'readonly' : '';
+  const readonlyAttr = '';
   document.getElementById('modalContent').innerHTML = `
     <button class="modal-close ghost small" onclick="closeModal()">✕ Close</button>
-    <h2>${id ? (isSystem?'View':'Edit')+' template' : 'New template'}</h2>
-    ${isSystem ? '<p style="color:var(--muted);font-size:0.85rem;">This is a system template — view only. Duplicate it (create new) to make a customized version.</p>' : ''}
+    <h2>${id ? 'Edit template' : 'New template'}</h2>
+    ${isSystem ? '<p style="color:var(--muted);font-size:0.85rem;">This is a system starter template. You can edit it, but it cannot be deleted.</p>' : ''}
     <label>Template name</label>
     <input id="tplName" value="${esc(template.name)}" ${readonlyAttr}>
     <label>Description (optional)</label>
     <textarea id="tplDesc" rows="2" ${readonlyAttr}>${esc(template.description||'')}</textarea>
     <h3>Questions</h3>
     <div id="questionsBuilder"></div>
-    ${!isSystem ? '<button class="ghost" style="margin-top:0.5rem;" onclick="addQuestion()">+ Add question</button>' : ''}
-    ${!isSystem ? `<div style="margin-top:1.5rem;display:flex;gap:0.5rem;"><button onclick="saveTemplate(${id || 'null'})" style="background:var(--teal);">${id?'Save changes':'Create template'}</button><button class="ghost" onclick="closeModal()">Cancel</button></div>` : ''}
+    <button class="ghost" style="margin-top:0.5rem;" onclick="addQuestion()">+ Add question</button>
+    <div style="margin-top:1.5rem;display:flex;gap:0.5rem;"><button onclick="saveTemplate(${id || 'null'})" style="background:var(--teal);">${id?'Save changes':'Create template'}</button><button class="ghost" onclick="closeModal()">Cancel</button></div>
   `;
   window.__editingQuestions = JSON.parse(JSON.stringify(template.questions || []));
-  renderQuestionsBuilder(isSystem);
+  renderQuestionsBuilder(false);
   document.getElementById('modalBg').classList.add('show');
 }
 
@@ -1701,6 +1897,25 @@ document.getElementById('projectForm').addEventListener('submit', async (e) => {
   if (!body.lead_id) body.lead_id = null;
   const r = await api('/api/admin/projects', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
   if (r.ok) { e.target.reset(); refreshClientSelects(); toast('Project created'); loadProjects(); loadProductivityDashboard(); } else toast('Project create failed');
+});
+
+document.getElementById('businessTemplateForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const body = Object.fromEntries(new FormData(e.target));
+  try { body.content = JSON.parse(body.content_json); }
+  catch { toast('Content JSON is invalid'); return; }
+  delete body.content_json;
+  const r = await api('/api/admin/business-templates', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (r.ok) { e.target.reset(); e.target.elements.content_json.value = '{}'; toast('Template saved'); loadBusinessTemplates(); } else { const d = await r.json().catch(()=>({})); toast(d.error || 'Template save failed'); }
+});
+
+document.getElementById('agreementForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  if (!fd.get('client_id')) fd.set('client_id', '');
+  if (!fd.get('engagement_id')) fd.set('engagement_id', '');
+  const r = await api('/api/admin/agreements', { method:'POST', body: fd });
+  if (r.ok) { e.target.reset(); refreshClientSelects(); refreshEngagementSelects(); toast('Agreement saved'); loadAgreements(); } else { const d = await r.json().catch(()=>({})); toast(d.error || 'Agreement save failed'); }
 });
 
 document.getElementById('libraryForm').addEventListener('submit', async (e) => {

@@ -381,3 +381,43 @@ CREATE TABLE IF NOT EXISTS project_updates (
 
 CREATE INDEX IF NOT EXISTS idx_project_updates_project ON project_updates(project_id);
 CREATE INDEX IF NOT EXISTS idx_project_updates_created ON project_updates(created_at);
+
+CREATE TABLE IF NOT EXISTS business_templates (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  template_type TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  content_json TEXT NOT NULL,
+  source_filename TEXT,
+  status TEXT NOT NULL DEFAULT 'active',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_business_templates_type ON business_templates(template_type);
+CREATE INDEX IF NOT EXISTS idx_business_templates_name ON business_templates(name);
+
+CREATE TABLE IF NOT EXISTS agreements (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  agreement_type TEXT NOT NULL,
+  client_id INTEGER,
+  engagement_id INTEGER,
+  title TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'draft',
+  signed_state TEXT NOT NULL DEFAULT 'unsigned',
+  effective_date TEXT,
+  filename TEXT,
+  r2_key TEXT,
+  size_bytes INTEGER,
+  file_reference TEXT,
+  notes TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL,
+  FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_agreements_client ON agreements(client_id);
+CREATE INDEX IF NOT EXISTS idx_agreements_engagement ON agreements(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_agreements_type ON agreements(agreement_type);
+CREATE INDEX IF NOT EXISTS idx_agreements_status ON agreements(status);
