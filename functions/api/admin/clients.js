@@ -9,7 +9,7 @@ export async function onRequestGet({ request, env }) {
   if (auth) return auth;
 
   const { results } = await env.DB.prepare(
-    "SELECT id, name, company, email, phone, created_at FROM clients ORDER BY created_at DESC"
+    "SELECT id, name, company, email, phone, notes, created_at FROM clients ORDER BY created_at DESC"
   ).all();
   return json({ clients: results });
 }
@@ -29,4 +29,31 @@ export async function onRequestPost({ request, env }) {
     .run();
 
   return json({ id: meta.last_row_id, name, email }, 201);
+}
+
+export async function onRequestPut({ request, env }) {
+  const auth = requireAdmin(request, env);
+  if (auth) return auth;
+
+  const body = await request.json().catch(() => ({}));
+  const { id } = body;
+  if (!id) return json({ error: "id required" }, 400);
+
+  const allowed = ["name", "company", "email", "phone", "notes"];
+  const updates = [];
+  const params = [];
+  for (const field of allowed) {
+    if (field in body) {
+      updates.push(`${field} = ?`);
+      params.push(body[field]);
+    }
+  }
+  if (!updates.length) return json({ error: "no fields to update" }, 400);
+
+  params.push(id);
+  await env.DB.prepare(`UPDATE clients SET ${updates.join(", ")} WHERE id = ?`)
+    .bind(...params)
+    .run();
+
+  return json({ id, updated: updates.length });
 }

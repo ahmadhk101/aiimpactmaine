@@ -77,6 +77,10 @@
   .email-preview pre { white-space:pre-wrap; font-family:inherit; margin:0; }
   .actions-row { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.75rem; }
   .actions-row a { text-decoration:none; }
+  .section-box { background:white; border:1px solid var(--line); border-radius:2px; padding:1rem; margin-top:0.75rem; }
+  .attachment-row { display:grid; grid-template-columns:1fr auto auto; gap:0.75rem; align-items:center; padding:0.65rem 0; border-bottom:1px solid var(--line); }
+  .attachment-row:last-child { border-bottom:none; }
+  .attachment-meta { color:var(--muted); font-size:0.8rem; margin-top:0.15rem; }
 </style>
 </head>
 <body>
@@ -130,7 +134,10 @@
     </div>
 
     <section class="panel">
-      <h2>Engagements</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+        <h2 style="margin:0;">Engagements</h2>
+        <button type="button" onclick="exportCsv('engagements')" style="font-size:0.85rem;padding:0.4rem 0.8rem;">Export engagements (CSV)</button>
+      </div>
       <table>
         <thead><tr>
           <th>Client</th><th>Engagement</th><th>Stage</th><th>Invoice</th><th>Activity</th><th>Portal</th>
@@ -143,9 +150,12 @@
   <!-- ===== CLIENTS TAB ===== -->
   <div class="tab-content" id="tab-clients" style="display:none;">
     <section class="panel">
-      <h2>All clients</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+        <h2 style="margin:0;">All clients</h2>
+        <button type="button" onclick="exportCsv('clients')" style="font-size:0.85rem;padding:0.4rem 0.8rem;">Export clients (CSV)</button>
+      </div>
       <table>
-        <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Phone</th><th>Created</th></tr></thead>
+        <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Phone</th><th>Created</th><th></th></tr></thead>
         <tbody id="clientsTable"></tbody>
       </table>
     </section>
@@ -227,10 +237,29 @@ document.querySelectorAll('nav.tabs button').forEach(b => {
 function toast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
 function esc(s){return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function money(c){return c==null?'':'$'+(c/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function sizeText(bytes){if(!bytes)return'';if(bytes<1024)return bytes+' B';if(bytes<1048576)return(bytes/1024).toFixed(1)+' KB';return(bytes/1048576).toFixed(1)+' MB';}
 function timeAgo(s){if(!s)return'never';const d=new Date(s+'Z'),mins=(Date.now()-d)/60000;if(mins<60)return Math.round(mins)+'m ago';if(mins<1440)return Math.round(mins/60)+'h ago';return Math.round(mins/1440)+'d ago';}
 async function api(p, o={}) { const r = await fetch(p,o); if (r.status===401) location.reload(); return r; }
 
 // ===== Load data =====
+async function exportCsv(type) {
+  const r = await api('/api/admin/export?type=' + encodeURIComponent(type));
+  if (!r.ok) { toast('Export failed'); return; }
+  const blob = await r.blob();
+  const cd = r.headers.get('Content-Disposition') || '';
+  const m = cd.match(/filename="?([^";]+)"?/i);
+  const filename = m ? m[1] : type + '.csv';
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  toast('Downloaded ' + filename);
+}
+
 async function loadClients() {
   const r = await api('/api/admin/clients');
   clients = (await r.json()).clients || [];
@@ -240,8 +269,15 @@ async function loadClients() {
     : '<option value="">(no clients yet)</option>';
   const tbody = document.getElementById('clientsTable');
   tbody.innerHTML = clients.length ? clients.map(c => `
-    <tr><td>${esc(c.name)}</td><td>${esc(c.company||'')}</td><td>${esc(c.email)}</td><td>${esc(c.phone||'')}</td><td style="color:var(--muted);font-size:0.8rem;">${esc(c.created_at)}</td></tr>
-  `).join('') : '<tr><td colspan="5" class="empty">No clients yet.</td></tr>';
+    <tr>
+      <td>${esc(c.name)}</td>
+      <td>${esc(c.company||'')}</td>
+      <td>${esc(c.email)}</td>
+      <td>${esc(c.phone||'')}</td>
+      <td style="color:var(--muted);font-size:0.8rem;">${esc(c.created_at)}</td>
+      <td><button class="small ghost" onclick="openClientEditor(${c.id})">Edit</button></td>
+    </tr>
+  `).join('') : '<tr><td colspan="6" class="empty">No clients yet.</td></tr>';
 }
 
 async function loadEngagements() {
@@ -286,6 +322,45 @@ async function deleteLibResource(id, title) {
 }
 
 function copy(url) { navigator.clipboard.writeText(url); toast('Copied: ' + url.slice(0, 60) + '…'); }
+
+// ===== Client edit =====
+function openClientEditor(id) {
+  const c = clients.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('modalContent').innerHTML = `
+    <button class="modal-close ghost small" onclick="closeModal()">Close</button>
+    <h2>Edit client</h2>
+    <label>Name</label>
+    <input id="clientEditName" value="${esc(c.name||'')}">
+    <label>Company</label>
+    <input id="clientEditCompany" value="${esc(c.company||'')}">
+    <label>Email</label>
+    <input id="clientEditEmail" type="email" value="${esc(c.email||'')}">
+    <label>Phone</label>
+    <input id="clientEditPhone" value="${esc(c.phone||'')}">
+    <label>Notes</label>
+    <textarea id="clientEditNotes" rows="4">${esc(c.notes||'')}</textarea>
+    <button style="margin-top:0.75rem;" onclick="saveClient(${c.id})">Save client</button>
+  `;
+  document.getElementById('modalBg').classList.add('show');
+}
+
+async function saveClient(id) {
+  const body = {
+    id,
+    name: document.getElementById('clientEditName').value || null,
+    company: document.getElementById('clientEditCompany').value || null,
+    email: document.getElementById('clientEditEmail').value || null,
+    phone: document.getElementById('clientEditPhone').value || null,
+    notes: document.getElementById('clientEditNotes').value || null,
+  };
+  const r = await api('/api/admin/clients', { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (!r.ok) { toast('Client save failed'); return; }
+  toast('Client saved');
+  closeModal();
+  loadClients();
+  loadEngagements();
+}
 
 // ===== Engagement detail =====
 async function openEngagement(id) {
@@ -332,6 +407,18 @@ async function openEngagement(id) {
     ? d.messages.map(m => `<div class="msg ${m.sender}">${esc(m.body)}<div class="msg-time">${esc(m.created_at)}</div></div>`).join('')
     : '<div class="empty" style="padding:1rem;">No messages.</div>';
 
+  const attachments = d.invoice_attachments || [];
+  const attachmentsHtml = attachments.length
+    ? attachments.map(a => `<div class="attachment-row">
+        <div>
+          <strong>${esc(a.label || a.filename)}</strong>
+          <div class="attachment-meta">${esc(a.filename)}${a.size_bytes ? ' - ' + sizeText(a.size_bytes) : ''}${a.uploaded_at ? ' - ' + esc(a.uploaded_at) : ''}</div>
+        </div>
+        <a href="/api/admin/invoice-attachment-download?id=${a.id}" target="_blank"><button class="small ghost">Download</button></a>
+        <button class="small danger" onclick="deleteInvoiceAttachment(${a.id}, ${e.id})">Delete</button>
+      </div>`).join('')
+    : '<div class="empty">No invoice attachments yet.</div>';
+
   document.getElementById('modalContent').innerHTML = `
     <button class="modal-close ghost small" onclick="closeModal()">✕ Close</button>
     <h2>${esc(e.title)}</h2>
@@ -345,22 +432,73 @@ async function openEngagement(id) {
         <select id="stageSel">${stages.map(s=>`<option value="${s}" ${s===e.stage?'selected':''}>${s}</option>`).join('')}</select>
       </div>
       <div>
-        <label>Invoice status</label>
-        <select id="invoiceSel">${statuses.map(s=>`<option value="${s}" ${s===e.invoice_status?'selected':''}>${s}</option>`).join('')}</select>
+        <label>Cal.com booking link</label>
+        <input id="calLink" value="${esc(e.cal_link||'')}">
       </div>
     </div>
+
+    <h3>Invoice</h3>
+    <div class="section-box">
+      <div class="grid-2">
+        <div>
+          <label>Invoice number</label>
+          <input id="invoiceNumber" value="${esc(e.invoice_number||'')}">
+        </div>
+        <div>
+          <label>Invoice date</label>
+          <input id="invoiceDate" type="date" value="${esc(e.invoice_date||'')}">
+        </div>
+      </div>
     <div class="grid-2">
       <div>
         <label>Invoice amount (USD)</label>
         <input id="invoiceAmount" type="number" step="0.01" value="${e.invoice_amount_cents?(e.invoice_amount_cents/100):''}">
       </div>
       <div>
-        <label>Invoice notes (visible to client)</label>
-        <input id="invoiceNotes" value="${esc(e.invoice_notes||'')}">
+        <label>Invoice status</label>
+        <select id="invoiceSel">${statuses.map(s=>`<option value="${s}" ${s===e.invoice_status?'selected':''}>${s}</option>`).join('')}</select>
       </div>
     </div>
-    <label>Cal.com booking link</label>
-    <input id="calLink" value="${esc(e.cal_link||'')}">
+      <div class="grid-2">
+        <div>
+          <label>Payment method</label>
+          <select id="paymentMethod">
+            <option value="">Blank</option>
+            <option value="stripe" ${e.payment_method==='stripe'?'selected':''}>Stripe</option>
+            <option value="check" ${e.payment_method==='check'?'selected':''}>Check</option>
+            <option value="ach" ${e.payment_method==='ach'?'selected':''}>ACH</option>
+            <option value="wire" ${e.payment_method==='wire'?'selected':''}>Wire</option>
+            <option value="other" ${e.payment_method==='other'?'selected':''}>Other</option>
+          </select>
+        </div>
+        <div>
+          <label>Payment reference / check number</label>
+          <input id="paymentReference" value="${esc(e.payment_reference||'')}">
+        </div>
+      </div>
+      <label>Payment link / Stripe URL</label>
+      <input id="paymentLink" placeholder="https://buy.stripe.com/..." value="${esc(e.payment_link||'')}">
+      <label>Invoice notes (visible to client)</label>
+      <textarea id="invoiceNotes" rows="3">${esc(e.invoice_notes||'')}</textarea>
+    </div>
+
+    <h3>Invoice attachments</h3>
+    <div class="section-box">
+      <form id="invoiceAttachmentForm" onsubmit="return uploadInvoiceAttachment(event, ${e.id})">
+        <div class="grid-2">
+          <div>
+            <label>Label</label>
+            <input name="label" placeholder="Invoice PDF">
+          </div>
+          <div>
+            <label>File</label>
+            <input type="file" name="file" required>
+          </div>
+        </div>
+        <button type="submit" style="margin-top:0.5rem;">Upload invoice attachment</button>
+      </form>
+      <div style="margin-top:0.75rem;">${attachmentsHtml}</div>
+    </div>
     <label>Engagement agreement text</label>
     <textarea id="contractText" rows="4">${esc(e.contract_text||'')}</textarea>
     ${e.contract_signed_at?`<p style="color:var(--teal);font-size:0.85rem;">✓ Signed by ${esc(e.contract_signed_name)} on ${esc(e.contract_signed_at)}</p>`:''}
@@ -529,8 +667,13 @@ async function saveEngagement(id) {
     id,
     stage: document.getElementById('stageSel').value,
     invoice_status: document.getElementById('invoiceSel').value,
+    invoice_number: document.getElementById('invoiceNumber').value || null,
+    invoice_date: document.getElementById('invoiceDate').value || null,
     invoice_amount_cents: amount ? Math.round(parseFloat(amount) * 100) : null,
     invoice_notes: document.getElementById('invoiceNotes').value || null,
+    payment_method: document.getElementById('paymentMethod').value || null,
+    payment_link: document.getElementById('paymentLink').value || null,
+    payment_reference: document.getElementById('paymentReference').value || null,
     cal_link: document.getElementById('calLink').value || null,
     contract_text: document.getElementById('contractText').value || null,
   };
@@ -545,6 +688,23 @@ async function uploadFile(e, id) {
   const r = await api('/api/admin/upload', { method: 'POST', body: fd });
   if (r.ok) { toast('Uploaded'); openEngagement(id); } else toast('Upload failed');
   return false;
+}
+
+async function uploadInvoiceAttachment(e, id) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  fd.append('engagement_id', id);
+  const r = await api('/api/admin/invoice-attachments', { method: 'POST', body: fd });
+  if (r.ok) { toast('Invoice attachment uploaded'); openEngagement(id); }
+  else toast('Invoice attachment upload failed');
+  return false;
+}
+
+async function deleteInvoiceAttachment(id, engagementId) {
+  if (!confirm('Delete this invoice attachment?')) return;
+  const r = await api('/api/admin/invoice-attachments?id=' + id, { method: 'DELETE' });
+  if (r.ok) { toast('Invoice attachment deleted'); openEngagement(engagementId); }
+  else toast('Delete failed');
 }
 
 async function sendAdminMessage(id) {

@@ -24,6 +24,10 @@ export async function onRequestGet({ request, env }) {
       "SELECT id, filename, size_bytes, visibility, uploaded_at FROM documents WHERE engagement_id = ? ORDER BY uploaded_at DESC"
     ).bind(id).all();
 
+    const { results: invoiceAttachments } = await env.DB.prepare(
+      "SELECT id, filename, size_bytes, label, uploaded_at FROM invoice_attachments WHERE engagement_id = ? ORDER BY uploaded_at DESC"
+    ).bind(id).all();
+
     const { results: activity } = await env.DB.prepare(
       "SELECT event_type, detail, ip_address, created_at FROM activity_log WHERE engagement_id = ? ORDER BY created_at DESC LIMIT 50"
     ).bind(id).all();
@@ -39,6 +43,7 @@ export async function onRequestGet({ request, env }) {
     return json({
       engagement: eng,
       documents: docs,
+      invoice_attachments: invoiceAttachments,
       activity,
       surveys: surveys.map(s => ({ ...s, responses: JSON.parse(s.responses) })),
       messages,
@@ -98,7 +103,8 @@ export async function onRequestPut({ request, env }) {
 
   // Only allow specific fields to be updated
   const ALLOWED = ["title", "description", "stage", "contract_text",
-    "invoice_amount_cents", "invoice_status", "invoice_notes", "cal_link"];
+    "invoice_amount_cents", "invoice_status", "invoice_notes", "cal_link",
+    "invoice_number", "invoice_date", "payment_link", "payment_method", "payment_reference"];
   const updates = [];
   const params = [];
   for (const k of ALLOWED) {

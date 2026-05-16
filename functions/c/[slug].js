@@ -76,7 +76,8 @@ function renderPortal(eng, docs, surveys, unreadCount) {
   const contractHtml = eng.contract_text ? renderContractSection(eng) : "";
 
   // ====== Invoice section ======
-  const invoiceHtml = eng.invoice_amount_cents ? renderInvoiceSection(eng) : "";
+  const hasInvoice = eng.invoice_amount_cents || eng.invoice_number || eng.invoice_date || eng.invoice_notes || eng.payment_link;
+  const invoiceHtml = hasInvoice ? renderInvoiceSection(eng) : "";
 
   // ====== Cal.com booking ======
   const calHtml = eng.cal_link && (eng.stage === "pre" || eng.stage === "active") ? `
@@ -191,6 +192,9 @@ function renderPortal(eng, docs, surveys, unreadCount) {
   .invoice-status.paid { background:#e8f5f1; color:var(--teal); border:1px solid var(--teal); }
   .invoice-status.waived { background:var(--sand); color:var(--muted); border:1px solid var(--line); }
   .invoice-notes { color:var(--muted); font-size:0.9rem; margin-top:0.75rem; }
+  .invoice-meta { color:var(--muted); font-size:0.9rem; margin-top:0.4rem; }
+  .pay-invoice-btn { display:inline-block; margin-top:1rem; background:var(--teal); color:white; padding:0.95rem 2rem; border-radius:2px; font-size:1.05rem; font-weight:600; text-decoration:none; }
+  .pay-invoice-btn:hover { background:var(--navy); color:white; }
 
   /* Messages */
   .messages { max-height:300px; overflow-y:auto; margin-bottom:1rem; padding:0.5rem; background:var(--sand); border-radius:2px; }
@@ -346,14 +350,24 @@ function renderContractSection(eng) {
 
 function renderInvoiceSection(eng) {
   const status = eng.invoice_status || "unpaid";
+  const hasPayLink = eng.payment_link && /^https?:\/\//i.test(eng.payment_link);
+  const methodLabels = { stripe: "Stripe", check: "Check", ach: "ACH", wire: "Wire", other: "Other" };
+  const paymentInfo = status === "paid" && (eng.payment_method || eng.payment_reference)
+    ? `<div class="invoice-notes">Payment received${eng.payment_method ? ` via ${escapeHtml(methodLabels[eng.payment_method] || eng.payment_method)}` : ""}${eng.payment_reference ? ` - ref: ${escapeHtml(eng.payment_reference)}` : ""}</div>`
+    : "";
+
   return `
     <section class="card">
       <h2>Invoice</h2>
-      <div class="invoice-amount">${formatMoney(eng.invoice_amount_cents)}</div>
+      ${eng.invoice_number ? `<div class="invoice-meta">Invoice #${escapeHtml(eng.invoice_number)}</div>` : ""}
+      ${eng.invoice_date ? `<div class="invoice-meta">Invoice date: ${escapeHtml(eng.invoice_date)}</div>` : ""}
+      ${eng.invoice_amount_cents ? `<div class="invoice-amount">${formatMoney(eng.invoice_amount_cents)}</div>` : ""}
       <span class="invoice-status ${status}">${status}</span>
       ${eng.invoice_paid_at ? `<div class="invoice-notes">Paid on ${new Date(eng.invoice_paid_at + "Z").toLocaleDateString()}</div>` : ""}
+      ${paymentInfo}
       ${eng.invoice_notes ? `<div class="invoice-notes">${escapeHtml(eng.invoice_notes)}</div>` : ""}
-      ${status === "unpaid" ? `<p class="invoice-notes">Payment instructions will be provided separately. Email <a href="mailto:hello@aiimpactmaine.com">hello@aiimpactmaine.com</a> with any questions.</p>` : ""}
+      ${status === "unpaid" && hasPayLink ? `<a class="pay-invoice-btn" href="${escapeHtml(eng.payment_link)}" target="_blank" rel="noopener">Pay invoice</a>` : ""}
+      ${status === "unpaid" && !hasPayLink ? `<p class="invoice-notes">Payment instructions will be provided separately. Email <a href="mailto:hello@aiimpactmaine.com">hello@aiimpactmaine.com</a> with any questions.</p>` : ""}
     </section>`;
 }
 
