@@ -159,6 +159,65 @@ document.querySelectorAll('.nav-links a, .nav-drop a').forEach(a => {
   if (a.getAttribute('href') === currentPage) a.classList.add('nav-active');
 });
 
+function adjustSiteNavLinks() {
+  const isPortalPage = window.location.pathname === '/client-portal' ||
+    window.location.pathname === '/client-dashboard';
+  const desktopNav = document.querySelector('.nav-links');
+  if (desktopNav) {
+    const topAssessment = Array.from(desktopNav.children).find((li) => {
+      const link = li.querySelector(':scope > a[href="assessment.html"]');
+      return link && link.textContent.trim() === 'Free Assessment';
+    });
+    topAssessment?.remove();
+
+    const resourcesLi = Array.from(desktopNav.children).find((li) =>
+      li.querySelector(':scope > a[href="resources/"]')
+    );
+    if (resourcesLi && !resourcesLi.classList.contains('nav-has-drop')) {
+      resourcesLi.classList.add('nav-has-drop');
+      resourcesLi.innerHTML = '<a href="resources/">Resources</a><ul class="nav-drop"><li><a href="resources/">Resource Library</a></li><li><a href="assessment.html">Free Assessment</a></li></ul>';
+    } else if (resourcesLi && !resourcesLi.querySelector('a[href="assessment.html"]')) {
+      const drop = resourcesLi.querySelector('.nav-drop');
+      drop?.insertAdjacentHTML('beforeend', '<li><a href="assessment.html">Free Assessment</a></li>');
+    }
+    if (currentPage === 'assessment.html') {
+      resourcesLi?.querySelector(':scope > a')?.classList.add('nav-active');
+      resourcesLi?.querySelector('a[href="assessment.html"]')?.classList.add('nav-active');
+    }
+  }
+
+  if (desktopNav && !desktopNav.querySelector('a[href="/client-portal"]')) {
+    const li = document.createElement('li');
+    li.innerHTML = '<a href="/client-portal">Client Portal</a>';
+    if (isPortalPage) li.querySelector('a').classList.add('nav-active');
+    const cta = desktopNav.querySelector('.nav-cta')?.closest('li');
+    desktopNav.insertBefore(li, cta || null);
+  }
+
+  const mobileNav = document.querySelector('.mobile-menu ul');
+  if (mobileNav) {
+    Array.from(mobileNav.children).forEach((li) => {
+      const link = li.querySelector(':scope > a[href="assessment.html"]');
+      if (link && link.textContent.trim() === 'Free Assessment') li.remove();
+    });
+    const resourcesItem = Array.from(mobileNav.children).find((li) =>
+      li.querySelector(':scope > a[href="resources/"]')
+    );
+    if (resourcesItem && !mobileNav.querySelector('a[data-assessment-resource]')) {
+      resourcesItem.insertAdjacentHTML('afterend', '<li style="padding-left:1.2rem;border-bottom:1px solid rgba(255,255,255,0.05);"><a href="assessment.html" data-assessment-resource style="font-size:0.85rem;color:rgba(255,255,255,0.65);">Free Assessment</a></li>');
+    }
+  }
+
+  if (mobileNav && !mobileNav.querySelector('a[href="/client-portal"]')) {
+    const li = document.createElement('li');
+    li.innerHTML = '<a href="/client-portal">Client Portal</a>';
+    const contact = Array.from(mobileNav.querySelectorAll('a'))
+      .find(a => /Book a Call/i.test(a.textContent))?.closest('li');
+    mobileNav.insertBefore(li, contact || null);
+  }
+}
+adjustSiteNavLinks();
+
 // ── Dark Mode Toggle ──────────────────────────────────────────────────────
 const savedTheme = localStorage.getItem('aimaine-theme') || 'light';
 document.documentElement.setAttribute('data-theme', savedTheme);
@@ -246,10 +305,7 @@ if (hamburger && mobileMenu) {
     <li><a href="services.html" data-page="services.html">
       <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Services
     </a></li>
-    <li><a href="assessment.html" data-page="assessment.html">
-      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Assess
-    </a></li>
-    <li><a href="blog.html" data-page="blog.html">
+    <li><a href="resources/" data-page="resources">
       <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Resources
     </a></li>
     <li><a href="contact.html" data-page="contact.html">
@@ -260,7 +316,7 @@ if (hamburger && mobileMenu) {
   bnav.querySelectorAll('a').forEach(function(a) {
     const page = a.dataset.page;
     const isActive = page === currentPage ||
-      (page === 'blog.html' && currentPage.indexOf('blog-post') === 0) ||
+      (page === 'resources' && (window.location.pathname.includes('/resources') || currentPage === 'assessment.html' || currentPage === 'blog.html' || currentPage.indexOf('blog-post') === 0)) ||
       (page === 'services.html' && ['training.html', 'audit.html', 'support.html', 'services-payment-portal.html'].indexOf(currentPage) !== -1);
     if (isActive) a.classList.add('active');
   });

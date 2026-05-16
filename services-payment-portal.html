@@ -837,14 +837,14 @@ body { background: #fff; }
         <aside class="portal-summary" aria-label="Portal summary">
           <div class="summary-top">
             <div class="summary-lottie" data-lottie="keynote" data-lottie-height="56px" aria-hidden="true"></div>
-            <span>No card required</span>
-        <strong>Scope first, payment second</strong>
-        <p>Use the package cards to tell us what looks close. You receive a written recommendation before checkout.</p>
+            <span>Stripe checkout ready</span>
+        <strong>Fixed package pricing</strong>
+        <p>Each package now shows a fixed price with a Stripe payment button. Replace placeholder links with live Stripe Payment Links when ready.</p>
           </div>
           <div class="summary-metrics">
             <div class="metric"><b>9</b><span>package options</span></div>
-            <div class="metric"><b>1</b><span>written scope before payment</span></div>
-            <div class="metric"><b>0</b><span>card details needed to ask</span></div>
+            <div class="metric"><b>9</b><span>Stripe link placeholders</span></div>
+            <div class="metric"><b>0</b><span>API integration required</span></div>
           </div>
         </aside>
       </div>
@@ -859,20 +859,20 @@ body { background: #fff; }
         <article class="buyer-step">
           <div class="buyer-step-lottie" data-lottie="keynote" data-lottie-height="60px" aria-hidden="true"></div>
           <span>2</span>
-          <strong>Talk through goals</strong>
-          <p>A short fit check confirms your team, timeline, and risk concerns.</p>
+          <strong>Use the fixed price</strong>
+          <p>The listed price is the checkout price for that package.</p>
         </article>
         <article class="buyer-step">
           <div class="buyer-step-lottie" data-lottie="audit" data-lottie-height="60px" aria-hidden="true"></div>
           <span>3</span>
-          <strong>Review the scope</strong>
-          <p>You get clear deliverables, price, and next steps before approving work.</p>
+          <strong>Pay with Stripe</strong>
+          <p>Checkout opens in a secure Stripe-hosted page.</p>
         </article>
         <article class="buyer-step">
           <div class="buyer-step-lottie" data-lottie="finance" data-lottie-height="60px" aria-hidden="true"></div>
           <span>4</span>
-          <strong>Pay only when ready</strong>
-          <p>Checkout happens after the scope is right, not before the conversation.</p>
+          <strong>Ask first if needed</strong>
+          <p>Book a fit check if you want to confirm the package before paying.</p>
         </article>
       </div>
 
@@ -900,7 +900,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="keynote" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Starter</div>
           <h3>Intro Training</h3>
-          <div class="price">$499-$1,500</div>
+          <div class="price">$1,500</div>
           <div class="price-note">One-time engagement</div>
           <p class="card-copy">A focused entry session for teams that need a clear, jargon-free introduction to AI basics.</p>
           <ul class="feature-list">
@@ -910,7 +910,7 @@ body { background: #fff; }
             <li>PDF guide for staff follow-up</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=training_starter#contact-form-el" data-checkout-key="training_starter">Discuss This Package</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="STRIPE_LINK_TRAINING_STARTER" target="_blank" rel="noopener" data-checkout-key="training_starter">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -920,7 +920,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="workshop" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Professional</div>
           <h3>Team Workshop</h3>
-          <div class="price">$2,500-$5,000</div>
+          <div class="price">$5,000</div>
           <div class="price-note">One-time engagement</div>
           <p class="card-copy">A deeper half-day or full-day workshop built around your team's actual workflows and decisions.</p>
           <ul class="feature-list">
@@ -930,7 +930,7 @@ body { background: #fff; }
             <li>Session recording and recap materials</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-teal buy-now" href="contact.html?package=training_professional#contact-form-el" data-checkout-key="training_professional">Discuss This Package</a>
+          <a class="portal-btn portal-btn-teal buy-now" href="STRIPE_LINK_TRAINING_PROFESSIONAL" target="_blank" rel="noopener" data-checkout-key="training_professional">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -939,7 +939,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="training" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Enterprise</div>
           <h3>Capability Program</h3>
-          <div class="price">$8,000-$20,000+</div>
+          <div class="price">$20,000</div>
           <div class="price-note">Custom one-time program</div>
           <p class="card-copy">A multi-session enablement program for organizations building durable AI capability across teams.</p>
           <ul class="feature-list">
@@ -949,7 +949,7 @@ body { background: #fff; }
             <li>Adoption roadmap and internal rollout plan</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=training_enterprise#contact-form-el" data-checkout-key="training_enterprise">Discuss This Package</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="STRIPE_LINK_TRAINING_ENTERPRISE" target="_blank" rel="noopener" data-checkout-key="training_enterprise">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -972,7 +972,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="audit" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Basic</div>
           <h3>Readiness Check</h3>
-          <div class="price">$1,000-$2,500</div>
+          <div class="price">$2,500</div>
           <div class="price-note">One-time engagement</div>
           <p class="card-copy">A fast baseline for organizations that want visibility before investing in larger AI initiatives.</p>
           <ul class="feature-list">
@@ -982,7 +982,7 @@ body { background: #fff; }
             <li>Concise written report</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=audit_basic#contact-form-el" data-checkout-key="audit_basic">Discuss This Package</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="STRIPE_LINK_AUDIT_BASIC" target="_blank" rel="noopener" data-checkout-key="audit_basic">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -992,7 +992,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="governance" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Advanced</div>
           <h3>Workflow Audit</h3>
-          <div class="price">$3,500-$7,500</div>
+          <div class="price">$7,500</div>
           <div class="price-note">One-time engagement</div>
           <p class="card-copy">A practical audit for teams that want to connect AI governance with productivity and ROI.</p>
           <ul class="feature-list">
@@ -1002,7 +1002,7 @@ body { background: #fff; }
             <li>AI adoption roadmap</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-teal buy-now" href="contact.html?package=audit_advanced#contact-form-el" data-checkout-key="audit_advanced">Discuss This Package</a>
+          <a class="portal-btn portal-btn-teal buy-now" href="STRIPE_LINK_AUDIT_ADVANCED" target="_blank" rel="noopener" data-checkout-key="audit_advanced">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -1011,7 +1011,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="education" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Enterprise</div>
           <h3>Strategy Audit</h3>
-          <div class="price">$10,000-$25,000+</div>
+          <div class="price">$25,000</div>
           <div class="price-note">Custom one-time audit</div>
           <p class="card-copy">A full organizational strategy engagement for leaders balancing transformation, compliance, and risk.</p>
           <ul class="feature-list">
@@ -1021,7 +1021,7 @@ body { background: #fff; }
             <li>Strategic roadmap and operating model</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=audit_enterprise#contact-form-el" data-checkout-key="audit_enterprise">Discuss This Package</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="STRIPE_LINK_AUDIT_ENTERPRISE" target="_blank" rel="noopener" data-checkout-key="audit_enterprise">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -1044,7 +1044,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="support" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Basic</div>
           <h3>Advisor Access</h3>
-          <div class="price">$500-$1,500/mo</div>
+          <div class="price">$1,500/mo</div>
           <div class="price-note">Monthly subscription</div>
           <p class="card-copy">Lightweight ongoing support for teams that need a reliable place to ask AI questions.</p>
           <ul class="feature-list">
@@ -1054,7 +1054,7 @@ body { background: #fff; }
             <li>Short written follow-up notes</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=support_basic#contact-form-el" data-checkout-key="support_basic">Discuss This Package</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="STRIPE_LINK_SUPPORT_BASIC" target="_blank" rel="noopener" data-checkout-key="support_basic">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -1064,7 +1064,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="panel" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Growth</div>
           <h3>Workflow Partner</h3>
-          <div class="price">$2,000-$5,000/mo</div>
+          <div class="price">$5,000/mo</div>
           <div class="price-note">Monthly subscription</div>
           <p class="card-copy">A practical retainer for organizations actively improving workflows and rolling out AI practices.</p>
           <ul class="feature-list">
@@ -1074,7 +1074,7 @@ body { background: #fff; }
             <li>Tool evaluation and implementation guidance</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-teal buy-now" href="contact.html?package=support_growth#contact-form-el" data-checkout-key="support_growth">Discuss This Package</a>
+          <a class="portal-btn portal-btn-teal buy-now" href="STRIPE_LINK_SUPPORT_GROWTH" target="_blank" rel="noopener" data-checkout-key="support_growth">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -1083,7 +1083,7 @@ body { background: #fff; }
           <div class="pricing-card-lottie" data-lottie="finance" data-lottie-height="64px" aria-hidden="true"></div>
           <div class="card-kicker">Enterprise</div>
           <h3>Dedicated Advisor</h3>
-          <div class="price">$6,000-$15,000+/mo</div>
+          <div class="price">$15,000/mo</div>
           <div class="price-note">Monthly subscription</div>
           <p class="card-copy">High-touch support for organizations that need advisory, automation, measurement, and leadership reporting.</p>
           <ul class="feature-list">
@@ -1093,7 +1093,7 @@ body { background: #fff; }
             <li>Executive check-ins and roadmap updates</li>
           </ul>
           <div class="card-actions">
-          <a class="portal-btn portal-btn-primary buy-now" href="contact.html?package=support_enterprise#contact-form-el" data-checkout-key="support_enterprise">Discuss This Package</a>
+          <a class="portal-btn portal-btn-primary buy-now" href="STRIPE_LINK_SUPPORT_ENTERPRISE" target="_blank" rel="noopener" data-checkout-key="support_enterprise">Pay with Stripe</a>
             <a class="portal-btn portal-btn-soft" href="https://cal.com/aiimpactmaine/30min" target="_blank" rel="noopener">Book Fit Check</a>
           </div>
         </article>
@@ -1139,20 +1139,20 @@ body { background: #fff; }
           <span class="payment-pill">FAQ</span>
           <h2>Scope, payment, and fit questions.</h2>
         </div>
-        <p>Every tier is a starting point. Final scope can be adjusted before payment when your organization needs something more specific.</p>
+        <p>Package prices are fixed. Custom, enterprise, or grant-funded scopes can still be quoted separately.</p>
       </div>
       <div class="faq-portal-grid">
         <article class="portal-faq-item portal-reveal">
           <h3>What happens after we click a package?</h3>
-          <p>The contact form opens with that package noted. We review fit, answer questions, and send a written scope or recommendation before payment.</p>
+          <p>The Stripe checkout opens in a new tab. If you have questions before paying, book a fit check first.</p>
         </article>
         <article class="portal-faq-item portal-reveal">
           <h3>Do we need to pay before talking?</h3>
-          <p>No. You can ask questions or book a fit check first. Payment happens only after the scope, deliverables, and timeline are clear.</p>
+          <p>No. You can still ask questions or book a fit check first. The Stripe button is there when you are ready.</p>
         </article>
         <article class="portal-faq-item portal-reveal">
           <h3>Can pricing be customized?</h3>
-          <p>Yes. The listed ranges are packaged starting points. Enterprise work, grant-funded engagements, and multi-service bundles can be scoped after a consultation.</p>
+          <p>The listed package prices are fixed. Enterprise work, grant-funded engagements, and multi-service bundles can still be scoped separately.</p>
         </article>
         <article class="portal-faq-item portal-reveal">
           <h3>Are recommendations vendor-neutral?</h3>
