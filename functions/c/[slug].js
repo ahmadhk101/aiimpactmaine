@@ -2,15 +2,19 @@
 // GET /c/<slug>  — full-featured client portal.
 // Includes: stage timeline, contract sign, invoice, Cal.com booking, docs, surveys, messaging, library link.
 
-import { escapeHtml, formatSize, formatMoney, logActivity } from "../_shared/auth.js";
+import { escapeHtml, formatSize, formatMoney, logActivity, requirePortalSessionForSlug } from "../_shared/auth.js";
 
 export async function onRequest({ params, env, request }) {
   const slug = params.slug;
 
+  const portalAuth = await requirePortalSessionForSlug(request, env, slug);
+  if (portalAuth instanceof Response) return portalAuth;
+
   const eng = await env.DB.prepare(
     `SELECT e.*, c.name AS client_name, c.company AS client_company, c.email AS client_email
-     FROM engagements e JOIN clients c ON c.id = e.client_id WHERE e.slug = ?`
-  ).bind(slug).first();
+     FROM engagements e JOIN clients c ON c.id = e.client_id
+     WHERE e.slug = ? AND e.client_id = ?`
+  ).bind(slug, portalAuth.session.client_id).first();
 
   if (!eng) {
     return new Response(renderNotFound(), { status: 404, headers: { "Content-Type": "text/html; charset=utf-8" } });
@@ -216,7 +220,7 @@ function renderPortal(eng, docs, surveys, unreadCount) {
     <div>
       <div class="brand">AI Impact Maine<small>Client Portal</small></div>
     </div>
-    <a class="lib-link" href="/library">Resource Library →</a>
+    <a class="lib-link" href="/resources/">Resource Library →</a>
   </div>
 </header>
 <main>

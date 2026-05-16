@@ -6,7 +6,7 @@
 import { requireAdmin, json } from "../../_shared/auth.js";
 
 export async function onRequestPost({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const form = await request.formData();
@@ -40,3 +40,4 @@ export async function onRequestPost({ request, env }) {
 
   return json({ id: meta.last_row_id, filename: file.name, r2_key: key }, 201);
 }
+

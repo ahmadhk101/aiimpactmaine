@@ -25,32 +25,32 @@ function renderPage() {
   <div class="nav-inner">
     <a href="/" class="nav-logo"><img src="/assets/logo.svg" alt="AI Impact Maine logo" width="205" height="72"></a>
     <ul class="nav-links">
-      <li><a href="/conference.html" class="nav-conf">Conference</a></li>
-      <li><a href="/services.html">Services</a></li>
-      <li><a href="/services-payment-portal.html">Pricing</a></li>
-      <li><a href="/funding.html">Funding</a></li>
-      <li><a href="/assessment.html">Free Assessment</a></li>
+      <li><a href="/conference" class="nav-conf">Conference</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/services-payment-portal">Pricing</a></li>
+      <li><a href="/funding">Funding</a></li>
+      <li><a href="/assessment">Free Assessment</a></li>
       <li><a href="/resources/">Resources</a></li>
-      <li><a href="/faq.html">FAQ</a></li>
-      <li><a href="/about.html">About</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/about">About</a></li>
       <li><a href="/client-portal" class="nav-active">Client Portal</a></li>
-      <li><a href="/contact.html" class="nav-cta">Book a Call</a></li>
+      <li><a href="/contact" class="nav-cta">Book a Call</a></li>
     </ul>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu" type="button" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
   <ul>
-    <li><a href="/conference.html">Conference</a></li>
-    <li><a href="/services.html">Services</a></li>
-    <li><a href="/services-payment-portal.html">Pricing</a></li>
-    <li><a href="/funding.html">Funding</a></li>
-    <li><a href="/assessment.html">Free Assessment</a></li>
+    <li><a href="/conference">Conference</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/services-payment-portal">Pricing</a></li>
+    <li><a href="/funding">Funding</a></li>
+    <li><a href="/assessment">Free Assessment</a></li>
     <li><a href="/resources/">Resources</a></li>
-    <li><a href="/faq.html">FAQ</a></li>
-    <li><a href="/about.html">About</a></li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/about">About</a></li>
     <li><a href="/client-portal">Client Portal</a></li>
-    <li><a href="/contact.html">Book a Call</a></li>
+    <li><a href="/contact">Book a Call</a></li>
   </ul>
 </div>
 <main>

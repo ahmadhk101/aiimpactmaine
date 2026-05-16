@@ -5,7 +5,7 @@
 import { requireAdmin, json, logActivity } from "../../_shared/auth.js";
 
 export async function onRequestPost({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const { engagement_id, body } = await request.json().catch(() => ({}));
@@ -20,7 +20,7 @@ export async function onRequestPost({ request, env }) {
 }
 
 export async function onRequestPatch({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const { ids } = await request.json().catch(() => ({}));
@@ -33,3 +33,4 @@ export async function onRequestPatch({ request, env }) {
 
   return json({ marked: ids.length });
 }
+

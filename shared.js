@@ -5,27 +5,28 @@ const isLowEnd = isMobileDevice && (navigator.hardwareConcurrency <= 4 || naviga
 // AIMA Background Videos
 function initBackgroundVideos() {
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (isMobileDevice || isLowEnd) return;
   if (window.location.protocol === 'file:') return;
   if (!window.fetch) return;
 
-  const currentPageName = window.location.pathname.split('/').pop() || 'index.html';
+  const currentPageName = (window.location.pathname.split('/').pop() || 'index').replace(/\.html$/, '');
   const pageVideoMap = {
-    'index.html': {
+    'index': {
       selector: '.hero',
       src: 'assets/videos/index-illustration-motion.webm',
       poster: 'assets/videos/index-illustration-motion-poster.png'
     },
-    'about.html': {
+    'about': {
       selector: '.page-hero',
       src: 'assets/videos/about-illustration-motion.webm',
       poster: 'assets/videos/about-illustration-motion-poster.png'
     },
-    'assessment.html': {
+    'assessment': {
       selector: '.assess-hero',
       src: 'assets/videos/assessment-illustration-motion.webm',
       poster: 'assets/videos/assessment-illustration-motion-poster.png'
     },
-    'conference.html': {
+    'conference': {
       selector: '.conf-hero',
       src: 'assets/videos/conference-illustration-motion.webm',
       poster: 'assets/videos/conference-illustration-motion-poster.png'
@@ -60,46 +61,63 @@ function initBackgroundVideos() {
       .catch(function() { return false; });
   }
 
+  function attachVideo(config, target) {
+    if (target.dataset.aimaVideoLoaded || target.querySelector('.aima-bg-video')) return;
+    target.dataset.aimaVideoLoaded = '1';
+    assetExists(config.src).then(function(exists) {
+      if (!exists || target.querySelector('.aima-bg-video')) return;
+
+      const video = document.createElement('video');
+      video.className = 'aima-bg-video';
+      video.poster = config.poster;
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = 'none';
+      video.setAttribute('aria-hidden', 'true');
+      video.setAttribute('tabindex', '-1');
+
+      const source = document.createElement('source');
+      source.src = config.src;
+      source.type = 'video/webm';
+      video.appendChild(source);
+
+      const overlay = document.createElement('div');
+      overlay.className = 'aima-bg-video-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+
+      video.addEventListener('error', function() {
+        video.remove();
+        if (!target.querySelector('.aima-bg-video')) overlay.remove();
+      }, { once: true });
+
+      target.insertBefore(overlay, target.firstChild);
+      target.insertBefore(video, overlay);
+      video.load();
+
+      const playAttempt = video.play();
+      if (playAttempt && typeof playAttempt.catch === 'function') {
+        playAttempt.catch(function() {});
+      }
+    });
+  }
+
   videoTargets.forEach(function(config) {
     document.querySelectorAll(config.selector).forEach(function(target) {
-      if (target.querySelector('.aima-bg-video')) return;
-
-      assetExists(config.src).then(function(exists) {
-        if (!exists || target.querySelector('.aima-bg-video')) return;
-
-        const video = document.createElement('video');
-        video.className = 'aima-bg-video';
-        video.poster = config.poster;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
-        video.preload = 'metadata';
-        video.setAttribute('aria-hidden', 'true');
-        video.setAttribute('tabindex', '-1');
-
-        const source = document.createElement('source');
-        source.src = config.src;
-        source.type = 'video/webm';
-        video.appendChild(source);
-
-        const overlay = document.createElement('div');
-        overlay.className = 'aima-bg-video-overlay';
-        overlay.setAttribute('aria-hidden', 'true');
-
-        video.addEventListener('error', function() {
-          video.remove();
-          if (!target.querySelector('.aima-bg-video')) overlay.remove();
-        }, { once: true });
-
-        target.insertBefore(overlay, target.firstChild);
-        target.insertBefore(video, overlay);
-
-        const playAttempt = video.play();
-        if (playAttempt && typeof playAttempt.catch === 'function') {
-          playAttempt.catch(function() {});
-        }
-      });
+      if (!('IntersectionObserver' in window)) {
+        attachVideo(config, target);
+        return;
+      }
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            observer.disconnect();
+            attachVideo(config, target);
+          }
+        });
+      }, { rootMargin: '250px 0px' });
+      observer.observe(target);
     });
   });
 }
@@ -154,25 +172,28 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+const currentPath = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '') || '/';
+const currentPage = currentPath.split('/').filter(Boolean).pop() || 'index';
 document.querySelectorAll('.nav-links a, .nav-drop a').forEach(a => {
-  if (a.getAttribute('href') === currentPage) a.classList.add('nav-active');
+  const href = (a.getAttribute('href') || '').replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+  if (href === currentPath || href === currentPage) a.classList.add('nav-active');
 });
 
 function adjustSiteNavLinks() {
   const isPortalPage = window.location.pathname === '/client-portal' ||
     window.location.pathname === '/client-dashboard';
   const inResources = window.location.pathname.includes('/resources/');
-  const resourceHref = inResources ? 'index.html' : 'resources/';
-  const assessmentHref = inResources ? '../assessment.html' : 'assessment.html';
+  const resourceHref = '/resources/';
+  const assessmentHref = '/assessment';
   const cleanHref = (link) => (link?.getAttribute('href') || '').replace(/^\.\//, '');
   const isAssessmentLink = (link) =>
-    link && link.textContent.trim() === 'Free Assessment' && cleanHref(link).endsWith('assessment.html');
+    link && link.textContent.trim() === 'Free Assessment' &&
+    cleanHref(link).replace(/\.html$/, '').endsWith('assessment');
   const isResourcesLink = (link) => {
     if (!link || link.textContent.trim() !== 'Resources') return false;
     const href = cleanHref(link);
-    return href === 'resources/' || href.endsWith('/resources/') || href.endsWith('resources/index.html') ||
-      (inResources && href === 'index.html');
+    return href === '/resources/' || href === 'resources/' || href.endsWith('/resources/') ||
+      href.endsWith('resources/index.html') || (inResources && href === 'index.html');
   };
 
   const desktopNav = document.querySelector('.nav-links');
@@ -193,7 +214,7 @@ function adjustSiteNavLinks() {
       const drop = resourcesLi.querySelector('.nav-drop');
       drop?.insertAdjacentHTML('beforeend', `<li><a href="${assessmentHref}">Free Assessment</a></li>`);
     }
-    if (currentPage === 'assessment.html') {
+    if (currentPath === '/assessment') {
       resourcesLi?.querySelector(':scope > a')?.classList.add('nav-active');
       Array.from(resourcesLi?.querySelectorAll('a') || []).find(isAssessmentLink)?.classList.add('nav-active');
     }
@@ -312,16 +333,16 @@ if (hamburger && mobileMenu) {
   const bnav = document.createElement('nav');
   bnav.className = 'mobile-bottom-nav';
   bnav.innerHTML = `<ul>
-    <li><a href="index.html" data-page="index.html">
+    <li><a href="/" data-page="index">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
     </a></li>
-    <li><a href="services.html" data-page="services.html">
+    <li><a href="/services" data-page="services">
       <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Services
     </a></li>
-    <li><a href="resources/" data-page="resources">
+    <li><a href="/resources/" data-page="resources">
       <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Resources
     </a></li>
-    <li><a href="contact.html" data-page="contact.html">
+    <li><a href="/contact" data-page="contact">
       <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.61-.61a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>Contact
     </a></li>
   </ul>`;
@@ -329,8 +350,8 @@ if (hamburger && mobileMenu) {
   bnav.querySelectorAll('a').forEach(function(a) {
     const page = a.dataset.page;
     const isActive = page === currentPage ||
-      (page === 'resources' && (window.location.pathname.includes('/resources') || currentPage === 'assessment.html' || currentPage === 'blog.html' || currentPage.indexOf('blog-post') === 0)) ||
-      (page === 'services.html' && ['training.html', 'audit.html', 'support.html', 'services-payment-portal.html'].indexOf(currentPage) !== -1);
+      (page === 'resources' && (window.location.pathname.includes('/resources') || currentPage === 'assessment' || currentPage === 'blog' || currentPage.indexOf('blog-post') === 0)) ||
+      (page === 'services' && ['training', 'audit', 'support', 'services-payment-portal'].indexOf(currentPage) !== -1);
     if (isActive) a.classList.add('active');
   });
 })();
@@ -502,7 +523,7 @@ document.querySelectorAll('.form-submit').forEach(function(btn) {
   if (localStorage.getItem('aimaine-cookies')) return;
   const banner = document.createElement('div');
   banner.className = 'cookie-banner';
-  banner.innerHTML = '<div class="cookie-banner-text"><p>We use cookies for essential site functions and Google Fonts. No advertising trackers. <a href="privacy.html">Privacy Policy →</a></p></div><div class="cookie-banner-actions"><button class="cookie-accept">Accept</button><button class="cookie-decline">Decline</button></div>';
+  banner.innerHTML = '<div class="cookie-banner-text"><p>We use cookies for essential site functions and Google Fonts. No advertising trackers. <a href="/privacy">Privacy Policy →</a></p></div><div class="cookie-banner-actions"><button class="cookie-accept">Accept</button><button class="cookie-decline">Decline</button></div>';
   document.body.appendChild(banner);
   setTimeout(function() { banner.classList.add('show'); }, 1500);
   banner.querySelector('.cookie-accept').addEventListener('click', function() {
@@ -529,7 +550,7 @@ if (!isMobileDevice) {
       const popup = document.createElement('div');
       popup.id = 'exit-popup';
       popup.style.cssText = 'position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;background:rgba(10,16,30,0.7);opacity:0;transition:opacity 0.3s;padding:1.5rem;';
-      popup.innerHTML = '<div style="background:white;border-radius:14px;max-width:480px;width:100%;padding:2.5rem;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3);"><button id="popup-close" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;">×</button><h3 style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;color:var(--navy);margin-bottom:0.6rem;">Take the free AI Readiness Assessment</h3><p style="color:var(--text-light);font-size:0.92rem;line-height:1.75;margin-bottom:1.5rem;">Find out where your organization stands with AI in under 3 minutes.</p><a href="assessment.html" style="background:var(--teal);color:white;padding:0.75rem 1.5rem;border-radius:4px;text-decoration:none;font-weight:600;display:block;text-align:center;">Start the Assessment →</a></div>';
+      popup.innerHTML = '<div style="background:white;border-radius:14px;max-width:480px;width:100%;padding:2.5rem;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.3);"><button id="popup-close" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;">×</button><h3 style="font-family:\'Cormorant Garamond\',serif;font-size:1.5rem;color:var(--navy);margin-bottom:0.6rem;">Take the free AI Readiness Assessment</h3><p style="color:var(--text-light);font-size:0.92rem;line-height:1.75;margin-bottom:1.5rem;">Find out where your organization stands with AI in under 3 minutes.</p><a href="/assessment" style="background:var(--teal);color:white;padding:0.75rem 1.5rem;border-radius:4px;text-decoration:none;font-weight:600;display:block;text-align:center;">Start the Assessment →</a></div>';
       document.body.appendChild(popup);
       requestAnimationFrame(function() { popup.style.opacity = '1'; });
       function closePopup() { popup.style.opacity = '0'; setTimeout(function() { popup.remove(); }, 300); }

@@ -3,19 +3,24 @@
 // Validates that the doc belongs to the engagement and is visible at current stage,
 // logs the access, then streams from R2.
 
+import { requirePortalSessionForSlug } from "../../_shared/auth.js";
+
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const slug = url.searchParams.get("slug");
   const docId = url.searchParams.get("doc");
   if (!slug || !docId) return new Response("Bad request", { status: 400 });
 
+  const portalAuth = await requirePortalSessionForSlug(request, env, slug, { json: true });
+  if (portalAuth instanceof Response) return portalAuth;
+
   const row = await env.DB.prepare(
     `SELECT d.id, d.filename, d.r2_key, d.visibility, e.stage
      FROM documents d
      JOIN engagements e ON e.id = d.engagement_id
-     WHERE d.id = ? AND e.slug = ?`
+     WHERE d.id = ? AND e.slug = ? AND e.client_id = ?`
   )
-    .bind(docId, slug)
+    .bind(docId, slug, portalAuth.session.client_id)
     .first();
 
   if (!row) return new Response("Not found", { status: 404 });

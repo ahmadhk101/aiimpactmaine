@@ -1,27 +1,9 @@
-import { json, sendEmail } from "../../_shared/auth.js";
+import { json, randomToken, sendEmail, sha256 } from "../../_shared/auth.js";
 
 const NEUTRAL_MESSAGE = "If that email matches a client account, we'll send a secure login link.";
 
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
-}
-
-function base64url(bytes) {
-  let binary = "";
-  bytes.forEach(b => { binary += String.fromCharCode(b); });
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-}
-
-async function sha256(value) {
-  const bytes = new TextEncoder().encode(value);
-  const hash = await crypto.subtle.digest("SHA-256", bytes);
-  return base64url(new Uint8Array(hash));
-}
-
-function makeToken() {
-  const bytes = new Uint8Array(32);
-  crypto.getRandomValues(bytes);
-  return base64url(bytes);
 }
 
 function renderMagicLinkEmail({ clientName, link }) {
@@ -61,7 +43,7 @@ export async function onRequestPost({ request, env }) {
   ).bind(email).first();
 
   if (client) {
-    const token = makeToken();
+    const token = randomToken(32);
     const tokenHash = await sha256(token);
     const emailHash = await sha256(email);
     const createdAt = now.toISOString();

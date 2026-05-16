@@ -103,6 +103,7 @@
 <nav class="tabs">
   <button data-tab="engagements" class="active">Engagements</button>
   <button data-tab="clients">Clients</button>
+  <button data-tab="leads">Leads</button>
   <button data-tab="templates">Survey Templates</button>
   <button data-tab="library">Resource Library</button>
 </nav>
@@ -167,6 +168,17 @@
     </section>
   </div>
 
+  <!-- ===== LEADS TAB ===== -->
+  <div class="tab-content" id="tab-leads" style="display:none;">
+    <section class="panel">
+      <h2>Website leads</h2>
+      <table>
+        <thead><tr><th>Created</th><th>Source</th><th>Name</th><th>Email</th><th>Organization</th><th>Interest</th><th>Message</th><th>Status</th></tr></thead>
+        <tbody id="leadsTable"></tbody>
+      </table>
+    </section>
+  </div>
+
   <!-- ===== SURVEY TEMPLATES TAB ===== -->
   <div class="tab-content" id="tab-templates" style="display:none;">
     <section class="panel">
@@ -224,7 +236,7 @@
 
 <script>
 // ===== State =====
-let clients = [], engagements = [], library = [];
+let clients = [], engagements = [], library = [], leads = [];
 let currentEng = null; // detail being viewed
 
 // ===== Tabs =====
@@ -236,6 +248,7 @@ document.querySelectorAll('nav.tabs button').forEach(b => {
     document.getElementById('tab-' + b.dataset.tab).style.display = '';
     if (b.dataset.tab === 'library') loadLibrary();
     if (b.dataset.tab === 'templates') loadTemplates();
+    if (b.dataset.tab === 'leads') loadLeads();
   };
 });
 
@@ -369,6 +382,38 @@ async function loadLibrary() {
       <td><button class="small danger" onclick="deleteLibResource(${l.id},'${esc(l.title)}')">Delete</button></td>
     </tr>
   `).join('') : '<tr><td colspan="5" class="empty">Library is empty.</td></tr>';
+}
+
+async function loadLeads() {
+  const r = await api('/api/admin/leads');
+  leads = (await r.json()).leads || [];
+  const tbody = document.getElementById('leadsTable');
+  tbody.innerHTML = leads.length ? leads.map(l => `
+    <tr>
+      <td style="color:var(--muted);font-size:0.8rem;">${esc(l.created_at||'')}</td>
+      <td>${esc(l.source||'')}</td>
+      <td><strong>${esc(l.name||'')}</strong>${l.phone?'<br><span style="color:var(--muted);font-size:0.8rem;">'+esc(l.phone)+'</span>':''}</td>
+      <td>${esc(l.email||'')}</td>
+      <td>${esc(l.organization||'')}</td>
+      <td>${esc(l.interest || l.package_name || l.resource_url || '')}</td>
+      <td style="max-width:280px;">${esc(l.message||'')}</td>
+      <td>
+        <select onchange="updateLeadStatus(${l.id}, this.value)">
+          ${['new','contacted','qualified','closed','spam'].map(s=>`<option value="${s}" ${s===(l.status||'new')?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="8" class="empty">No leads yet.</td></tr>';
+}
+
+async function updateLeadStatus(id, status) {
+  const r = await api('/api/admin/leads', {
+    method:'PATCH',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ id, status }),
+  });
+  if (r.ok) toast('Lead updated');
+  else toast('Lead update failed');
 }
 
 async function deleteLibResource(id, title) {

@@ -1,8 +1,14 @@
--- AI Impact Maine — Client Engagement Backend v2
--- Fresh install: run this whole file in the D1 console.
--- Upgrading from v1: see MIGRATION FROM V1 section at the bottom.
+-- AI Impact Maine production schema
+-- Fresh install: run this whole file once in D1.
+-- Existing production databases should use files in migrations/ instead.
 
--- ===== CORE TABLES =====
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS migration_versions (
+  version TEXT PRIMARY KEY,
+  description TEXT,
+  applied_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE IF NOT EXISTS clients (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,15 +27,19 @@ CREATE TABLE IF NOT EXISTS engagements (
   title TEXT NOT NULL,
   stage TEXT NOT NULL DEFAULT 'pre',
   description TEXT,
-  -- v2 additions:
   contract_text TEXT,
   contract_signed_at TEXT,
   contract_signed_ip TEXT,
   contract_signed_name TEXT,
+  invoice_number TEXT,
+  invoice_date TEXT,
   invoice_amount_cents INTEGER,
   invoice_status TEXT DEFAULT 'unpaid',
   invoice_paid_at TEXT,
   invoice_notes TEXT,
+  payment_link TEXT,
+  payment_method TEXT,
+  payment_reference TEXT,
   cal_link TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
@@ -37,6 +47,7 @@ CREATE TABLE IF NOT EXISTS engagements (
 
 CREATE INDEX IF NOT EXISTS idx_engagements_slug ON engagements(slug);
 CREATE INDEX IF NOT EXISTS idx_engagements_client ON engagements(client_id);
+CREATE INDEX IF NOT EXISTS idx_engagements_stage ON engagements(stage);
 
 CREATE TABLE IF NOT EXISTS documents (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,18 +70,47 @@ CREATE TABLE IF NOT EXISTS document_access_log (
   FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS survey_templates (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  description TEXT,
+  questions TEXT NOT NULL,
+  is_system INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS engagement_surveys (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  engagement_id INTEGER NOT NULL,
+  template_id INTEGER,
+  title TEXT NOT NULL,
+  description TEXT,
+  questions TEXT NOT NULL,
+  visibility TEXT NOT NULL DEFAULT 'all',
+  repeatable INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE,
+  FOREIGN KEY (template_id) REFERENCES survey_templates(id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_engagement_surveys_engagement ON engagement_surveys(engagement_id);
+CREATE INDEX IF NOT EXISTS idx_engagement_surveys_template ON engagement_surveys(template_id);
+
 CREATE TABLE IF NOT EXISTS surveys (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   engagement_id INTEGER NOT NULL,
   type TEXT NOT NULL,
+  survey_id INTEGER,
   responses TEXT NOT NULL,
   submitted_at TEXT DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE
+  FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE,
+  FOREIGN KEY (survey_id) REFERENCES engagement_surveys(id) ON DELETE SET NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_surveys_engagement ON surveys(engagement_id);
-
--- ===== V2 TABLES =====
+CREATE INDEX IF NOT EXISTS idx_surveys_survey ON surveys(survey_id);
 
 CREATE TABLE IF NOT EXISTS activity_log (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,6 +122,7 @@ CREATE TABLE IF NOT EXISTS activity_log (
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE
 );
+
 CREATE INDEX IF NOT EXISTS idx_activity_engagement ON activity_log(engagement_id);
 CREATE INDEX IF NOT EXISTS idx_activity_created ON activity_log(created_at);
 
@@ -94,6 +135,7 @@ CREATE TABLE IF NOT EXISTS messages (
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE
 );
+
 CREATE INDEX IF NOT EXISTS idx_messages_engagement ON messages(engagement_id);
 
 CREATE TABLE IF NOT EXISTS library_resources (
@@ -119,17 +161,77 @@ CREATE TABLE IF NOT EXISTS email_log (
   FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE SET NULL
 );
 
--- ===== MIGRATION FROM V1 =====
--- If you already ran v1, run ONLY the statements below (skip everything above).
--- Run each one separately in the D1 console.
---
--- ALTER TABLE engagements ADD COLUMN contract_text TEXT;
--- ALTER TABLE engagements ADD COLUMN contract_signed_at TEXT;
--- ALTER TABLE engagements ADD COLUMN contract_signed_ip TEXT;
--- ALTER TABLE engagements ADD COLUMN contract_signed_name TEXT;
--- ALTER TABLE engagements ADD COLUMN invoice_amount_cents INTEGER;
--- ALTER TABLE engagements ADD COLUMN invoice_status TEXT DEFAULT 'unpaid';
--- ALTER TABLE engagements ADD COLUMN invoice_paid_at TEXT;
--- ALTER TABLE engagements ADD COLUMN invoice_notes TEXT;
--- ALTER TABLE engagements ADD COLUMN cal_link TEXT;
--- Then create activity_log, messages, library_resources, email_log tables.
+CREATE TABLE IF NOT EXISTS invoice_attachments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  engagement_id INTEGER NOT NULL,
+  filename TEXT NOT NULL,
+  r2_key TEXT NOT NULL,
+  size_bytes INTEGER,
+  label TEXT,
+  uploaded_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (engagement_id) REFERENCES engagements(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_invoice_attachments_engagement ON invoice_attachments(engagement_id);
+
+CREATE TABLE IF NOT EXISTS portal_magic_links (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  client_id INTEGER NOT NULL,
+  email_hash TEXT NOT NULL,
+  token_hash TEXT NOT NULL UNIQUE,
+  requested_ip TEXT,
+  expires_at TEXT NOT NULL,
+  used_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_portal_magic_links_token ON portal_magic_links(token_hash);
+CREATE INDEX IF NOT EXISTS idx_portal_magic_links_client ON portal_magic_links(client_id);
+CREATE INDEX IF NOT EXISTS idx_portal_magic_links_ip_created ON portal_magic_links(requested_ip, created_at);
+
+CREATE TABLE IF NOT EXISTS portal_sessions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  client_id INTEGER NOT NULL,
+  session_hash TEXT NOT NULL UNIQUE,
+  requested_ip TEXT,
+  user_agent TEXT,
+  expires_at TEXT NOT NULL,
+  revoked_at TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_seen_at TEXT,
+  FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_portal_sessions_hash ON portal_sessions(session_hash);
+CREATE INDEX IF NOT EXISTS idx_portal_sessions_client ON portal_sessions(client_id);
+CREATE INDEX IF NOT EXISTS idx_portal_sessions_expires ON portal_sessions(expires_at);
+
+CREATE TABLE IF NOT EXISTS leads (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  source TEXT,
+  form_type TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  name TEXT,
+  email TEXT NOT NULL,
+  phone TEXT,
+  organization TEXT,
+  role TEXT,
+  sector TEXT,
+  interest TEXT,
+  involvement TEXT,
+  message TEXT,
+  package_name TEXT,
+  resource_url TEXT,
+  page_url TEXT,
+  status TEXT NOT NULL DEFAULT 'new',
+  ip_address TEXT,
+  user_agent TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_leads_email ON leads(email);
+CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status);
+CREATE INDEX IF NOT EXISTS idx_leads_created ON leads(created_at);

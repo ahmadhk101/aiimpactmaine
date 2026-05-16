@@ -5,7 +5,7 @@ function safeFilename(name) {
 }
 
 export async function onRequestGet({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const url = new URL(request.url);
@@ -19,7 +19,7 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const form = await request.formData();
@@ -56,7 +56,7 @@ export async function onRequestPost({ request, env }) {
 }
 
 export async function onRequestDelete({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const url = new URL(request.url);
@@ -80,3 +80,4 @@ export async function onRequestDelete({ request, env }) {
 
   return json({ deleted: id });
 }
+

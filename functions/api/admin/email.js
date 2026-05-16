@@ -11,7 +11,7 @@
 import { requireAdmin, json, renderEmail, sendEmail, logActivity, FROM_EMAIL } from "../../_shared/auth.js";
 
 export async function onRequestPost({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const body = await request.json().catch(() => ({}));
@@ -97,3 +97,4 @@ export async function onRequestPost({ request, env }) {
     sendResult,
   }, 201);
 }
+

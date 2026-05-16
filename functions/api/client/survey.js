@@ -4,13 +4,19 @@
 // Validates that the survey belongs to the engagement at the current stage,
 // enforces one-submission rule if repeatable=0, then saves the response.
 
-import { json, logActivity } from "../../_shared/auth.js";
+import { json, logActivity, requirePortalSessionForSlug, requireSameOrigin } from "../../_shared/auth.js";
 
 export async function onRequestPost({ request, env }) {
+  const originError = requireSameOrigin(request);
+  if (originError) return originError;
+
   const { slug, survey_id, responses } = await request.json().catch(() => ({}));
   if (!slug || !survey_id || !responses || typeof responses !== "object") {
     return json({ error: "slug, survey_id, responses required" }, 400);
   }
+
+  const portalAuth = await requirePortalSessionForSlug(request, env, slug, { json: true });
+  if (portalAuth instanceof Response) return portalAuth;
 
   // Verify slug + survey association, get stage to check visibility
   const row = await env.DB.prepare(
@@ -18,8 +24,8 @@ export async function onRequestPost({ request, env }) {
             es.id AS survey_id, es.title, es.visibility, es.repeatable
      FROM engagements e
      JOIN engagement_surveys es ON es.engagement_id = e.id
-     WHERE e.slug = ? AND es.id = ?`
-  ).bind(slug, survey_id).first();
+     WHERE e.slug = ? AND e.client_id = ? AND es.id = ?`
+  ).bind(slug, portalAuth.session.client_id, survey_id).first();
 
   if (!row) return json({ error: "survey not found for this engagement" }, 404);
 

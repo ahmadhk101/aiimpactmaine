@@ -6,7 +6,7 @@
 import { requireAdmin, json } from "../../_shared/auth.js";
 
 export async function onRequestGet({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
   const { results } = await env.DB.prepare(
     "SELECT id, title, description, filename, size_bytes, category, uploaded_at FROM library_resources ORDER BY uploaded_at DESC"
@@ -15,7 +15,7 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const form = await request.formData();
@@ -42,7 +42,7 @@ export async function onRequestPost({ request, env }) {
 }
 
 export async function onRequestDelete({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
@@ -55,3 +55,4 @@ export async function onRequestDelete({ request, env }) {
   await env.DB.prepare("DELETE FROM library_resources WHERE id = ?").bind(id).run();
   return json({ deleted: id });
 }
+

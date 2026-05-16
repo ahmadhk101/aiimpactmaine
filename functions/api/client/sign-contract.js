@@ -2,16 +2,22 @@
 // POST /api/client/sign-contract  { slug, signed_name }
 // Records a typed-name acknowledgment with IP + timestamp.
 
-import { json, logActivity } from "../../_shared/auth.js";
+import { json, logActivity, requirePortalSessionForSlug, requireSameOrigin } from "../../_shared/auth.js";
 
 export async function onRequestPost({ request, env }) {
+  const originError = requireSameOrigin(request);
+  if (originError) return originError;
+
   const { slug, signed_name } = await request.json().catch(() => ({}));
   if (!slug || !signed_name || signed_name.length < 2) {
     return json({ error: "slug and signed_name required" }, 400);
   }
 
-  const eng = await env.DB.prepare("SELECT id, contract_text, contract_signed_at FROM engagements WHERE slug = ?")
-    .bind(slug).first();
+  const portalAuth = await requirePortalSessionForSlug(request, env, slug, { json: true });
+  if (portalAuth instanceof Response) return portalAuth;
+
+  const eng = await env.DB.prepare("SELECT id, contract_text, contract_signed_at FROM engagements WHERE slug = ? AND client_id = ?")
+    .bind(slug, portalAuth.session.client_id).first();
   if (!eng) return json({ error: "not found" }, 404);
   if (!eng.contract_text) return json({ error: "no contract on this engagement" }, 400);
   if (eng.contract_signed_at) return json({ error: "already signed" }, 409);

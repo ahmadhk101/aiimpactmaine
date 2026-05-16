@@ -84,7 +84,7 @@ async function exportEngagements(env) {
 }
 
 export async function onRequestGet({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const url = new URL(request.url);
@@ -97,3 +97,4 @@ export async function onRequestGet({ request, env }) {
     headers: { "Content-Type": "application/json" },
   });
 }
+

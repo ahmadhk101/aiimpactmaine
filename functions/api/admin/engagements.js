@@ -7,7 +7,7 @@
 import { requireAdmin, json, makeSlug, logActivity } from "../../_shared/auth.js";
 
 export async function onRequestGet({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const url = new URL(request.url);
@@ -65,7 +65,7 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const body = await request.json().catch(() => ({}));
@@ -94,7 +94,7 @@ export async function onRequestPost({ request, env }) {
 }
 
 export async function onRequestPut({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const body = await request.json().catch(() => ({}));
@@ -145,3 +145,4 @@ export async function onRequestPut({ request, env }) {
 
   return json({ id, updated: updates.length, skipped });
 }
+

@@ -8,7 +8,7 @@
 import { requireAdmin, json } from "../../_shared/auth.js";
 
 export async function onRequestGet({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const url = new URL(request.url);
@@ -27,7 +27,7 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const { name, description, questions } = await request.json().catch(() => ({}));
@@ -46,7 +46,7 @@ export async function onRequestPost({ request, env }) {
 }
 
 export async function onRequestPut({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
 
   const { id, name, description, questions } = await request.json().catch(() => ({}));
@@ -72,7 +72,7 @@ export async function onRequestPut({ request, env }) {
 }
 
 export async function onRequestDelete({ request, env }) {
-  const auth = requireAdmin(request, env);
+  const auth = await requireAdmin(request, env);
   if (auth) return auth;
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
@@ -102,3 +102,4 @@ function validateQuestions(qs) {
   }
   return null;
 }
+

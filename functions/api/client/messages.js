@@ -2,14 +2,19 @@
 // GET  /api/client/messages?slug=...   — fetch all messages for this engagement
 // POST /api/client/messages            — { slug, body } client sends message
 
-import { json, logActivity } from "../../_shared/auth.js";
+import { json, logActivity, requirePortalSessionForSlug, requireSameOrigin } from "../../_shared/auth.js";
 
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const slug = url.searchParams.get("slug");
   if (!slug) return json({ error: "slug required" }, 400);
 
-  const eng = await env.DB.prepare("SELECT id FROM engagements WHERE slug = ?").bind(slug).first();
+  const portalAuth = await requirePortalSessionForSlug(request, env, slug, { json: true });
+  if (portalAuth instanceof Response) return portalAuth;
+
+  const eng = await env.DB.prepare("SELECT id FROM engagements WHERE slug = ? AND client_id = ?")
+    .bind(slug, portalAuth.session.client_id)
+    .first();
   if (!eng) return json({ error: "not found" }, 404);
 
   const { results } = await env.DB.prepare(
@@ -25,11 +30,19 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
+  const originError = requireSameOrigin(request);
+  if (originError) return originError;
+
   const { slug, body } = await request.json().catch(() => ({}));
   if (!slug || !body) return json({ error: "slug and body required" }, 400);
   if (body.length > 5000) return json({ error: "message too long" }, 400);
 
-  const eng = await env.DB.prepare("SELECT id FROM engagements WHERE slug = ?").bind(slug).first();
+  const portalAuth = await requirePortalSessionForSlug(request, env, slug, { json: true });
+  if (portalAuth instanceof Response) return portalAuth;
+
+  const eng = await env.DB.prepare("SELECT id FROM engagements WHERE slug = ? AND client_id = ?")
+    .bind(slug, portalAuth.session.client_id)
+    .first();
   if (!eng) return json({ error: "not found" }, 404);
 
   const { meta } = await env.DB.prepare(

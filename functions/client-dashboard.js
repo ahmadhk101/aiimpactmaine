@@ -1,16 +1,4 @@
-import { escapeHtml, formatMoney } from "./_shared/auth.js";
-
-function base64url(bytes) {
-  let binary = "";
-  bytes.forEach(b => { binary += String.fromCharCode(b); });
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-}
-
-async function sha256(value) {
-  const bytes = new TextEncoder().encode(value);
-  const hash = await crypto.subtle.digest("SHA-256", bytes);
-  return base64url(new Uint8Array(hash));
-}
+import { createPortalSession, escapeHtml, expiredCookie, formatMoney, getPortalSession, sha256 } from "./_shared/auth.js";
 
 function pageShell({ title, body }) {
   return `<!DOCTYPE html>
@@ -42,21 +30,21 @@ function pageShell({ title, body }) {
   <div class="nav-inner">
     <a href="/" class="nav-logo"><img src="/assets/logo.svg" alt="AI Impact Maine logo" width="205" height="72"></a>
     <ul class="nav-links">
-      <li><a href="/conference.html" class="nav-conf">Conference</a></li>
-      <li><a href="/services.html">Services</a></li>
-      <li><a href="/services-payment-portal.html">Pricing</a></li>
-      <li><a href="/funding.html">Funding</a></li>
-      <li><a href="/assessment.html">Free Assessment</a></li>
+      <li><a href="/conference" class="nav-conf">Conference</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/services-payment-portal">Pricing</a></li>
+      <li><a href="/funding">Funding</a></li>
+      <li><a href="/assessment">Free Assessment</a></li>
       <li><a href="/resources/">Resources</a></li>
-      <li><a href="/faq.html">FAQ</a></li>
-      <li><a href="/about.html">About</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/about">About</a></li>
       <li><a href="/client-portal" class="nav-active">Client Portal</a></li>
-      <li><a href="/contact.html" class="nav-cta">Book a Call</a></li>
+      <li><a href="/contact" class="nav-cta">Book a Call</a></li>
     </ul>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu" type="button" aria-controls="mobileMenu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
-<div class="mobile-menu" id="mobileMenu" aria-hidden="true"><ul><li><a href="/services.html">Services</a></li><li><a href="/services-payment-portal.html">Pricing</a></li><li><a href="/resources/">Resources</a></li><li><a href="/client-portal">Client Portal</a></li><li><a href="/contact.html">Book a Call</a></li></ul></div>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true"><ul><li><a href="/services">Services</a></li><li><a href="/services-payment-portal">Pricing</a></li><li><a href="/resources/">Resources</a></li><li><a href="/client-portal">Client Portal</a></li><li><a href="/contact">Book a Call</a></li></ul></div>
 ${body}
 <footer><div class="footer-inner"><div class="footer-bottom"><p>&copy; 2026 AI Impact Maine &middot; All rights reserved</p><div class="footer-contact"><a class="footer-phone" href="tel:2074058604">207-405-8604</a><div class="footer-location"><span>30 Danforth Street, Portland, Maine 04101</span></div></div></div></div></footer>
 <script src="/shared.js"></script>
@@ -92,10 +80,36 @@ function dashboardPage(client, engagements) {
   });
 }
 
+async function renderDashboardResponse(env, clientId, headers = {}) {
+  const client = await env.DB.prepare("SELECT id, name, email FROM clients WHERE id = ?")
+    .bind(clientId)
+    .first();
+  if (!client) {
+    return new Response(invalidPage(), {
+      status: 400,
+      headers: { "Content-Type": "text/html; charset=utf-8", "Set-Cookie": expiredCookie("aima_portal_session") },
+    });
+  }
+
+  const { results } = await env.DB.prepare(
+    "SELECT id, slug, title, description, stage, invoice_number, invoice_date, invoice_status, invoice_amount_cents, created_at FROM engagements WHERE client_id = ? ORDER BY created_at DESC"
+  ).bind(clientId).all();
+
+  return new Response(dashboardPage(client, results), {
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store",
+      ...headers,
+    },
+  });
+}
+
 export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const token = url.searchParams.get("token");
   if (!token) {
+    const existingSession = await getPortalSession(request, env);
+    if (existingSession) return renderDashboardResponse(env, existingSession.client_id);
     return new Response(invalidPage(), { status: 400, headers: { "Content-Type": "text/html; charset=utf-8" } });
   }
 
@@ -113,15 +127,14 @@ export async function onRequestGet({ request, env }) {
     return new Response(invalidPage(), { status: 400, headers: { "Content-Type": "text/html; charset=utf-8" } });
   }
 
-  await env.DB.prepare("UPDATE portal_magic_links SET used_at = ? WHERE id = ?")
+  const { meta } = await env.DB.prepare("UPDATE portal_magic_links SET used_at = ? WHERE id = ? AND used_at IS NULL")
     .bind(now, link.id)
     .run();
 
-  const { results } = await env.DB.prepare(
-    "SELECT id, slug, title, description, stage, invoice_number, invoice_date, invoice_status, invoice_amount_cents, created_at FROM engagements WHERE client_id = ? ORDER BY created_at DESC"
-  ).bind(link.client_id).all();
+  if (!meta?.changes) {
+    return new Response(invalidPage(), { status: 400, headers: { "Content-Type": "text/html; charset=utf-8" } });
+  }
 
-  return new Response(dashboardPage(link, results), {
-    headers: { "Content-Type": "text/html; charset=utf-8" },
-  });
+  const portalSession = await createPortalSession(env, request, link.client_id);
+  return renderDashboardResponse(env, link.client_id, { "Set-Cookie": portalSession.cookie });
 }
