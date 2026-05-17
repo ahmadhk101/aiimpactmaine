@@ -134,9 +134,19 @@
   .mini-item { border-bottom:1px solid var(--line); padding:0.45rem 0; font-size:0.85rem; }
   .mini-item:last-child { border-bottom:none; }
   .muted { color:var(--muted); }
+  .crm-toolbar { display:flex; gap:0.6rem; flex-wrap:wrap; align-items:end; margin:0.75rem 0 1rem; }
+  .crm-toolbar > div { min-width:160px; }
+  .crm-table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:4px; }
+  .crm-table-wrap table { min-width:1050px; }
+  .crm-import-preview { max-height:260px; overflow:auto; border:1px solid var(--line); background:white; margin-top:0.75rem; }
+  .crm-import-preview table { min-width:900px; }
+  .crm-card-grid { display:grid; grid-template-columns:repeat(4, minmax(180px, 1fr)); gap:0.75rem; }
+  .crm-card { background:var(--sand); border:1px solid var(--line); border-radius:4px; padding:0.8rem; }
+  .crm-card strong { display:block; color:var(--navy); font-size:1.25rem; }
   @media (max-width:1100px) {
     .dashboard-grid { grid-template-columns:1fr 1fr; }
     .ops-form-grid { grid-template-columns:repeat(2, minmax(160px, 1fr)); }
+    .crm-card-grid { grid-template-columns:repeat(2, minmax(160px, 1fr)); }
   }
   @media (max-width:720px) {
     nav.tabs { overflow-x:auto; padding:0 1rem; }
@@ -145,6 +155,7 @@
     .ops-form-grid .wide { grid-column:auto; }
     .ops-card { grid-template-columns:1fr; }
     .ops-actions { justify-content:flex-start; }
+    .crm-card-grid { grid-template-columns:1fr; }
   }
 </style>
 </head>
@@ -291,7 +302,75 @@
   <!-- ===== LEADS TAB ===== -->
   <div class="tab-content" id="tab-leads" style="display:none;">
     <section class="panel">
-      <h2>Website leads / CRM</h2>
+      <h2>CRM dashboard</h2>
+      <div id="crmMetrics" class="crm-card-grid"></div>
+      <div id="crmWidgets" class="dashboard-grid" style="margin-top:1rem;"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Add contact</h2>
+      <form id="crmContactForm">
+        <div class="ops-form-grid">
+          <div><label>Name</label><input name="name"></div>
+          <div><label>Email *</label><input name="email" type="email" required></div>
+          <div><label>Phone</label><input name="phone"></div>
+          <div><label>Company</label><input name="company"></div>
+          <div><label>Title / role</label><input name="title"></div>
+          <div><label>Stage</label><select name="lifecycle_stage"><option>new</option><option>contacted</option><option>meeting_scheduled</option><option>proposal_sent</option><option>won</option><option>lost</option><option>inactive</option></select></div>
+          <div><label>Owner</label><input name="owner" placeholder="Ahmad"></div>
+          <div><label>Next follow-up</label><input name="next_follow_up_date" type="date"></div>
+          <div class="wide"><label>Tags</label><input name="tags" placeholder="municipal, training, sponsor"></div>
+          <div class="wide"><label>Source</label><input name="source" placeholder="website, referral, conference"></div>
+          <div class="full"><label>Notes</label><textarea name="notes" rows="2"></textarea></div>
+        </div>
+        <button type="submit" style="margin-top:1rem;">Add contact</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div style="display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap;">
+        <h2 style="margin:0;">Contacts</h2>
+        <div class="actions-row" style="margin:0;">
+          <button type="button" onclick="crmExport('contacts','csv')">Export contacts CSV</button>
+          <button type="button" class="ghost" onclick="crmExport('contacts','xls')">Export Excel</button>
+          <button type="button" class="ghost" onclick="crmExport('companies','csv')">Export companies</button>
+          <button type="button" class="ghost" onclick="crmExport('activities','csv')">Export activity</button>
+        </div>
+      </div>
+      <div class="crm-toolbar">
+        <div><label>Search</label><input id="crmSearch" placeholder="name, email, company, tag"></div>
+        <div><label>Stage</label><select id="crmStageFilter"><option value="all">All</option><option>new</option><option>contacted</option><option>meeting_scheduled</option><option>proposal_sent</option><option>won</option><option>lost</option><option>inactive</option></select></div>
+        <div><label>Not contacted</label><select id="crmStaleFilter"><option value="">Any</option><option value="30">30+ days</option><option value="60">60+ days</option><option value="90">90+ days</option></select></div>
+        <button type="button" onclick="loadCrmContacts()">Apply filters</button>
+      </div>
+      <div class="crm-table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Company</th><th>Stage</th><th>Last contacted</th><th>Next follow-up</th><th>Owner</th><th>Tags</th><th></th></tr></thead>
+          <tbody id="crmContactsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Import contacts</h2>
+      <p class="muted" style="font-size:0.9rem;">Upload CSV or Excel .xlsx. Preview and mapping happen before saving.</p>
+      <div class="ops-form-grid">
+        <div class="wide"><label>File</label><input id="crmImportFile" type="file" accept=".csv,.xlsx,.xls,text/csv"></div>
+        <div><label>Duplicate handling</label><select id="crmDuplicateAction"><option value="skip">Skip duplicates</option><option value="update">Update duplicates</option><option value="create">Import as new</option></select></div>
+        <div><label>Source label</label><input id="crmImportSource" value="crm_import"></div>
+      </div>
+      <div id="crmImportMapping" class="ops-form-grid" style="display:none;margin-top:1rem;"></div>
+      <div id="crmImportPreview" class="crm-import-preview" style="display:none;"></div>
+      <button type="button" id="crmImportButton" style="display:none;margin-top:1rem;" onclick="submitCrmImport()">Import contacts</button>
+    </section>
+
+    <section class="panel">
+      <h2>Companies</h2>
+      <div id="crmCompaniesList" class="ops-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Website leads</h2>
       <table>
         <thead><tr><th>Created</th><th>Source</th><th>Name</th><th>Email</th><th>Organization</th><th>Interest</th><th>Message</th><th>Status</th><th>Next follow-up</th><th></th></tr></thead>
         <tbody id="leadsTable"></tbody>
@@ -435,6 +514,7 @@
 <script>
 // ===== State =====
 let clients = [], engagements = [], library = [], leads = [], calendarEvents = [], tasks = [], projects = [], businessTemplates = [], agreements = [];
+let crmContacts = [], crmCompanies = [], crmDashboard = {}, crmImportRows = [], crmImportHeaders = [];
 let currentEng = null; // detail being viewed
 
 // ===== Tabs =====
@@ -452,7 +532,7 @@ document.querySelectorAll('nav.tabs button').forEach(b => {
     if (b.dataset.tab === 'agreements') loadAgreements();
     if (b.dataset.tab === 'library') loadLibrary();
     if (b.dataset.tab === 'templates') loadTemplates();
-    if (b.dataset.tab === 'leads') loadLeads();
+    if (b.dataset.tab === 'leads') loadCrm();
   };
 });
 
@@ -847,6 +927,329 @@ async function loadLibrary() {
   `).join('') : '<tr><td colspan="5" class="empty">Library is empty.</td></tr>';
 }
 
+async function loadCrm() {
+  await Promise.all([loadCrmDashboard(), loadCrmContacts(), loadCrmCompanies(), loadLeads()]);
+}
+
+async function loadCrmDashboard() {
+  const r = await api('/api/admin/crm/dashboard');
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    document.getElementById('crmMetrics').innerHTML = `<div class="empty">${esc(data.error || 'CRM dashboard unavailable')}</div>`;
+    document.getElementById('crmWidgets').innerHTML = '';
+    return;
+  }
+  crmDashboard = data;
+  const c = data.counts || {};
+  document.getElementById('crmMetrics').innerHTML = [
+    ['Contacts', c.contacts || 0],
+    ['Companies', c.companies || 0],
+    ['Overdue follow-ups', c.overdue_follow_ups || 0],
+    ['30+ days no contact', c.stale_30 || 0],
+  ].map(([label, value]) => `<div class="crm-card"><strong>${value}</strong><span>${label}</span></div>`).join('');
+
+  const widget = (title, html) => `<div class="widget"><h3>${title}</h3>${html}</div>`;
+  document.getElementById('crmWidgets').innerHTML = [
+    widget('Overdue follow-ups', miniItems(data.overdue_follow_ups, x => `<strong>${esc(x.name || x.email)}</strong><br><span class="muted">${esc(x.next_follow_up_date || '')}${x.company_name ? ' - ' + esc(x.company_name) : ''}</span>`)),
+    widget('Upcoming follow-ups', miniItems(data.upcoming_follow_ups, x => `<strong>${esc(x.name || x.email)}</strong><br><span class="muted">${esc(x.next_follow_up_date || '')}</span>`)),
+    widget('Recent CRM activity', miniItems(data.recent_activities, a => `<strong>${esc(a.activity_type)}${a.subject ? ': ' + esc(a.subject) : ''}</strong><br><span class="muted">${esc(a.contact_name || a.company_name || '')} ${a.activity_date ? '- ' + esc(a.activity_date) : ''}</span>`)),
+    widget('Recent imports', miniItems(data.import_history, i => `<strong>${esc(i.filename || 'Import #' + i.id)}</strong><br><span class="muted">${i.imported_rows || 0} imported, ${i.updated_rows || 0} updated, ${i.error_rows || 0} errors</span>`)),
+    widget('Pipeline stages', miniItems(data.stage_counts, s => `<strong>${esc(s.stage)}</strong><br><span class="muted">${s.count} contact(s)</span>`)),
+    widget('Newest contacts', miniItems(data.new_contacts, x => `<strong>${esc(x.name || x.email)}</strong><br><span class="muted">${esc(x.company_name || '')}</span>`)),
+  ].join('');
+}
+
+async function loadCrmContacts() {
+  const q = document.getElementById('crmSearch')?.value || '';
+  const stage = document.getElementById('crmStageFilter')?.value || 'all';
+  const stale = document.getElementById('crmStaleFilter')?.value || '';
+  const params = new URLSearchParams();
+  if (q) params.set('q', q);
+  if (stage && stage !== 'all') params.set('stage', stage);
+  if (stale) params.set('stale_days', stale);
+  const r = await api('/api/admin/crm/contacts?' + params.toString());
+  const data = await r.json().catch(() => ({}));
+  const tbody = document.getElementById('crmContactsTable');
+  if (!r.ok) {
+    tbody.innerHTML = `<tr><td colspan="9" class="empty">${esc(data.error || 'CRM contacts unavailable')}</td></tr>`;
+    return;
+  }
+  crmContacts = data.contacts || [];
+  tbody.innerHTML = crmContacts.length ? crmContacts.map(c => `
+    <tr>
+      <td><strong>${esc(c.name || '')}</strong>${c.title ? '<br><span class="muted">'+esc(c.title)+'</span>' : ''}</td>
+      <td>${esc(c.email || '')}${c.phone ? '<br><span class="muted">'+esc(c.phone)+'</span>' : ''}</td>
+      <td>${esc(c.company_name || c.organization || '')}</td>
+      <td><span class="pill active">${esc(c.lifecycle_stage || 'new')}</span></td>
+      <td>${esc(c.last_contacted_at || 'Never')}${c.days_since_contact != null ? '<br><span class="muted">'+esc(c.days_since_contact)+' day(s)</span>' : ''}</td>
+      <td>${esc(c.next_follow_up_date || '')}${c.follow_up_notes ? '<br><span class="muted">'+esc(c.follow_up_notes)+'</span>' : ''}</td>
+      <td>${esc(c.owner || '')}</td>
+      <td>${esc(c.tags || '')}</td>
+      <td>
+        <button class="small ghost" onclick="openCrmContact(${c.id})">Edit</button>
+        <button class="small" onclick="openCrmActivity(${c.id})">Log</button>
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="9" class="empty">No CRM contacts yet.</td></tr>';
+}
+
+async function loadCrmCompanies() {
+  const r = await api('/api/admin/crm/companies');
+  const data = await r.json().catch(() => ({}));
+  const el = document.getElementById('crmCompaniesList');
+  if (!r.ok) {
+    el.innerHTML = `<div class="empty">${esc(data.error || 'Companies unavailable')}</div>`;
+    return;
+  }
+  crmCompanies = data.companies || [];
+  el.innerHTML = crmCompanies.length ? crmCompanies.map(c => `
+    <div class="ops-card">
+      <div>
+        <strong>${esc(c.name)}</strong>${c.industry ? ' <span class="muted">'+esc(c.industry)+'</span>' : ''}
+        <p>${esc(c.location || '')}${c.website ? ' - ' + esc(c.website) : ''}</p>
+        <p>${c.contact_count || 0} contact(s)${c.next_follow_up_date ? ' - next follow-up ' + esc(c.next_follow_up_date) : ''}</p>
+      </div>
+      <div class="ops-actions">
+        <button class="small ghost" onclick="crmExport('contacts','csv')">Export contacts</button>
+      </div>
+    </div>
+  `).join('') : '<div class="empty">No CRM companies yet.</div>';
+}
+
+function crmExport(type, format) {
+  const url = '/api/admin/crm/export?type=' + encodeURIComponent(type) + '&format=' + encodeURIComponent(format || 'csv');
+  window.open(url, '_blank');
+}
+
+function crmStageOptions(selected) {
+  return ['new','contacted','meeting_scheduled','proposal_sent','won','lost','inactive']
+    .map(s => `<option value="${s}" ${s===selected?'selected':''}>${s}</option>`).join('');
+}
+
+async function openCrmContact(id) {
+  const r = await api('/api/admin/crm/contacts/' + id);
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { toast(data.error || 'Contact unavailable'); return; }
+  const c = data.contact;
+  const activities = data.activities || [];
+  document.getElementById('modalContent').innerHTML = `
+    <button class="modal-close ghost small" onclick="closeModal()">Close</button>
+    <h2>Edit CRM contact</h2>
+    <div class="grid-2">
+      <div><label>Name</label><input id="crmEditName" value="${esc(c.name || '')}"></div>
+      <div><label>Email</label><input id="crmEditEmail" type="email" value="${esc(c.email || '')}"></div>
+      <div><label>Phone</label><input id="crmEditPhone" value="${esc(c.phone || '')}"></div>
+      <div><label>Company</label><input id="crmEditCompany" value="${esc(c.company_name || c.organization || '')}"></div>
+      <div><label>Title / role</label><input id="crmEditTitle" value="${esc(c.title || c.role || '')}"></div>
+      <div><label>Stage</label><select id="crmEditStage">${crmStageOptions(c.lifecycle_stage || 'new')}</select></div>
+      <div><label>Owner</label><input id="crmEditOwner" value="${esc(c.owner || '')}"></div>
+      <div><label>Last contacted</label><input id="crmEditLastContacted" type="date" value="${esc(dateOnly(c.last_contacted_at))}"></div>
+      <div><label>Next follow-up</label><input id="crmEditNextFollowUp" type="date" value="${esc(dateOnly(c.next_follow_up_date))}"></div>
+      <div><label>Source</label><input id="crmEditSource" value="${esc(c.crm_source || c.source || '')}"></div>
+      <div class="full"><label>Tags</label><input id="crmEditTags" value="${esc(c.tags || '')}"></div>
+      <div class="full"><label>Notes</label><textarea id="crmEditNotes" rows="3">${esc(c.notes || '')}</textarea></div>
+      <div class="full"><label>Follow-up notes</label><textarea id="crmEditFollowNotes" rows="2">${esc(c.follow_up_notes || '')}</textarea></div>
+    </div>
+    <div class="actions-row">
+      <button onclick="saveCrmContact(${id})">Save contact</button>
+      <button class="ghost" onclick="openCrmActivity(${id})">Log outreach</button>
+      <button class="danger" onclick="deactivateCrmContact(${id})">Mark inactive</button>
+    </div>
+    <h3>Activity timeline</h3>
+    ${activities.length ? '<div class="mini-list">' + activities.map(a => `<div class="mini-item"><strong>${esc(a.activity_type)}${a.subject ? ': '+esc(a.subject) : ''}</strong><br><span class="muted">${esc(a.activity_date || '')}</span><br>${esc(a.notes || '')}</div>`).join('') + '</div>' : '<div class="empty">No activity yet.</div>'}
+  `;
+  document.getElementById('modalBg').classList.add('show');
+}
+
+async function saveCrmContact(id) {
+  const body = {
+    name: document.getElementById('crmEditName').value,
+    email: document.getElementById('crmEditEmail').value,
+    phone: document.getElementById('crmEditPhone').value,
+    company: document.getElementById('crmEditCompany').value,
+    title: document.getElementById('crmEditTitle').value,
+    lifecycle_stage: document.getElementById('crmEditStage').value,
+    owner: document.getElementById('crmEditOwner').value,
+    last_contacted_at: document.getElementById('crmEditLastContacted').value || null,
+    next_follow_up_date: document.getElementById('crmEditNextFollowUp').value || null,
+    source: document.getElementById('crmEditSource').value,
+    tags: document.getElementById('crmEditTags').value,
+    notes: document.getElementById('crmEditNotes').value,
+    follow_up_notes: document.getElementById('crmEditFollowNotes').value,
+  };
+  const r = await api('/api/admin/crm/contacts/' + id, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (r.ok) { toast('Contact saved'); closeModal(); loadCrm(); } else { const d = await r.json().catch(()=>({})); toast(d.error || 'Save failed'); }
+}
+
+function openCrmActivity(contactId) {
+  const c = crmContacts.find(x => x.id === contactId);
+  document.getElementById('modalContent').innerHTML = `
+    <button class="modal-close ghost small" onclick="closeModal()">Close</button>
+    <h2>Log outreach</h2>
+    <p class="muted">${c ? esc(c.name || c.email) : 'Contact #' + contactId}</p>
+    <div class="grid-2">
+      <div><label>Type</label><select id="crmActivityType"><option>email</option><option>call</option><option>meeting</option><option>note</option><option>follow_up</option><option>proposal</option><option>other</option></select></div>
+      <div><label>Date</label><input id="crmActivityDate" type="datetime-local" value="${new Date().toISOString().slice(0,16)}"></div>
+      <div class="full"><label>Subject</label><input id="crmActivitySubject" placeholder="Reached out about training"></div>
+      <div class="full"><label>Notes</label><textarea id="crmActivityNotes" rows="4"></textarea></div>
+      <div><label>Outcome</label><input id="crmActivityOutcome"></div>
+      <div><label>Next follow-up</label><input id="crmActivityNext" type="date"></div>
+    </div>
+    <button style="margin-top:1rem;" onclick="saveCrmActivity(${contactId})">Save activity</button>
+  `;
+  document.getElementById('modalBg').classList.add('show');
+}
+
+async function saveCrmActivity(contactId) {
+  const body = {
+    contact_id: contactId,
+    activity_type: document.getElementById('crmActivityType').value,
+    activity_date: document.getElementById('crmActivityDate').value,
+    subject: document.getElementById('crmActivitySubject').value,
+    notes: document.getElementById('crmActivityNotes').value,
+    outcome: document.getElementById('crmActivityOutcome').value,
+    next_follow_up_date: document.getElementById('crmActivityNext').value || null,
+  };
+  const r = await api('/api/admin/crm/activities', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (r.ok) { toast('Activity saved'); closeModal(); loadCrm(); } else { const d = await r.json().catch(()=>({})); toast(d.error || 'Activity save failed'); }
+}
+
+async function deactivateCrmContact(id) {
+  if (!confirm('Mark this contact inactive?')) return;
+  const r = await api('/api/admin/crm/contacts/' + id, { method:'DELETE' });
+  if (r.ok) { toast('Contact marked inactive'); closeModal(); loadCrm(); } else toast('Update failed');
+}
+
+function parseClientCsv(text) {
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i], next = text[i + 1];
+    if (inQuotes) {
+      if (ch === '"' && next === '"') { field += '"'; i++; }
+      else if (ch === '"') inQuotes = false;
+      else field += ch;
+    } else if (ch === '"') inQuotes = true;
+    else if (ch === ',') { row.push(field); field = ''; }
+    else if (ch === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+    else if (ch !== '\r') field += ch;
+  }
+  row.push(field); rows.push(row);
+  const headers = (rows.shift() || []).map(h => h.trim());
+  return {
+    headers,
+    rows: rows.filter(r => r.some(v => String(v || '').trim())).map(r => Object.fromEntries(headers.map((h, i) => [h, r[i] || '']))),
+  };
+}
+
+async function loadXlsxLibrary() {
+  if (window.XLSX) return;
+  await new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
+function guessCrmHeader(field, headers) {
+  const names = {
+    name: ['name','full name','contact name'],
+    email: ['email','email address'],
+    phone: ['phone','phone number','mobile'],
+    company: ['company','organization','business','account'],
+    title: ['title','role','job title','position'],
+    source: ['source','lead source'],
+    tags: ['tags'],
+    stage: ['stage','status','lifecycle stage'],
+    owner: ['owner','assigned to'],
+    last_contacted_at: ['last contacted','last contacted date'],
+    next_follow_up_date: ['next follow up','next follow-up','next follow up date'],
+    notes: ['notes','message','comments'],
+  }[field] || [];
+  const lower = headers.map(h => String(h).toLowerCase());
+  const idx = lower.findIndex(h => names.includes(h));
+  return idx >= 0 ? headers[idx] : '';
+}
+
+function renderCrmImportPreview() {
+  const mappingEl = document.getElementById('crmImportMapping');
+  const previewEl = document.getElementById('crmImportPreview');
+  const button = document.getElementById('crmImportButton');
+  if (!crmImportRows.length) {
+    mappingEl.style.display = 'none';
+    previewEl.style.display = 'none';
+    button.style.display = 'none';
+    return;
+  }
+  const fields = [
+    ['name','Name'], ['email','Email *'], ['phone','Phone'], ['company','Company'],
+    ['title','Title'], ['stage','Stage'], ['source','Source'], ['tags','Tags'],
+    ['owner','Owner'], ['last_contacted_at','Last contacted'], ['next_follow_up_date','Next follow-up'], ['notes','Notes'],
+  ];
+  const options = (selected) => '<option value="">Ignore</option>' + crmImportHeaders.map(h => `<option value="${esc(h)}" ${h===selected?'selected':''}>${esc(h)}</option>`).join('');
+  mappingEl.innerHTML = fields.map(([field, label]) => {
+    const selected = guessCrmHeader(field, crmImportHeaders);
+    return `<div><label>${label}</label><select data-crm-map="${field}">${options(selected)}</select></div>`;
+  }).join('');
+  mappingEl.style.display = '';
+
+  const sample = crmImportRows.slice(0, 8);
+  previewEl.innerHTML = `<table><thead><tr>${crmImportHeaders.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${sample.map(row => `<tr>${crmImportHeaders.map(h=>`<td>${esc(row[h] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  previewEl.style.display = '';
+  button.style.display = '';
+}
+
+async function handleCrmImportFile() {
+  const file = document.getElementById('crmImportFile').files[0];
+  crmImportRows = [];
+  crmImportHeaders = [];
+  if (!file) { renderCrmImportPreview(); return; }
+  try {
+    if (/\.(xlsx|xls)$/i.test(file.name)) {
+      await loadXlsxLibrary();
+      const wb = XLSX.read(await file.arrayBuffer(), { type:'array' });
+      const sheet = wb.Sheets[wb.SheetNames[0]];
+      crmImportRows = XLSX.utils.sheet_to_json(sheet, { defval:'' });
+      crmImportHeaders = Object.keys(crmImportRows[0] || {});
+    } else {
+      const parsed = parseClientCsv(await file.text());
+      crmImportRows = parsed.rows;
+      crmImportHeaders = parsed.headers;
+    }
+    renderCrmImportPreview();
+    toast('Preview ready');
+  } catch {
+    toast('Could not read file. Save as CSV and try again.');
+  }
+}
+
+async function submitCrmImport() {
+  if (!crmImportRows.length) { toast('Choose a file first'); return; }
+  const mapping = {};
+  document.querySelectorAll('[data-crm-map]').forEach(sel => {
+    if (sel.value) mapping[sel.dataset.crmMap] = sel.value;
+  });
+  if (!mapping.email) { toast('Map the Email field'); return; }
+  const body = {
+    rows: crmImportRows,
+    mapping,
+    duplicate_action: document.getElementById('crmDuplicateAction').value,
+    source: document.getElementById('crmImportSource').value || 'crm_import',
+    filename: document.getElementById('crmImportFile').files[0]?.name || 'import',
+  };
+  const r = await api('/api/admin/crm/import', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { toast(data.error || 'Import failed'); return; }
+  toast(`Imported ${data.imported}, updated ${data.updated}, skipped ${data.skipped}, errors ${data.error_rows}`);
+  document.getElementById('crmImportFile').value = '';
+  crmImportRows = [];
+  crmImportHeaders = [];
+  renderCrmImportPreview();
+  loadCrm();
+}
+
 async function loadLeads() {
   const r = await api('/api/admin/leads');
   leads = (await r.json()).leads || [];
@@ -904,7 +1307,7 @@ async function saveFollowUp(leadId) {
   };
   if (!body.due_date) { toast('Due date required'); return; }
   const r = await api('/api/admin/follow-ups', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-  if (r.ok) { toast('Follow-up saved'); closeModal(); loadLeads(); loadProductivityDashboard(); } else toast('Follow-up save failed');
+  if (r.ok) { toast('Follow-up saved'); closeModal(); loadCrm(); loadProductivityDashboard(); } else toast('Follow-up save failed');
 }
 
 async function loadProjects() {
@@ -1889,6 +2292,16 @@ document.getElementById('taskForm').addEventListener('submit', async (e) => {
   const r = await api('/api/admin/tasks', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
   if (r.ok) { e.target.reset(); refreshClientSelects(); toast('Task created'); loadTasks(); loadProductivityDashboard(); } else toast('Task create failed');
 });
+
+document.getElementById('crmContactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const body = Object.fromEntries(new FormData(e.target));
+  const r = await api('/api/admin/crm/contacts', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (r.ok) { e.target.reset(); toast('CRM contact added'); loadCrm(); }
+  else { const d = await r.json().catch(()=>({})); toast(d.error || 'Contact create failed'); }
+});
+
+document.getElementById('crmImportFile').addEventListener('change', handleCrmImportFile);
 
 document.getElementById('projectForm').addEventListener('submit', async (e) => {
   e.preventDefault();

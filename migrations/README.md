@@ -22,4 +22,5 @@ Current migration order:
 6. `0006_productivity_ops.sql`
 7. `0007_business_templates_and_agreements.sql`
 8. `0008_resource_survey_templates.sql`
+9. `0009_crm_import_export.sql`
 
